@@ -20,3 +20,5 @@ Certbot has set up a scheduled task to automatically renew this certificate in t
 
 
 Нужно прописать в настройках nginx ссылку на сертификат
+
+
