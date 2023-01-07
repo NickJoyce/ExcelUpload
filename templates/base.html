@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+	<head>
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+	    <script src="{% static 'js/main.js' %}"></script>
+	    <title>{% block title %} {% endblock title %}</title>
+	    {% block head %} {% endblock head %}
+	</head>
+	<body>
+		<div class="wrapper">
+		    <div class="header">
+				{% if request.user.is_authenticated %}
+				<div class="top_menu">
+					{{ request.user }} ({{ request.user.first_name }} {{ request.user.last_name }}) |
+					<button class="logout_btn" onclick="document.location='{% url 'logout' %}'">Выход</button>
+				</div>
+				{% endif %}
+
+				{% block header %} {% endblock header %}
+			</div>
+
+		    <div class="content">
+				{% if messages %}
+					<div class="messages">
+						{% for message in messages %}
+							<div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+				{% block content %}{% endblock content %}</div>
+		    <div class="footer">{% block footer %}{% endblock footer %}</div>
+	    </div>
+	</body>
+</html>

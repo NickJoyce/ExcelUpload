@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neworder newfolder="NO">
+<auth extra="{{ extra }}" login="{{ login }}" pass="{{ password }}"></auth>
+  {% for order in orders %}
+   <order>
+     <receiver>
+       <company>{{ order.receiver_name }}</company>
+       <person>{{ order.code }}</person>
+       <phone>{{ order.phone }}</phone>
+       <address>{{ order.address }}</address>
+       <date>{{ order.date }}</date>
+       <time_min>09:00</time_min>
+       <time_max>14:00</time_max>
+     </receiver>
+     <enclosure>{{ order.sku }} - {{ order.size }}</enclosure>
+     <instruction>{{ order.product_name }}</instruction>
+   </order>
+  {% endfor %}
+</neworder>
