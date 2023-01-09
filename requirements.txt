@@ -22,7 +22,6 @@ MarkupSafe==2.1.1
 numpy==1.24.1
 openpyxl==3.0.10
 pandas==1.5.2
-pkg_resources==0.0.0
 prompt-toolkit==3.0.36
 psycopg2-binary==2.9.5
 python-dateutil==2.8.2
