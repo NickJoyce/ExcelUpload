@@ -75,5 +75,5 @@ def send_request(orders, extra, login, password):
                       login = login,
                       password = password,
                       orders = orders)
-        response = requests.post(os.getenv("API_PATH"), data = rendered_template.encode('utf-8'))
+        response = requests.post("https://home.courierexe.ru/api/", data = rendered_template.encode('utf-8'))
         print(response.text)

@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-
+load_dotenv(f"{Path(__file__).resolve().parent.parent}/.env")
 
 
 
@@ -30,7 +30,7 @@ SECRET_KEY =  os.getenv('SECRET_KEY', None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv('DEBUG')) == '1' # 1 = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["upload.zvwb.ru", "localhost"]
 if not DEBUG:
     ALLOWED_HOSTS.append(os.getenv('ALLOWED_HOST'))
 
@@ -135,13 +135,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'static_base')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -152,6 +152,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
+
+CSRF_TRUSTED_ORIGINS = ['http://*.zvwb.ru/']
+
+
 
 
 # telegram bots

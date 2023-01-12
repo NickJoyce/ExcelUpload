@@ -14,14 +14,3 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
 
-app.conf.beat_schedule = {
-    "email_msg": {
-        "task": "app.tasks.regular_email_notification_task",
-        "schedule": crontab(minute="*/1")
-    },
-    "telegram_msg": {
-        "task": "app.tasks.regular_telegram_notification_task",
-        "schedule": crontab(minute="*/1")
-    }
-}
-

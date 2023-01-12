@@ -19,8 +19,7 @@ def send_telegram_notification(username, first_name, last_name, file_base64, fil
         token = get_tg_excel_upload_bot_token()
 
         file = base64.b64decode(file_base64)
-        path = f'{BASE_DIR}/app/excel_file_handling/notifications/temp/{file_name}'
-
+        path = f'{file_name}'
         # записываем файл во временную папку
         # по хорошему нужно понять как отправлять bytes напрямую не сохраняя
         with open(path, 'wb') as f:

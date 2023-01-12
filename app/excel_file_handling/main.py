@@ -83,7 +83,7 @@ def make_handling(user_id, file_base64, file_name):
             #     print("-" * 50)
 
             # отправка запроса
-            # send_request(orders, xml_api_extra, xml_api_login, xml_api_password)
+            send_request(orders, xml_api_extra, xml_api_login, xml_api_password)
         else:
             send_telegram_notification(username, first_name, last_name, file_base64, file_name, errors)
 
