@@ -86,19 +86,44 @@ height: 100%;
 margin: 0 auto;
 display: grid;
 grid-template-columns: 1fr;
-grid-auto-rows: 100px 1fr 30px;
+grid-auto-rows: 100px 40px 1fr 30px;
 }
+
 
 
 .header {
-outline: 1px solid red;
+/* outline: 1px solid grey; */
+border: 1px solid grey;
+border-top: none;
+}
+
+
+.navbar {
+/* outline: 1px solid red;*/
+display: flex;
+align-items: center;
+justify-content: right;
+padding-right: 20px;
+border-left: 1px solid grey;
+border-right: 1px solid grey;
+border-bottom: 1px solid grey;
 }
 
 .content {
-outline: 1px solid green;
+/* outline: 1px solid grey; */
+border-left: 1px solid grey;
+border-right: 1px solid grey;
+
 }
 .footer {
-outline: 1px solid blue;
+/* outline: 1px solid grey;*/
+border: 1px solid grey;
+border-bottom: none;
+}
+
+
+.login {
+padding: 50px;
 }
 
 .top_menu {

@@ -10,16 +10,23 @@
 	</head>
 	<body>
 		<div class="wrapper">
+		    {% if request.user.is_authenticated %}
 		    <div class="header">
-				{% if request.user.is_authenticated %}
 				<div class="top_menu">
 					{{ request.user }} ({{ request.user.first_name }} {{ request.user.last_name }}) |
 					<button class="logout_btn" onclick="document.location='{% url 'logout' %}'">Выход</button>
 				</div>
-				{% endif %}
 
 				{% block header %} {% endblock header %}
-			</div>
+		    </div>
+
+		    <div class="navbar">
+  				<div>
+					  <a href = "{% url 'index' %}">Главная </a> |
+					  <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>
+				</div>
+				{% block navbar %} {% endblock navbar %}
+		    </div>
 
 		    <div class="content">
 				{% if messages %}
@@ -31,6 +38,11 @@
 				{% endif %}
 				{% block content %}{% endblock content %}</div>
 		    <div class="footer">{% block footer %}{% endblock footer %}</div>
+		{% else %}
+			<div class="login">
+				{% block login %}{% endblock login %}
+			</div>
+		{% endif %}
 	    </div>
 	</body>
 </html>

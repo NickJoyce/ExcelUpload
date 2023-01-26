@@ -56,3 +56,15 @@ class NotificationRecipients(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class DateTimeSettings(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Имя")
+    obj = models.JSONField(verbose_name="Настрока дат и времени")
+
+    class Meta:
+        verbose_name = "Настрока дат и времени"
+        verbose_name_plural = "Настроки дат и времени"
+
+    def __str__(self):
+        return f"{self.name}"

@@ -12,6 +12,7 @@
        <time_min>09:00</time_min>
        <time_max>14:00</time_max>
      </receiver>
+     <price> {{ order.price }}</price>
      <enclosure>{{ order.sku }} - {{ order.size }}</enclosure>
      <instruction>{{ order.product_name }}</instruction>
    </order>

@@ -1,0 +1,30 @@
+total 64
+drwxrwxr-x 7 main main  4096 янв 20 13:34 app
+-rw-rw-r-- 1 main main 16384 янв  9 12:56 celerybeat-schedule
+drwxrwxr-x 3 main main  4096 янв  9 12:58 database
+-rw-rw-r-- 1 main main   270 янв  9 12:56 Makefile
+-rwxrwxr-x 1 main main   712 янв  9 12:56 manage.py
+drwxrwxr-x 3 main main  4096 янв 20 13:37 project
+-rw-rw-r-- 1 main main  1673 янв  9 12:56 README.md
+-rw-rw-r-- 1 main main   695 янв 16 16:45 request.xml
+-rw-rw-r-- 1 main main   623 янв  9 12:56 requirements.txt
+drwxrwxr-x 6 main main  4096 янв 11 10:10 static
+drwxrwxr-x 4 main main  4096 янв  9 12:56 static_base
+drwxrwxr-x 3 main main  4096 янв 20 15:45 templates
+-rw-rw-r-- 1 main main     0 янв 25 12:48 test
+drwxrwxr-x 5 main main  4096 янв  9 12:56 venv
+total 68
+drwxrwxr-x 7 main main  4096 янв 20 13:34 app
+-rw-rw-r-- 1 main main 16384 янв  9 12:56 celerybeat-schedule
+drwxrwxr-x 3 main main  4096 янв  9 12:58 database
+-rw-rw-r-- 1 main main   270 янв  9 12:56 Makefile
+-rwxrwxr-x 1 main main   712 янв  9 12:56 manage.py
+drwxrwxr-x 3 main main  4096 янв 20 13:37 project
+-rw-rw-r-- 1 main main  1673 янв  9 12:56 README.md
+-rw-rw-r-- 1 main main   695 янв 16 16:45 request.xml
+-rw-rw-r-- 1 main main   623 янв  9 12:56 requirements.txt
+drwxrwxr-x 6 main main  4096 янв 11 10:10 static
+drwxrwxr-x 4 main main  4096 янв  9 12:56 static_base
+drwxrwxr-x 3 main main  4096 янв 20 15:45 templates
+-rw-rw-r-- 1 main main   777 янв 25 12:48 test
+drwxrwxr-x 5 main main  4096 янв  9 12:56 venv

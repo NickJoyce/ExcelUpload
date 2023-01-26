@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {% endblock title %}
+{% block head %}
+<link href="{% static 'css/excel_upload.css' %}" rel="stylesheet">
+{% endblock head %}
+
+{% block header %}
+{{finish}}
+{% endblock header %}
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+<div class="form_wrapper">
+    <form method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <input type="file" name="file" required
+                   accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+            <input type="submit" value="Отправить" >
+        </div>
+    </form>
+</div>
+
+{% endblock content %}
+
+
+{% block footer %}  {% endblock footer %}

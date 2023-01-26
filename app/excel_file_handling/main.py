@@ -41,8 +41,12 @@ def make_handling(user_id, file_base64, file_name):
         # совпадение текущих заголовков датафрейма и вариантов наименований необязательных заголовков (json)
         unreq_match: dict = get_match_headers(current_headers, header_name_variations_unreq)
 
+        # совпавшие обязательные и необязательные заголовки
+        match_headers = list(req_match.values()) + list(unreq_match.values())
+
+
         # наличие дубликатов наименований заголовков
-        dup: set or None = get_duplicate_headers(current_headers)
+        dup: set or None = get_duplicate_headers(match_headers, current_headers)
 
         errors = []
 
@@ -51,6 +55,7 @@ def make_handling(user_id, file_base64, file_name):
             for json_key_header, current_header in req_match.items():
                 if current_header == None:
                     errors.append(f"Наименования столбца [ {json_key_header} ] нет в списке совпадений.")
+
 
         # дубликаты
         if dup:
@@ -70,7 +75,8 @@ def make_handling(user_id, file_base64, file_name):
 
             # формируем список заказов подлежащих загрузке чере API
             orders = get_orders(df)
-            # for order in orders:
+            for order in orders:
+                ...
             #     print("-"*50)
             #     print(order.receiver_name)
             #     print(order.code)
@@ -80,10 +86,12 @@ def make_handling(user_id, file_base64, file_name):
             #     print(order.size)
             #     print(order.product_name)
             #     print(order.status)
+            #     print(order.price)
             #     print("-" * 50)
 
             # отправка запроса
             send_request(orders, xml_api_extra, xml_api_login, xml_api_password)
+
         else:
             send_telegram_notification(username, first_name, last_name, file_base64, file_name, errors)
 

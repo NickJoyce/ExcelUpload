@@ -38,7 +38,7 @@ def send_email_notification(username, first_name, last_name, file_base64, file_n
             for error in errors:
                 content += "- " + error + '\n'
         else:
-            subject = "[-OK-] " + subject + " заказы из файла успешно загружены"
+            subject = "[ OK ] " + subject + " заказы из файла успешно загружены"
             content += "Все отлично! заказы загружены"
 
 

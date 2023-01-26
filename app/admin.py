@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
-from .models import Profile, JsonObject, NotificationRecipients
+from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
 from django_json_widget.widgets import JSONEditorWidget
 
 
@@ -34,3 +34,10 @@ class JsonObjectAdmin(admin.ModelAdmin):
 @admin.register(NotificationRecipients)
 class NotificationRecipientsAdmin(admin.ModelAdmin):
     list_display = ['name', 'email', 'telegram_id', 'is_active']
+
+
+@admin.register(DateTimeSettings)
+class DateTimeSettingsAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        models.JSONField: {'widget': JSONEditorWidget}
+    }

@@ -30,7 +30,7 @@ SECRET_KEY =  os.getenv('SECRET_KEY', None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.getenv('DEBUG')) == '1' # 1 = True
 
-ALLOWED_HOSTS = ["upload.zvwb.ru", "localhost"]
+ALLOWED_HOSTS = ["upload.zvwb.ru", "localhost", "account.zvwb.ru"]
 if not DEBUG:
     ALLOWED_HOSTS.append(os.getenv('ALLOWED_HOST'))
 

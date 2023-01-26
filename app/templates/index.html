@@ -9,17 +9,12 @@
 {% block header %}
 {{finish}}
 {% endblock header %}
-{% block content %}
-<div class="form_wrapper">
-    <form method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <input type="file" name="file" required
-                   accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-            <input type="submit" value="Отправить" >
-        </div>
-    </form>
-</div>
 
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
 {% endblock content %}
-{% block footer %}  {% endblock footer %}
+
+{% block footer %}  
+{% endblock footer %}

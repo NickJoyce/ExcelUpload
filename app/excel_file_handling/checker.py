@@ -39,9 +39,12 @@ def get_match_headers(current_headers, header_name_variations) -> dict:
     return res
 
 
-def get_duplicate_headers(current_headers):
-    headers = [header.lower().split(".")[0] for header in current_headers]
-    dup = {x for x in headers if headers.count(x) > 1}
+def get_duplicate_headers(match_headers, current_headers):
+    current_headers = [ current_header.split('.')[0] for current_header in current_headers]
+    dup = []
+    for match_header in match_headers:
+        if current_headers.count(match_header) > 1:
+            dup.append(match_header)
     return dup if dup else None
 
 

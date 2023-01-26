@@ -78,9 +78,9 @@ def get_orders(df):
 
 
             if order.size:
-                if str(order.size).lower() in bad_size_value:
+                if order.size.lower() in bad_size_value:
                         order.size = ""
-
+ssh root@192.168.1.92 -i "C:\Users\никита\.ssh\id_rsa"ssh root@192.168.1.92 -i "C:\Users\никита\.ssh\id_rsa"
 
 
             order.code = str(int(order.code))
