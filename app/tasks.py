@@ -5,5 +5,6 @@ import requests
 
 @app.task
 def make_handling_task(user_id, file_base64, file_name):
-    make_handling(user_id, file_base64, file_name)
+    print("Сломано!")
+    # make_handling(user_id, file_base64, file_name)
 
