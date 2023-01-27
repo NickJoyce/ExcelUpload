@@ -1,6 +1,6 @@
 import requests
 import base64
-from project.settings import BASE_DIR
+from project.settings.base import BASE_DIR
 import os
 from database.context_manager import db
 from dotenv import load_dotenv

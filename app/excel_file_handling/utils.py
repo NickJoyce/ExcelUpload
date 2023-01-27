@@ -1,7 +1,7 @@
 import os
 import requests
 from jinja2 import Template
-from project.settings import BASE_DIR
+from project.settings.base import BASE_DIR
 from datetime import datetime
 from datetime import timedelta
 import pandas as pd

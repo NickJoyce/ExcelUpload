@@ -1,6 +1,6 @@
 import psycopg2
-from project.settings import DATABASES
-from project.settings import BASE_DIR
+from project.settings.base import DATABASES
+from project.settings.base import BASE_DIR
 import os
 from dotenv import load_dotenv
 

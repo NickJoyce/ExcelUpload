@@ -1,9 +1,11 @@
 import os
 from celery import Celery
-from celery.schedules import crontab
+from dotenv import load_dotenv
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+load_dotenv()
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings.dev")
 
 # указываем project_name
 app = Celery("project")

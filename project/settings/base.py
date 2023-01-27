@@ -12,14 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+
 from dotenv import load_dotenv
-
-load_dotenv(f"{Path(__file__).resolve().parent.parent}/.env")
-
-
+load_dotenv(f"{Path(__file__).resolve().parent.parent.parent}/.env")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -28,11 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY =  os.getenv('SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = str(os.getenv('DEBUG')) == '1' # 1 = True
+DEBUG = True
 
-ALLOWED_HOSTS = ["upload.zvwb.ru", "localhost", "account.zvwb.ru"]
-if not DEBUG:
-    ALLOWED_HOSTS.append(os.getenv('ALLOWED_HOST'))
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -184,12 +180,4 @@ CELERY_BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 3600}
 CELERY_ACCEPT_CONTENT = ["application/json",]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
-
-
-
-
-
-
-
-
 

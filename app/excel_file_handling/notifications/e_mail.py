@@ -1,17 +1,16 @@
 import base64
-from project.settings import BASE_DIR
 from smtplib import SMTP_SSL
+from project.settings.base import BASE_DIR
+from dotenv import load_dotenv
 from email.message import EmailMessage
 import os
 from database.context_manager import db
-from dotenv import load_dotenv
 
 
 def send_email_notification(username, first_name, last_name, file_base64, file_name, errors):
-    load_dotenv(f"{BASE_DIR}/.env")
     with db() as cursor:
         file = base64.b64decode(file_base64)
-
+        load_dotenv(f"{BASE_DIR}/.env")
         # получаем name, email активных получателей уведомлений, если у email есть значение
         cursor.execute("""SELECT name, email FROM app_notificationrecipients 
                                   WHERE is_active=%s AND email IS NOT NULL""", (True,))
