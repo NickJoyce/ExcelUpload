@@ -5,7 +5,7 @@ import base64
 from datetime import datetime
 from datetime import time
 
-from .models import DateTimeSettings
+from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint
 
 from .decorators import group_required
 from .tasks import make_handling_task
@@ -54,7 +54,8 @@ def handling(request):
 
 @group_required('Клиенты')
 def pickup_point_list(request):
-    return render(request, 'pickup_point_list.html')
+    marketplaces = Marketplace.objects.all()
+    return render(request, 'pickup_point_list.html', {"marketplaces": marketplaces})
 
 @group_required('Клиенты')
 def order_statuses(request):

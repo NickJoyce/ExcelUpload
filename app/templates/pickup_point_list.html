@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} {% endblock title %}
+{% block title %}Список адресов ПВЗ {% endblock title %}
 {% block head %}
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/pickup_point_list.css' %}" rel="stylesheet">
 {% endblock head %}
 
 {% block header %}
@@ -13,7 +14,22 @@
 {% block navbar %}
 {% endblock navbar %}
 
+
+
 {% block content %}
+<div class="mp_tables_wrap">
+<h2>Cписок адресов ПВЗ</h2>
+{%  for marketplace in marketplaces %}
+    {% if  marketplace.pickup_points.all %}
+    <table>
+        <tr><th>{{ marketplace }}</th></tr>
+    {% for pickup_point in marketplace.pickup_points.all %}
+        <tr><td>{{ pickup_point.address }}</td></tr>
+    {% endfor %}
+    </table>
+    {% endif %}
+{% endfor %}
+</div>
 {% endblock content %}
 
 {% block footer %}  

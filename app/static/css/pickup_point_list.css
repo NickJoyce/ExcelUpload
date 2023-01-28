@@ -1,0 +1,25 @@
+
+.mp_tables_wrap h2 {
+padding: 0 20px 20px 20px;
+margin: 0;
+}
+
+.mp_tables_wrap table {
+margin-bottom: 25px;
+}
+
+.mp_tables_wrap table tr th{
+padding-left: 20px;
+text-align: left;
+background: #f1f3f4;
+color: #202124;
+font-size: 14px;
+height: 20px;
+}
+
+.mp_tables_wrap table tr td{
+padding-left: 40px;
+height: 20px;
+}
+
+

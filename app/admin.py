@@ -56,5 +56,5 @@ class WarehouseAdmin(admin.ModelAdmin):
 
 @admin.register(PickupPoint)
 class PickupPointAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
+    list_display = ['address', 'marketplace', 'opening_hours', 'how_to_get_there']
     list_filter = ['marketplace']

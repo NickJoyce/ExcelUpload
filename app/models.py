@@ -83,7 +83,7 @@ class Marketplace(models.Model):
 
 class Warehouse(models.Model):
     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
-                                    related_name='marketplace_warehouse')
+                                    related_name='warehouses')
     name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
@@ -102,7 +102,7 @@ class Warehouse(models.Model):
 
 class PickupPoint(models.Model):
     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
-                                    related_name='marketplace_pickup_point')
+                                    related_name='pickup_points')
     name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование пункта выдачи")
     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес пункта выдачи")
     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы пункта выдачи")
