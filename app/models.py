@@ -68,3 +68,54 @@ class DateTimeSettings(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Marketplace(models.Model):
+    name = models.CharField(max_length=100,  unique=True, verbose_name="Наименование маркетплейса")
+
+
+    class Meta:
+        verbose_name = "Маркетплейс"
+        verbose_name_plural = "Маркетплейсы"
+
+    def __str__(self):
+        return f"{self.name}"
+
+class Warehouse(models.Model):
+    marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
+                                    related_name='marketplace_warehouse')
+    name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
+    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
+    how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
+
+
+
+
+    class Meta:
+        verbose_name = "Склад"
+        verbose_name_plural = "Склады"
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class PickupPoint(models.Model):
+    marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
+                                    related_name='marketplace_pickup_point')
+    name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование пункта выдачи")
+    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес пункта выдачи")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы пункта выдачи")
+    how_to_get_there =models.TextField(null=True, blank=True, verbose_name="Как добраться до пункта выдачи")
+
+    def display_marketplace(self):
+        return self.marketplace.name
+
+    class Meta:
+        verbose_name = "ПВЗ"
+        verbose_name_plural = "ПВЗ"
+        db_table = 'app_pickup_point'
+
+
+    def __str__(self):
+        return f"{self.name}"

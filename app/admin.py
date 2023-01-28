@@ -3,6 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
+from .models import Marketplace, Warehouse, PickupPoint
 from django_json_widget.widgets import JSONEditorWidget
 
 
@@ -41,3 +42,19 @@ class DateTimeSettingsAdmin(admin.ModelAdmin):
     formfield_overrides = {
         models.JSONField: {'widget': JSONEditorWidget}
     }
+
+
+@admin.register(Marketplace)
+class MarketplaceAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
+@admin.register(Warehouse)
+class WarehouseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
+    list_filter = ['marketplace']
+
+@admin.register(PickupPoint)
+class PickupPointAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
+    list_filter = ['marketplace']

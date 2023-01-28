@@ -23,9 +23,9 @@
 		    <div class="navbar">
   				<div>
 					  <a href = "{% url 'index' %}">Главная </a> |
-					  <a href = "{% url 'pickup_point_list' %}">Список ПВЗ </a> |
+					  <a href = "{% url 'pickup_point_list' %}">Забор с ПВЗ</a> |
+					  <a href = "{% url 'supply' %}">Поставка на склад</a> |
 					  <a href = "{% url 'order_statuses' %}">Статусы заказов </a> |
-					  <a href = "{% url 'supply' %}">Поставки на WB </a> |
 					  <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>
 				</div>
 				{% block navbar %} {% endblock navbar %}
