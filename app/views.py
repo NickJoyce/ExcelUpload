@@ -50,3 +50,18 @@ def handling(request):
     else:
         messages.add_message(request, messages.ERROR, error_text)
     return redirect('excel_upload')
+
+
+@group_required('Клиенты')
+def pickup_point_list(request):
+    return render(request, 'pickup_point_list.html')
+
+@group_required('Клиенты')
+def order_statuses(request):
+    return render(request, 'order_statuses.html')
+
+@group_required('Клиенты')
+def supply(request):
+    return render(request, 'supply.html')
+
+

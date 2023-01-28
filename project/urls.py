@@ -22,7 +22,14 @@ from app import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  views.index, name='index'),
+    path('pickup_point_list/',  views.pickup_point_list, name='pickup_point_list'),
+    path('order_statuses/',  views.order_statuses, name='order_statuses'),
+    path('supply/',  views.supply, name='supply'),
     path('excel_upload/',  views.excel_upload, name='excel_upload'),
+
+
+
+
     path('handling/',  views.handling, name='handling'),
 
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

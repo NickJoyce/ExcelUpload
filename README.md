@@ -10,7 +10,7 @@ Personal account for courier service clients
     sudo add-apt-repository ppa:deadsnakes/ppa  
     sudo apt install python3.10
     
-    sudo apt install python3-venv, python3-pip, nginx, postgresql postgresql-contrib, redis-server, tmux
+    sudo apt install git python3-dev python3-venv python3-pip nginx postgresql postgresql-contrib redis-server tmux
     
     git clone https://github.com/NickJoyce/ExcelUpload
     cd ExcelUpload
@@ -27,7 +27,7 @@ Personal account for courier service clients
     python manage.py makemigrations
     python manage.py migrate
     
-    python manage.py collectstatic
+    python manage.py collectstatic --settings=project.settings.prod
     
     tmux new -s celery_admin / tmux attach -t celery_admin 
     . venv/bin/activate
