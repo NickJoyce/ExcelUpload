@@ -115,6 +115,26 @@ border-left: 1px solid grey;
 border-right: 1px solid grey;
 background: white;
 }
+
+
+.content h2, .content .description, .content  .option_wrap {
+padding: 0 40px 0 40px;
+}
+
+.content h2 {
+text-align: center;
+margin: 30px 0 20px 0;
+}
+
+.content .description {
+margin: 20px 0 30px 0;
+color: red;
+}
+
+.content .option_wrap {
+}
+
+
 .footer {
 /* outline: 1px solid grey;*/
 border: 1px solid grey;
