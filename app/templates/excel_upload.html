@@ -7,22 +7,25 @@
 {% endblock head %}
 
 {% block header %}
-{{finish}}
+
 {% endblock header %}
 
 {% block navbar %}
 {% endblock navbar %}
 
 {% block content %}
-<div class="form_wrapper">
-    <form method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <input type="file" name="file" required
-                   accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-            <input type="submit" value="Отправить" >
-        </div>
-    </form>
+{% include "menu_page_template.html" %}
+<div class="option_wrap">
+    <div class="form_wrapper">
+        <form method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <input type="file" name="file" required
+                       accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+                <input type="submit" value="Отправить" >
+            </div>
+        </form>
+    </div>
 </div>
 
 {% endblock content %}

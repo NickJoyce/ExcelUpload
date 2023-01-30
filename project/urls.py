@@ -26,6 +26,7 @@ urlpatterns = [
     path('order_statuses/',  views.order_statuses, name='order_statuses'),
     path('supply/',  views.supply, name='supply'),
     path('excel_upload/',  views.excel_upload, name='excel_upload'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
 
 
 

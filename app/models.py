@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -119,3 +120,22 @@ class PickupPoint(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+class Page(models.Model):
+    handler = models.CharField(max_length=200, verbose_name="Функция-обработчик")
+    html_file = models.CharField(max_length=200, verbose_name="HTML файл")
+    name = models.CharField(max_length=200, verbose_name="Наименование страницы")
+    title = models.CharField(max_length=200, verbose_name="Тэг title")
+    header = models.CharField(max_length=200, null=True, blank=True, verbose_name="Заголовок страницы")
+    description = RichTextUploadingField(null=True, blank=True,verbose_name="Описание")
+
+
+
+    class Meta:
+        verbose_name = "Страница"
+        verbose_name_plural = "Страницы"
+
+
+    def __str__(self):
+        return f"{self.name}"
+

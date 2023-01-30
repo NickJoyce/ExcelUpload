@@ -17,18 +17,20 @@
 
 
 {% block content %}
-<div class="mp_tables_wrap">
-<h2>Cписок адресов ПВЗ</h2>
-{%  for marketplace in marketplaces %}
-    {% if  marketplace.pickup_points.all %}
-    <table>
-        <tr><th>{{ marketplace }}</th></tr>
-    {% for pickup_point in marketplace.pickup_points.all %}
-        <tr><td>{{ pickup_point.address }}</td></tr>
-    {% endfor %}
-    </table>
-    {% endif %}
-{% endfor %}
+{% include "menu_page_template.html" %}
+<div class="option_wrap">
+    <div class="mp_tables_wrap">
+        {%  for marketplace in marketplaces %}
+            {% if  marketplace.pickup_points.all %}
+            <table>
+                <tr><th>{{ marketplace }}</th></tr>
+            {% for pickup_point in marketplace.pickup_points.all %}
+                <tr><td>{{ pickup_point.address }}</td></tr>
+            {% endfor %}
+            </table>
+            {% endif %}
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
 

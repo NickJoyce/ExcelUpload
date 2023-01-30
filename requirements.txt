@@ -10,6 +10,8 @@ click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
 Django==4.1.4
+django-ckeditor==6.5.1
+django-js-asset==2.0.0
 django-json-widget==1.1.1
 et-xmlfile==1.1.0
 future==0.18.2

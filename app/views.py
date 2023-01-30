@@ -5,7 +5,7 @@ import base64
 from datetime import datetime
 from datetime import time
 
-from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint
+from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
 
 from .decorators import group_required
 from .tasks import make_handling_task
@@ -13,12 +13,15 @@ from .tasks import make_handling_task
 
 @group_required('Клиенты')
 def index(request):
-    return render(request, 'index.html')
+    page = Page.objects.get(handler='index')
+    x = "222"
+    return render(request, 'index.html', {"page": page, "x":x})
 
 
 @group_required('Клиенты')
 def excel_upload(request):
-    return render(request, 'excel_upload.html')
+    page = Page.objects.get(handler='excel_upload')
+    return render(request, 'excel_upload.html', {"page": page})
 
 
 @group_required('Клиенты')
@@ -54,15 +57,20 @@ def handling(request):
 
 @group_required('Клиенты')
 def pickup_point_list(request):
+    page = Page.objects.get(handler='pickup_point_list')
     marketplaces = Marketplace.objects.all()
-    return render(request, 'pickup_point_list.html', {"marketplaces": marketplaces})
+    return render(request, 'pickup_point_list.html', {"page": page, "marketplaces": marketplaces})
+
 
 @group_required('Клиенты')
 def order_statuses(request):
-    return render(request, 'order_statuses.html')
+    page = Page.objects.get(handler='order_statuses')
+    return render(request, 'order_statuses.html', {"page": page})
+
 
 @group_required('Клиенты')
 def supply(request):
-    return render(request, 'supply.html')
+    page = Page.objects.get(handler='supply')
+    return render(request, 'supply.html', {"page": page})
 
 

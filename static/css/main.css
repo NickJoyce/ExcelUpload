@@ -113,12 +113,13 @@ border-bottom: 1px solid grey;
 /* outline: 1px solid grey; */
 border-left: 1px solid grey;
 border-right: 1px solid grey;
-
+background: white;
 }
 .footer {
 /* outline: 1px solid grey;*/
 border: 1px solid grey;
 border-bottom: none;
+background: white;
 }
 
 
@@ -133,6 +134,14 @@ padding: 10px;
 
 .logout_btn {
 
+}
+
+
+.pageheader {
+font-weight: bold;
+font-size: 18px;
+/* outline: 1px solid grey; */
+text-align: center;
 }
 
 

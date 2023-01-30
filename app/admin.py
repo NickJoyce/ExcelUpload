@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
-from .models import Marketplace, Warehouse, PickupPoint
+from .models import Marketplace, Warehouse, PickupPoint, Page
 from django_json_widget.widgets import JSONEditorWidget
 
 
@@ -58,3 +58,8 @@ class WarehouseAdmin(admin.ModelAdmin):
 class PickupPointAdmin(admin.ModelAdmin):
     list_display = ['address', 'marketplace', 'opening_hours', 'how_to_get_there']
     list_filter = ['marketplace']
+
+@admin.register(Page)
+class PageAdmin(admin.ModelAdmin):
+    list_display = ['name', 'handler', 'html_file']
+    # readonly_fields = ['handler', 'html_file']
