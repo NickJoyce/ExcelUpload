@@ -7,11 +7,12 @@ from datetime import timedelta
 import pandas as pd
 from database.context_manager import db
 from dotenv import load_dotenv
+import xml.etree.ElementTree as ET
 
 
 class Order():
     def __init__(self, receiver_name, code, phone, address, date,
-                 sku="", size="", product_name="", status="", price=""):
+                 sku="", size="", product_name="", status="", price="", sku_size=None):
         self.receiver_name = receiver_name
         self.code = code
         self.phone = phone
@@ -22,6 +23,7 @@ class Order():
         self.product_name = product_name
         self.status = status
         self.price = price
+        self.sku_size = sku_size
 
     def __str__(self):
         return f"Order({self.receiver_name}, {self.code}, {self.phone}, {self.address}, {self.date}, {self.sku}," \
@@ -124,4 +126,49 @@ def send_request(orders, extra, login, password):
         response = requests.post(os.getenv("API_PATH"), data = rendered_template.encode())
         print(response.text)
 
+def send_order_statuses_request(extra, login, password, datefrom, dateto):
+    load_dotenv(f"{BASE_DIR}/.env")
+    with open(f"{BASE_DIR}/order_statuses_request.xml", encoding="utf-8") as f:
+        xml_file = f.read()
+        rendered_template = Template(xml_file).render(
+            extra=extra.strip(),
+            login=login.strip(),
+            password=password.strip(),
+            datefrom=datefrom,
+            dateto=dateto
+        )
+        response = requests.post(os.getenv("API_PATH"), data=rendered_template.encode())
+        return response
+
+def handling_order_statuses_request(response):
+    root = ET.fromstring(response.text)
+    orders_data = []
+    for order in root.findall('order'):
+        status = order.find('deliveredto').text
+        status = status if status else "В работе"
+
+
+        current_order = Order(
+        date = order.find('receiver').find('date').text,
+        receiver_name = order.find('receiver').find('company').text,
+        address = order.find('receiver').find('address').text,
+        phone = order.find('receiver').find('phone').text,
+        code = order.find('receiver').find('person').text,
+        sku_size = order.find('enclosure').text,
+        product_name = order.find('instruction').text,
+        status = status
+        )
+        orders_data.append(current_order)
+    return orders_data
+
+
+
+
+if __name__ == "__main__":
+    response = send_order_statuses_request(extra='26',
+                                login="GAPS",
+                                password="VfX-UBQ-Rn6-b5v",
+                                datefrom="2023-01-29",
+                                dateto="2023-01-30")
+    print(handling_order_statuses_request(response))
 

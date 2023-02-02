@@ -2,9 +2,8 @@
 {% load static %}
 <html lang="en">
 	<head>
+		<link href="{% static 'css/main.css' %}" rel="stylesheet">
 	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	    <link href="{% static 'css/main.css' %}" rel="stylesheet">
-	    <script src="{% static 'js/main.js' %}"></script>
 	    <title>{% block title %} {% endblock title %}</title>
 	    {% block head %} {% endblock head %}
 	</head>

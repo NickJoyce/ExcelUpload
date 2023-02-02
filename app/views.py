@@ -2,20 +2,20 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import base64
 
-from datetime import datetime
-from datetime import time
+from datetime import datetime, time, date, timedelta
 
 from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
 
 from .decorators import group_required
 from .tasks import make_handling_task
 
+from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
+
 
 @group_required('Клиенты')
 def index(request):
     page = Page.objects.get(handler='index')
-    x = "222"
-    return render(request, 'index.html', {"page": page, "x":x})
+    return render(request, 'index.html', {"page": page})
 
 
 @group_required('Клиенты')
@@ -72,5 +72,39 @@ def order_statuses(request):
 def supply(request):
     page = Page.objects.get(handler='supply')
     return render(request, 'supply.html', {"page": page})
+
+from django.views.generic import TemplateView
+
+
+@group_required('Клиенты')
+def order_statuses_table(request):
+    extra = request.user.profile.xml_api_extra
+    login = request.user.profile.xml_api_login
+    password = request.user.profile.xml_api_password
+
+    max_date = date.today()
+    min_date = max_date - timedelta(days=58)
+
+    if request.method == "POST":
+        datefrom = date(*[int(i) for i in request.POST.get("datefrom").split("-")])
+        dateto = date(*[int(i) for i in request.POST.get("dateto").split("-")])
+    else:
+        dateto = date.today()
+        datefrom = dateto - timedelta(days=3)
+
+    # отправляем запрос на API сервиса
+    response = send_order_statuses_request(extra, login, password, datefrom, dateto)
+
+    # парсим запрос
+    orders = handling_order_statuses_request(response)
+
+    return render(request, 'order_statuses_table.html', {"orders": orders,
+                                                         "datefrom": datefrom.strftime("%Y-%m-%d"),
+                                                         "dateto": dateto.strftime("%Y-%m-%d"),
+                                                         "max_date": max_date.strftime("%Y-%m-%d"),
+                                                         "min_date": min_date.strftime("%Y-%m-%d")})
+
+
+
 
 

@@ -3,7 +3,8 @@
 
 {% block title %} {% endblock title %}
 {% block head %}
-<link href="{% static 'css/index.css' %}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 {% endblock head %}
 
 {% block header %}
@@ -13,9 +14,10 @@
 {% block navbar %}
 {% endblock navbar %}
 
+
 {% block content %}
 {% include "menu_page_template.html" %}
-<div class="option_wrap"></div>
+<iframe src="http://127.0.0.1:8000/order_statuses_table"></iframe>
 {% endblock content %}
 
 {% block footer %}  

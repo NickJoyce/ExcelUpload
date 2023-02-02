@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/dataTables.bootstrap5.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/order_statuses_table.css' %}" rel="stylesheet">
+        <title></title>
+    </head>
+    <body>
+    <div class="wrap">
+        <div class="period_choice_wrapper">
+            <form method="POST" action="{% url 'order_statuses_table' %}">
+                {% csrf_token %}
+                <input type="date" name="datefrom" value="{{ datefrom }}" min="{{ min_date }}" max="{{ max_date }}"> -
+                <input type="date" name="dateto" value="{{ dateto }}" min="{{ min_date }}" max="{{ max_date }}">
+                <input type="submit" value="Получить данные">
+            </form>
+        </div>
+        <table id="example" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Имя</th>
+                <th>Адрес</th>
+                <th>Телефон</th>
+                <th>Код</th>
+                <th>Артикул + Размер</th>
+                <th>Наименование товара</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.date|default_if_none:"" }}</td>
+                <td>{{ order.receiver_name|default_if_none:"" }}</td>
+                <td>{{ order.address|default_if_none:"" }}</td>
+                <td>{{ order.phone|default_if_none:"" }}</td>
+                <td>{{ order.code|default_if_none:"" }}</td>
+                <td>{{ order.sku_size|default_if_none:"" }}</td>
+                <td>{{ order.product_name|default_if_none:"" }}</td>
+                <td>{{ order.status }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="{% static 'js/jquery-3.5.1.js' %}"></script>
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'js/order_statuses.js' %}"></script>
+    </body>
+</html>

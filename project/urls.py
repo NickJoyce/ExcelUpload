@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from app import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,8 @@ urlpatterns = [
     path('supply/',  views.supply, name='supply'),
     path('excel_upload/',  views.excel_upload, name='excel_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+
+    path('order_statuses_table/',  views.order_statuses_table, name='order_statuses_table'),
 
 
 

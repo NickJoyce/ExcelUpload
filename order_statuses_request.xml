@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<statusreq>
+  <auth extra="{{ extra }}" login="{{ login }}" pass="{{ password }}"></auth>
+  <datefrom>{{ datefrom }}</datefrom>
+  <dateto>{{ dateto }}</dateto>
+</statusreq>

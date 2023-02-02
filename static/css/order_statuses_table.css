@@ -1,0 +1,25 @@
+body {
+font-size: 12px;
+}
+
+.wrap {
+padding: 20px;
+}
+
+table tr th:nth-child(1) {width: 10%;}
+table tr th:nth-child(2) {width: 10%;}
+table tr th:nth-child(3) {width: 25%;}
+table tr th:nth-child(4) {width: 5%;}
+table tr th:nth-child(5) {width: 5%;}
+table tr th:nth-child(6) {width: 10%;}
+table tr th:nth-child(7) {width: 25%;}
+table tr th:nth-child(8) {width: 10%;}
+
+table tr td {
+vertical-align: middle;
+}
+
+.period_choice_wrapper {
+text-align:center;
+padding: 20px 0 40px 0;
+}
