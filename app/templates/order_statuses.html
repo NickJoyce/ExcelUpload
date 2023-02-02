@@ -17,7 +17,7 @@
 
 {% block content %}
 {% include "menu_page_template.html" %}
-<iframe src="http://127.0.0.1:8000/order_statuses_table"></iframe>
+<iframe src="{% url 'order_statuses_table' %}"></iframe>
 {% endblock content %}
 
 {% block footer %}  
