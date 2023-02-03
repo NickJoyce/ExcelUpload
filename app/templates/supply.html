@@ -18,6 +18,7 @@
 {% block content %}
 {% include "menu_page_template.html" %}
 <!--<iframe src="{% url 'supply_iframe_module' %}"></iframe>-->
+<div class="option_wrap">
 <form action="{% url 'supply' %}" method="POST">
 	{% csrf_token %}
 <div class="order_wrapper">
@@ -46,6 +47,7 @@
 
 </div>
 </form>
+</div>
 {% endblock content %}
 
 {% block footer %}  
