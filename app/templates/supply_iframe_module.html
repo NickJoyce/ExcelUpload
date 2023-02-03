@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="{% static 'css/supply.css' %}" rel="stylesheet">
+		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <title></title>
+    </head>
+    <body>
+	<p>
+		<select  multiple name="date">
+			{% for day in days %}
+				{% if day.available_status %}
+    				<option value="{{ day.date }} ">{{ day.date }} ({{ day.day_of_the_week }})</option>
+				{% endif %}
+			{% endfor %}
+   		</select>
+	</p>
+
+
+	<form action="" method="POST">
+		{% for day in days %}
+			{% if day.available_status %}
+				<input type="radio" class="btn-check" name="options" id="{{ day.date }}" autocomplete="off">
+				<label class="btn btn-secondary" for="{{ day.date }}">{{ day.date }}<br>{{ day.day_of_the_week }}</label>
+			{% else %}
+				<input type="radio" class="btn-check" name="options" id="{{ day.date }}" autocomplete="off" disabled>
+				<label class="btn btn-secondary" for="{{ day.date }}">{{ day.date }}<br>{{ day.day_of_the_week }}</label>
+			{% endif %}
+		{% endfor %}
+
+	<script src="{% static 'js/supply.js' %}"></script>
+    </body>
+</html>

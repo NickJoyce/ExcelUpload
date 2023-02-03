@@ -30,6 +30,9 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
 
     path('order_statuses_table/',  views.order_statuses_table, name='order_statuses_table'),
+    path('supply_iframe_module/', views.supply_iframe_module, name='supply_iframe_module'),
+
+
 
 
 

@@ -4,6 +4,8 @@
 {% block title %} {% endblock title %}
 {% block head %}
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
+<link href="{% static 'css/supply.css' %}" rel="stylesheet">
+
 {% endblock head %}
 
 {% block header %}
@@ -15,8 +17,38 @@
 
 {% block content %}
 {% include "menu_page_template.html" %}
-<div class="option_wrap"></div>
+<!--<iframe src="{% url 'supply_iframe_module' %}"></iframe>-->
+<form action="{% url 'supply' %}" method="POST">
+	{% csrf_token %}
+<div class="order_wrapper">
+	<div>Оформление заявки на поставку</div>
+	<div class="lable"> Выберете дату поставки:</div>
+	<div class="input">
+		<select name="supply_date">
+			{% for day in days %}
+				{% if day.available_status %}
+					<option value="{{ day.date }} ">{{ day.date }} {{ day.day_of_the_week }}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+	</div>
+
+	<div class="lable"> Выберете склад:</div>
+	<div class="input">
+		<select name="marketplace_address">
+			{% for mp in mp_list %}
+				<option value="{{ mp }}">{{ mp }}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div><input type="submit" value="Отправить"></div>
+
+
+</div>
+</form>
 {% endblock content %}
 
 {% block footer %}  
 {% endblock footer %}
+
+

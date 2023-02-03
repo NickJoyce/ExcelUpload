@@ -146,8 +146,6 @@ def handling_order_statuses_request(response):
     for order in root.findall('order'):
         status = order.find('deliveredto').text
         status = status if status else "В работе"
-
-
         current_order = Order(
         date = order.find('receiver').find('date').text,
         receiver_name = order.find('receiver').find('company').text,
@@ -161,6 +159,20 @@ def handling_order_statuses_request(response):
         orders_data.append(current_order)
     return orders_data
 
+
+def send_supply_order_request(extra, login, password, supply_date, marketplace, address):
+    load_dotenv(f"{BASE_DIR}/.env")
+    with open(f"{BASE_DIR}/supply_order_request.xml", encoding="utf-8") as f:
+        xml_file = f.read()
+        rendered_template = Template(xml_file).render(
+                      extra=extra.strip(),
+                      login=login.strip(),
+                      password=password.strip(),
+                      supply_date=supply_date,
+                      marketplace=marketplace,
+                      address=address)
+        response = requests.post(os.getenv("API_PATH"), data = rendered_template.encode())
+        print(response.text)
 
 
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<neworder newfolder="NO">
+<auth extra="{{ extra }}" login="{{ login }}" pass="{{ password }}"></auth>
+   <order>
+     <receiver>
+       <company>{{ marketplace }}</company>
+       <address>{{ address }}</address>
+       <date>{{ supply_date }}</date>
+     </receiver>
+   </order>
+</neworder>

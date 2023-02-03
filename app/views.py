@@ -5,11 +5,13 @@ import base64
 from datetime import datetime, time, date, timedelta
 
 from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
+from .utils import Day
 
 from .decorators import group_required
 from .tasks import make_handling_task
 
 from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
+from app.excel_file_handling.utils import send_supply_order_request
 
 
 @group_required('Клиенты')
@@ -70,10 +72,67 @@ def order_statuses(request):
 
 @group_required('Клиенты')
 def supply(request):
-    page = Page.objects.get(handler='supply')
-    return render(request, 'supply.html', {"page": page})
+        if request.method == "POST":
+            extra = request.user.profile.xml_api_extra
+            login = request.user.profile.xml_api_login
+            password = request.user.profile.xml_api_password
+            supply_date = request.POST.get("supply_date")
+            d, m, y = supply_date.split(" ")[0].split(".")
+            supply_date = f"{y}-{m}-{d}"
+            marketplace_address = request.POST.get("marketplace_address")
+            marketplace, address= marketplace_address.split(": ")
+            send_supply_order_request(extra, login, password, supply_date, marketplace, address)
+            messages.add_message(request, messages.SUCCESS, 'Заявка успешно отправлена')
+            return redirect("supply")
 
-from django.views.generic import TemplateView
+        else:
+            page = Page.objects.get(handler='supply')
+            # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
+            weekdays = [3, 6]
+            # задержка (часы)
+            time_delay = 36
+            # определить текущую дату и время
+            now = datetime.now().replace(microsecond=0)
+            # получить день начиная с которого доступны поставки
+            now_plus_time_delay = now + timedelta(hours=time_delay)
+            datefrom = now_plus_time_delay.date()
+
+            # сколько дней начиная с дня отгрузки доступны
+            days_available_number = 60
+            daysOftheWeek = ("ISO Week days start from 1",
+                             "Понедельник",
+                             "Вторник",
+                             "Среда",
+                             "Четверг",
+                             "Пятница",
+                             "Суббота",
+                             "Воскресенье"
+                             )
+            # количнство дней в текущем месяце
+            days = []
+            for i in range(days_available_number):
+                day = Day(date=datefrom.strftime("%d.%m.%Y"),
+                          available_status=None,
+                          day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
+                if datefrom.isoweekday() in weekdays:
+                    day.available_status = True
+                else:
+                    day.available_status = False
+                days.append(day)
+                datefrom += timedelta(days=1)
+            # получаем список маркетплейсов и связанные с ними склады
+            marketplaces = Marketplace.objects.all()
+            mp_list = []
+            for marketplace in marketplaces:
+                warehouses = Warehouse.objects.filter(marketplace=marketplace)
+                for warehouse in warehouses:
+                    mp_list.append(f"{marketplace.name}: {warehouse.address}")
+            print(mp_list)
+            return render(request, 'supply.html', {"page": page,
+                                                   "now": now,
+                                                   "datefrom": datefrom,
+                                                   "days": days,
+                                                   "mp_list": mp_list})
 
 
 @group_required('Клиенты')
@@ -104,7 +163,47 @@ def order_statuses_table(request):
                                                          "max_date": max_date.strftime("%Y-%m-%d"),
                                                          "min_date": min_date.strftime("%Y-%m-%d")})
 
+@group_required('Клиенты')
+def supply_iframe_module(request):
+    # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
+    weekdays = [3, 6]
+    # задержка (часы)
+    time_delay = 36
 
+    # определить текущую дату и время
+    now = datetime.now().replace(microsecond=0)
+    # получить день начиная с которого доступны поставки
+    now_plus_time_delay = now + timedelta(hours=time_delay)
+    datefrom = now_plus_time_delay.date()
 
+    # сколько дней начиная с дня отгрузки доступны
+    days_available_number = 60
+
+    daysOftheWeek = ("ISO Week days start from 1",
+                     "Понедельник",
+                     "Вторник",
+                     "Среда",
+                     "Четверг",
+                     "Пятница",
+                     "Суббота",
+                     "Воскресенье"
+                     )
+
+    # количнство дней в текущем месяце
+    days = []
+    for i in range(days_available_number):
+        day = Day(date=datefrom.strftime("%d.%m.%Y"),
+                  available_status=None,
+                  day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
+        if datefrom.isoweekday() in weekdays:
+            day.available_status = True
+        else:
+            day.available_status = False
+        days.append(day)
+        datefrom += timedelta(days=1)
+
+    return render(request, 'supply_iframe_module.html', {"now": now,
+                                                        "datefrom": datefrom,
+                                                        "days": days})
 
 

@@ -1,0 +1,33 @@
+.order_wrapper {
+outline: 1px solid grey;
+background-color:   #ffffff;
+width: 50%;
+margin: 0 auto;
+display: grid;
+grid-template-columns: 1fr 1fr;
+grid-auto-rows: 1fr 1fr 1fr 1fr;
+grid-row-gap: 20px;
+padding: 20px;
+}
+
+
+
+
+.order_wrapper div:nth-child(1) {
+  grid-column: 1 / 3;
+  text-align: center;
+}
+
+.order_wrapper .lable {
+
+}
+
+.order_wrapper .input {
+
+}
+
+.order_wrapper div:nth-child(6) {
+  grid-column: 1 / 3;
+  grid-row: 4 / 5;
+  text-align: center;
+}
