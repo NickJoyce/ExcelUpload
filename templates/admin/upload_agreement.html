@@ -1,0 +1,30 @@
+{% extends "admin/base_site.html" %}
+
+{% load static %}
+
+{% block title %}Загрузка договора-оферты{% endblock %}
+
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Начало</a>
+        &rsaquo; Загрузка договора-оферты
+    </div>
+{% endblock breadcrumbs%}
+
+{% block content %}
+    <div class="fieldsets">
+        <fieldset class="module">
+            <h1>Загрузка договора-оферты</h1>
+            <p>Текущий файл: {{ file }}</p>
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <input type="file" name="file" required
+                       accept="application/pdf">
+                <input type="submit" value="Отправить" >
+            </div>
+        </form>
+        </fieldset>
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block signup %}
+<div class="no_auth_menu">
+  <button class="logout_btn" onclick="document.location='{% url 'login' %}'">Вход</button>
+</div>
+  <h2>Регистрация</h2>
+  <form method="post" action="">
+    {% csrf_token %}
+    {% for field in form %}
+      {% if field.name == "agreement" %}
+        <p>
+          {{ field }} Я ознакомлен с
+          <a href="{% static path_to_agreement %}" target="_blank">договором-офертой</a>
+          и принимаю указанные в нем условия
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </p>
+      {% else %}
+
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endif %}
+    {% endfor %}
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+{% endblock signup %}

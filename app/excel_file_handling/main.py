@@ -25,6 +25,7 @@ def make_handling(user_id, file_base64, file_name):
 
         # проверяем коректность заголовков таблицы
         current_headers = list(df)
+        # print("Текущие заголовки: ", current_headers)
 
         cursor.execute("""SELECT obj FROM app_jsonobject WHERE name=%s""", ("Вариации наименования заголовков",))
         header_name_variations: dict = cursor.fetchall()[0][0]
@@ -34,15 +35,18 @@ def make_handling(user_id, file_base64, file_name):
 
         # варианты наименований для необязательных заголовков
         header_name_variations_unreq: dict = header_name_variations['unrequired_fields']
+        # print("Варианты наименований для необязательных заголовков: ", header_name_variations_unreq)
 
         # совпадение текущих заголовков датафрейма и вариантов наименований обязательных заголовков (json)
         req_match: dict = get_match_headers(current_headers, header_name_variations_req)
 
         # совпадение текущих заголовков датафрейма и вариантов наименований необязательных заголовков (json)
         unreq_match: dict = get_match_headers(current_headers, header_name_variations_unreq)
+        # print("Совпадение текущих заголовков датафрейма и вариантов наименований необязательных заголовков : ", unreq_match)
 
         # совпавшие обязательные и необязательные заголовки
         match_headers = list(req_match.values()) + list(unreq_match.values())
+
 
 
         # наличие дубликатов наименований заголовков

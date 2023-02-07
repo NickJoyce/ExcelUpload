@@ -7,11 +7,13 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    company = models.CharField(max_length=30, blank=True, verbose_name="Компания")
-    phone = models.CharField(max_length=30, blank=True, verbose_name="Телефон")
+    company = models.CharField(max_length=30, null=True, blank=True, verbose_name="Компания")
+    phone = models.CharField(max_length=30, null=True, blank=True,  verbose_name="Телефон")
+    inn = models.CharField(max_length=30, null=True, blank=True,  verbose_name="ИНН")
     xml_api_extra = models.CharField(max_length=30, verbose_name="Экстра-код")
     xml_api_login = models.CharField(max_length=30, verbose_name="Логин клиента")
     xml_api_password = models.CharField(max_length=30, verbose_name="Пароль клиента")
+    agreement = models.BooleanField(default=False, verbose_name="Согласие")
 
     class Meta:
         verbose_name = "Профиль"
@@ -139,3 +141,9 @@ class Page(models.Model):
     def __str__(self):
         return f"{self.name}"
 
+
+class CustomPageModel(models.Model):
+    class Meta:
+        verbose_name = 'Загрузка договора-оферты'
+        verbose_name_plural = "Загрузка договора-оферты"
+        app_label = 'app'  # or another app to put your custom view

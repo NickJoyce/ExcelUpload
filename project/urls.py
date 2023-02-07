@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from app import views
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import user_passes_test
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,17 +30,10 @@ urlpatterns = [
     path('supply/',  views.supply, name='supply'),
     path('excel_upload/',  views.excel_upload, name='excel_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-
     path('order_statuses_table/',  views.order_statuses_table, name='order_statuses_table'),
     path('supply_iframe_module/', views.supply_iframe_module, name='supply_iframe_module'),
-
-
-
-
-
-
+    path('signup/', views.signup, name='signup'),
     path('handling/',  views.handling, name='handling'),
-
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [

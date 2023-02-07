@@ -8,8 +8,8 @@
 	    {% block head %} {% endblock head %}
 	</head>
 	<body>
+	{% if request.user.is_authenticated %}
 		<div class="wrapper">
-		    {% if request.user.is_authenticated %}
 		    <div class="header">
 				<div class="top_menu">
 					{{ request.user }} ({{ request.user.first_name }} {{ request.user.last_name }}) |
@@ -40,11 +40,15 @@
 				{% endif %}
 				{% block content %}{% endblock content %}</div>
 		    <div class="footer">{% block footer %}{% endblock footer %}</div>
+			</div>
 		{% else %}
-			<div class="login">
-				{% block login %}{% endblock login %}
+			<div class="login_logout_signup_wrapper">
+				<div class="login_logout_signup">
+					{% block logout %}{% endblock logout %}
+					{% block login %}{% endblock login %}
+					{% block signup %}{% endblock signup %}
+				</div>
 			</div>
 		{% endif %}
-	    </div>
 	</body>
 </html>

@@ -104,7 +104,6 @@ def get_orders(df):
                 if isinstance(order.sku, float):
                     order.sku = str(int(order.sku))
 
-
             if order.status:
                 if order.status.lower().startswith('готов'):
                     orders.append(order)

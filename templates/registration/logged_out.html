@@ -1,7 +1,8 @@
 {% extends "base.html" %}
-{% block login %}
+
+{% block logout %}
     <div align="center">
-    	<p>Выполнен выход из системы!</p>
+    	Выполнен выход из системы!
     	<a href="{% url 'login'%}"> Нажмите здесь, чтобы снова войти</a>
     </div>	
-{% endblock login %}
+{% endblock logout %}

@@ -1,3 +1,4 @@
+import psycopg2
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import base64
@@ -12,6 +13,17 @@ from .tasks import make_handling_task
 
 from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
 from app.excel_file_handling.utils import send_supply_order_request
+
+from django.contrib.auth.models import User
+
+import traceback
+
+from django.contrib.auth import login, authenticate
+from .forms import SignUpForm
+from django.contrib.auth.models import Group
+
+import os
+from project.settings.base import BASE_DIR
 
 
 @group_required('Клиенты')
@@ -206,4 +218,61 @@ def supply_iframe_module(request):
                                                         "datefrom": datefrom,
                                                         "days": days})
 
+
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.profile.company = form.cleaned_data.get('company')
+            user.profile.phone = form.cleaned_data.get('phone')
+            user.profile.inn = form.cleaned_data.get('inn')
+            user.profile.agreement = form.cleaned_data.get('agreement')
+            user.profile.xml_api_extra = "26"
+            user.profile.xml_api_login = form.cleaned_data.get('username')
+            user.profile.xml_api_password = form.cleaned_data.get('password1')
+            group = Group.objects.get(name="Клиенты")
+            user.groups.add(group)
+            user.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('index')
+    else:
+        form = SignUpForm()
+
+    dir = f"{BASE_DIR}/app/static/pdf/agreement"
+    file_name = os.listdir(dir)[0]
+    path_to_agreement = f"pdf/agreement/{file_name}"
+    return render(request, 'registration/signup.html', {'form': form,
+                                                        "path_to_agreement": path_to_agreement})
+
+
+def upload_agreement(request):
+    if request.method == "POST":
+        file = request.FILES['file']
+        # Очистить директорию agreement если она не пуста
+        print("work?")
+        dir = f"{BASE_DIR}/app/static/pdf/agreement"
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
+        # Загрузить файл в директорию
+        from django.core.files.storage import FileSystemStorage
+
+        fs = FileSystemStorage(location=dir)
+        filename = fs.save(file.name, file)
+
+        return redirect("admin:app_custompagemodel_changelist")
+
+    else:
+        # Текущий файл
+        try:
+            data = {"file": os.listdir(f"{BASE_DIR}/app/static/pdf/agreement")[0]}
+        except IndexError:
+            data = {"file": "---файл не загружен---"}
+        return render(request, 'admin/upload_agreement.html', data)
 
