@@ -25,6 +25,8 @@ from django.contrib.auth.models import Group
 import os
 from project.settings.base import BASE_DIR
 
+from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
+
 
 @group_required('Клиенты')
 def index(request):
@@ -241,6 +243,12 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            send_signup_telegram_notification(username=user.username,
+                                              company=user.profile.company,
+                                              first_name=user.first_name,
+                                              last_name=user.last_name,
+                                              phone=user.profile.phone,
+                                              email=user.email)
             return redirect('index')
     else:
         form = SignUpForm()
@@ -256,7 +264,6 @@ def upload_agreement(request):
     if request.method == "POST":
         file = request.FILES['file']
         # Очистить директорию agreement если она не пуста
-        print("work?")
         dir = f"{BASE_DIR}/app/static/pdf/agreement"
         for f in os.listdir(dir):
             os.remove(os.path.join(dir, f))

@@ -51,8 +51,25 @@ def send_telegram_notification(username, first_name, last_name, file_base64, fil
 
 
 
+def send_signup_telegram_notification(username, company, first_name, last_name, phone, email):
+    with db() as cursor:
+        url = get_tg_bot_url()
+        token = get_tg_excel_upload_bot_token()
+        # получаем name,telegram_id активных получателей уведомлений, если у telegram_id есть значение
+        cursor.execute("""SELECT name, telegram_id FROM app_notificationrecipients 
+        						  WHERE is_active=%s AND telegram_id IS NOT NULL""", (True,))
+        notification_recipients = cursor.fetchall()
+        for name, telegram_id in notification_recipients:
+            # отправка сообщения
+            content = f"[NEW REGISTRATION]\n" \
+                      f"Имя пользователя: {username}\n" \
+                      f"Компания: {company}\n" \
+                      f"Имя: {first_name}\n" \
+                      f"Фамилия: {last_name}\n" \
+                      f"Телефон: {phone}\n" \
+                      f"Email: {email}\n"
 
-
+            requests.get(f"{url}{token}/sendMessage?chat_id={telegram_id}&text={content}")
 
 
 if __name__ == "__main__":
