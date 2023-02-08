@@ -70,7 +70,6 @@ class PickupPointAdmin(admin.ModelAdmin):
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ['name', 'handler', 'html_file']
-    fields = ['name', 'handler', 'html_file']
 
 
 

@@ -14,6 +14,7 @@ class Profile(models.Model):
     xml_api_login = models.CharField(max_length=30, verbose_name="Логин клиента")
     xml_api_password = models.CharField(max_length=30, verbose_name="Пароль клиента")
     agreement = models.BooleanField(default=False, verbose_name="Согласие")
+    is_added_to_main_system = models.BooleanField(default=True, verbose_name="Добавлен ли пользователь в основную систему?")
 
     class Meta:
         verbose_name = "Профиль"

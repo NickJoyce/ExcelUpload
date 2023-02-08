@@ -23,14 +23,26 @@
   				<div>
 					  <a href = "{% url 'index' %}">Главная </a> |
 					  <a href = "{% url 'pickup_point_list' %}">Список адресов ПВЗ</a> |
+					{% if request.user.profile.is_added_to_main_system %}
 					  <a href = "{% url 'supply' %}">Поставка на склад</a> |
-					  <a href = "{% url 'order_statuses' %}">Статусы заказов </a> |
-					  <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>
+					{% endif %}
+					  <a href = "{% url 'order_statuses' %}">Статусы заказов </a>
+					{% if request.user.profile.is_added_to_main_system %}
+					  | <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>
+					{% endif %}
 				</div>
 				{% block navbar %} {% endblock navbar %}
 		    </div>
 
+
+
+
 		    <div class="content">
+			<div class="messages">
+				<div  class="error">Загрузка файла и размещение заявки на поставку не активны.
+					Пожалуста, дождитесь подтверждения регистрации менеджером.   </div>
+			</div>
+
 				{% if messages %}
 					<div class="messages">
 						{% for message in messages %}

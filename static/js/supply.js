@@ -23,7 +23,7 @@ for (var i in MarketplaceAddress) {
 }
 
 // событие на клик по селекту
-MarketplaceAddressSelect.addEventListener('click', (event) => {
+MarketplaceAddressSelect.addEventListener('change', (event) => {
   // индекс элемента селекта на который кликнули
   var ind = MarketplaceAddressSelect.selectedIndex;
   // список элементов селекта с адресами

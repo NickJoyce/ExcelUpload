@@ -128,7 +128,7 @@ def supply(request):
             for marketplace in marketplaces:
                 # удаляем даты ранее datefrom
                 for warehouse in marketplace.warehouses.all():
-                    key = f'{marketplace.name}: {warehouse.name}'
+                    key = f'{marketplace.name}: {warehouse.address}'
                     data[key] = []
                     for n, supply_date in enumerate(warehouse.supply_dates):
                         # приводим дату к формату объекту date
@@ -239,6 +239,7 @@ def signup(request):
             user.profile.xml_api_extra = "26"
             user.profile.xml_api_login = form.cleaned_data.get('username')
             user.profile.xml_api_password = form.cleaned_data.get('password1')
+            user.profile.is_added_to_main_system = False
             group = Group.objects.get(name="Клиенты")
             user.groups.add(group)
             user.save()
