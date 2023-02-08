@@ -38,7 +38,7 @@
 
 
 		    <div class="content">
-			{% if request.user.profile.is_added_to_main_system %}
+			{% if not request.user.profile.is_added_to_main_system %}
 				<div class="messages">
 					<div  class="error">Загрузка файла и размещение заявки на поставку не активны.
 						Пожалуйста, дождитесь подтверждения регистрации менеджером.   </div>
