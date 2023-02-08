@@ -38,10 +38,12 @@
 
 
 		    <div class="content">
-			<div class="messages">
-				<div  class="error">Загрузка файла и размещение заявки на поставку не активны.
-					Пожалуста, дождитесь подтверждения регистрации менеджером.   </div>
-			</div>
+			{% if request.user.profile.is_added_to_main_system %}
+				<div class="messages">
+					<div  class="error">Загрузка файла и размещение заявки на поставку не активны.
+						Пожалуйста, дождитесь подтверждения регистрации менеджером.   </div>
+				</div>
+			{% endif %}
 
 				{% if messages %}
 					<div class="messages">
