@@ -2,6 +2,7 @@ import psycopg2
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import base64
+import json
 
 from datetime import datetime, time, date, timedelta
 
@@ -26,7 +27,7 @@ import os
 from project.settings.base import BASE_DIR
 
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
-
+from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
 
 @group_required('Клиенты')
 def index(request):
@@ -97,12 +98,15 @@ def supply(request):
             marketplace, address= marketplace_address.split(": ")
             send_supply_order_request(extra, login, password, supply_date, marketplace, address)
             messages.add_message(request, messages.SUCCESS, 'Заявка успешно отправлена')
+            send_supply_telegram_notification(request.user.username,
+                                             request.user.first_name,
+                                             request.user.last_name,
+                                             marketplace_address,
+                                             request.POST.get("supply_date"))
             return redirect("supply")
 
         else:
             page = Page.objects.get(handler='supply')
-            # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
-            weekdays = [3, 6]
             # задержка (часы)
             time_delay = 36
             # определить текущую дату и время
@@ -111,42 +115,40 @@ def supply(request):
             now_plus_time_delay = now + timedelta(hours=time_delay)
             datefrom = now_plus_time_delay.date()
 
-            # сколько дней начиная с дня отгрузки доступны
-            days_available_number = 60
-            daysOftheWeek = ("ISO Week days start from 1",
-                             "Понедельник",
-                             "Вторник",
-                             "Среда",
-                             "Четверг",
-                             "Пятница",
-                             "Суббота",
-                             "Воскресенье"
-                             )
-            # количнство дней в текущем месяце
-            days = []
-            for i in range(days_available_number):
-                day = Day(date=datefrom.strftime("%d.%m.%Y"),
-                          available_status=None,
-                          day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
-                if datefrom.isoweekday() in weekdays:
-                    day.available_status = True
-                else:
-                    day.available_status = False
-                days.append(day)
-                datefrom += timedelta(days=1)
-            # получаем список маркетплейсов и связанные с ними склады
             marketplaces = Marketplace.objects.all()
-            mp_list = []
+            data = {}
+            days_of_the_week = ["iso format starts with 1",
+                                "Понедельник",
+                                "Вторник",
+                                "Среда",
+                                "Четверг",
+                                "Пятница",
+                                "Суббота",
+                                "Воскресенье"]
             for marketplace in marketplaces:
-                warehouses = Warehouse.objects.filter(marketplace=marketplace)
-                for warehouse in warehouses:
-                    mp_list.append(f"{marketplace.name}: {warehouse.address}")
-            print(mp_list)
+                # удаляем даты ранее datefrom
+                for warehouse in marketplace.warehouses.all():
+                    key = f'{marketplace.name}: {warehouse.name}'
+                    data[key] = []
+                    for n, supply_date in enumerate(warehouse.supply_dates):
+                        # приводим дату к формату объекту date
+                        d = date(*reversed([int(i) for i in supply_date.split('.')]))
+                        # дата подходит
+                        if d >= datefrom:
+                            data[key].append(f"{d.strftime('%d.%m.%Y')} {days_of_the_week[d.isoweekday()]}")
+                        # дата не подходит
+                        else:
+                            ...
+                            # удаляем элемент по индексу
+                            warehouse.supply_dates.pop(n)
+                            # сохраняем объект
+                            warehouse.save()
+            data = json.dumps(data)
             return render(request, 'supply.html', {"page": page,
                                                    "now": now,
                                                    "datefrom": datefrom,
-                                                   "days": days,
-                                                   "mp_list": mp_list})
+                                                   "marketplaces": marketplaces,
+                                                   "data": data})
 
 
 @group_required('Клиенты')
@@ -177,48 +179,49 @@ def order_statuses_table(request):
                                                          "max_date": max_date.strftime("%Y-%m-%d"),
                                                          "min_date": min_date.strftime("%Y-%m-%d")})
 
-@group_required('Клиенты')
-def supply_iframe_module(request):
-    # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
-    weekdays = [3, 6]
-    # задержка (часы)
-    time_delay = 36
-
-    # определить текущую дату и время
-    now = datetime.now().replace(microsecond=0)
-    # получить день начиная с которого доступны поставки
-    now_plus_time_delay = now + timedelta(hours=time_delay)
-    datefrom = now_plus_time_delay.date()
-
-    # сколько дней начиная с дня отгрузки доступны
-    days_available_number = 60
-
-    daysOftheWeek = ("ISO Week days start from 1",
-                     "Понедельник",
-                     "Вторник",
-                     "Среда",
-                     "Четверг",
-                     "Пятница",
-                     "Суббота",
-                     "Воскресенье"
-                     )
-
-    # количнство дней в текущем месяце
-    days = []
-    for i in range(days_available_number):
-        day = Day(date=datefrom.strftime("%d.%m.%Y"),
-                  available_status=None,
-                  day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
-        if datefrom.isoweekday() in weekdays:
-            day.available_status = True
-        else:
-            day.available_status = False
-        days.append(day)
-        datefrom += timedelta(days=1)
-
-    return render(request, 'supply_iframe_module.html', {"now": now,
-                                                        "datefrom": datefrom,
-                                                        "days": days})
+# @group_required('Клиенты')
+# def supply_iframe_module(request):
+#     # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
+#     weekdays = [3, 6]
+#     # задержка (часы)
+#     time_delay = 36
+#
+#     # определить текущую дату и время
+#     now = datetime.now().replace(microsecond=0)
+#     # получить день начиная с которого доступны поставки
+#     now_plus_time_delay = now + timedelta(hours=time_delay)
+#     datefrom = now_plus_time_delay.date()
+#
+#     # сколько дней начиная с дня отгрузки доступны
+#     days_available_number = 60
+#
+#     daysOftheWeek = ("ISO Week days start from 1",
+#                      "Понедельник",
+#                      "Вторник",
+#                      "Среда",
+#                      "Четверг",
+#                      "Пятница",
+#                      "Суббота",
+#                      "Воскресенье"
+#                      )
+#
+#     # количнство дней в текущем месяце
+#     days = []
+#     for i in range(days_available_number):
+#         day = Day(date=datefrom.strftime("%d.%m.%Y"),
+#                   available_status=None,
+#                   day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
+#         if datefrom.isoweekday() in weekdays:
+#             day.available_status = True
+#         else:
+#             day.available_status = False
+#         days.append(day)
+#         datefrom += timedelta(days=1)
+#
+#     return render(request, 'supply_iframe_module.html', {"now": now,
+#                                                         "datefrom": datefrom,
+#                                                         "days": days,
+#                                                          "w": w})
 
 
 

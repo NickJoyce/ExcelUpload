@@ -56,6 +56,11 @@ class MarketplaceAdmin(admin.ModelAdmin):
 class WarehouseAdmin(admin.ModelAdmin):
     list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
     list_filter = ['marketplace']
+    formfield_overrides = {
+        models.JSONField: {'widget': JSONEditorWidget}
+    }
+
+
 
 @admin.register(PickupPoint)
 class PickupPointAdmin(admin.ModelAdmin):

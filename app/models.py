@@ -91,7 +91,7 @@ class Warehouse(models.Model):
     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
     how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
-
+    supply_dates = models.JSONField(verbose_name="Даты поставок", default=list)
 
 
 
