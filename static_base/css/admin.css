@@ -1,2 +1,18 @@
-body {
+.files_upload_wrapper{
+display: grid;
+grid-template-columns: 1fr 1fr;
+margin: 0 auto;
+text-align: center;
+gap: 10px;
+}
+
+.files_upload_wrapper > div {
+border: 1px solid grey;
+display: grid;
+grid-template-rows: 2fr 1fr 3fr;
+align-items: center;
+justify-items: center;
+}
+
+.files_upload_wrapper > div > div:nth-child(2) {
 }

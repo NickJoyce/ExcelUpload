@@ -143,8 +143,7 @@ class Page(models.Model):
         return f"{self.name}"
 
 
-class CustomPageModel(models.Model):
+class CustomAdminPage(models.Model):
     class Meta:
-        verbose_name = 'Загрузка договора-оферты'
-        verbose_name_plural = "Загрузка договора-оферты"
-        app_label = 'app'  # or another app to put your custom view
+        verbose_name = 'Хрень'
+        verbose_name_plural = "Хрень"

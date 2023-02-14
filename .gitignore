@@ -2,7 +2,8 @@
 .pytest_cache/
 __pycache__/
 venv/
-.env
+.envs
 quick_test.py
 notes.txt
 Makefile
+tests/

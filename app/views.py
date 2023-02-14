@@ -7,7 +7,6 @@ import json
 from datetime import datetime, time, date, timedelta
 
 from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
-from .utils import Day
 
 from .decorators import group_required
 from .tasks import make_handling_task
@@ -264,26 +263,5 @@ def signup(request):
                                                         "path_to_agreement": path_to_agreement})
 
 
-def upload_agreement(request):
-    if request.method == "POST":
-        file = request.FILES['file']
-        # Очистить директорию agreement если она не пуста
-        dir = f"{BASE_DIR}/app/static/pdf/agreement"
-        for f in os.listdir(dir):
-            os.remove(os.path.join(dir, f))
-        # Загрузить файл в директорию
-        from django.core.files.storage import FileSystemStorage
 
-        fs = FileSystemStorage(location=dir)
-        filename = fs.save(file.name, file)
-
-        return redirect("admin:app_custompagemodel_changelist")
-
-    else:
-        # Текущий файл
-        try:
-            data = {"file": os.listdir(f"{BASE_DIR}/app/static/pdf/agreement")[0]}
-        except IndexError:
-            data = {"file": "---файл не загружен---"}
-        return render(request, 'admin/upload_agreement.html', data)
 

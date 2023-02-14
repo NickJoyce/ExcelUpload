@@ -81,17 +81,17 @@ def make_handling(user_id, file_base64, file_name):
             orders = get_orders(df)
             for order in orders:
                 ...
-            #     print("-"*50)
-            #     print(order.receiver_name)
-            #     print(order.code)
-            #     print(order.phone)
-            #     print(order.address)
-            #     print(order.sku)
-            #     print(order.size)
-            #     print(order.product_name)
-            #     print(order.status)
-            #     print(order.price)
-            #     print("-" * 50)
+                # print("-"*50)
+                # print(order.receiver_name)
+                # print(order.code)
+                # print(order.phone)
+                # print(order.address)
+                # print(order.sku)
+                # print(order.size)
+                # print(order.product_name)
+                # print(order.status)
+                # print(order.price)
+                # print("-" * 50)
 
             # отправка запроса
             send_request(orders, xml_api_extra, xml_api_login, xml_api_password)

@@ -13,21 +13,144 @@ import xml.etree.ElementTree as ET
 class Order():
     def __init__(self, receiver_name, code, phone, address, date,
                  sku="", size="", product_name="", status="", price="", sku_size=None):
-        self.receiver_name = receiver_name
-        self.code = code
-        self.phone = phone
-        self.address = address
-        self.date = date
-        self.sku = sku
-        self.size = size
-        self.product_name = product_name
-        self.status = status
-        self.price = price
+        self._receiver_name = receiver_name
+        self._code = code
+        self._phone = phone
+        self._address = address
+        self._date = date
+        self._sku = sku
+        self._size = size
+        self._product_name = product_name
+        self._status = status
+        self._price = price
         self.sku_size = sku_size
+
+
+    @property
+    def receiver_name(self):
+        return self._receiver_name
+
+    @receiver_name.setter
+    def receiver_name(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._receiver_name = value
+
+
+    @property
+    def code(self):
+        return self._code
+
+    @code.setter
+    def code(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._code = value
+
+
+    @property
+    def phone(self):
+        return self._phone
+
+    @phone.setter
+    def phone(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._phone = value
+
+
+    @property
+    def address(self):
+        return self._address
+
+    @address.setter
+    def address(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._address = value
+
+
+    @property
+    def date(self):
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._date = value
+
+
+    @property
+    def sku(self):
+        return self._sku
+
+    @sku.setter
+    def sku(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._sku = value
+
+
+    @property
+    def size(self):
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._size = value
+
+
+    @property
+    def product_name(self):
+        return self._product_name
+
+    @product_name.setter
+    def product_name(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._product_name = value
+
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._status = value
+
+
+    @property
+    def price(self):
+        return self._price
+
+    @price.setter
+    def price(self, value):
+        if value and isinstance(value, str):
+            value = self.replace_xml_unsuitable_simbols_in_string(value)
+        self._price = value
+
 
     def __str__(self):
         return f"Order({self.receiver_name}, {self.code}, {self.phone}, {self.address}, {self.date}, {self.sku}," \
                f"{self.size}, {self.product_name}, {self.status}, {self.price})"
+
+
+    @staticmethod
+    def replace_xml_unsuitable_simbols_in_string(str_):
+        replace_list = [("&", "&amp;"),
+                        ("<", "&lt;"),
+                        (">", "&gt;"),
+                        ("\"", "&quot;")]
+        for i in replace_list:
+            if i[0] in str_:
+                str_ = str_.replace(i[0], i[1])
+        return str_
 
 
 
@@ -172,6 +295,9 @@ def send_supply_order_request(extra, login, password, supply_date, marketplace, 
                       address=address)
         response = requests.post(os.getenv("API_PATH"), data = rendered_template.encode())
         print(response.text)
+
+
+
 
 
 

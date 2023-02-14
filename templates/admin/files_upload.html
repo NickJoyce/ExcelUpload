@@ -1,0 +1,46 @@
+{% extends "admin/base_site.html" %}
+
+{% load static %}
+{% load i18n %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+        {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+{% endblock breadcrumbs %}
+
+{% block content %}
+<div class="files_upload_wrapper">
+
+    {% for file in files %}
+        <div>
+            <h2>{{ file.th }}</h2>
+            <div>Текущий файл: {{ file.file_name }}</div>
+            <div>
+                <form method="POST" action="" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <div>
+                        <input type="hidden" name="form_name" value="{{ file.form_name }}">
+                        <input type="file" name="file" required
+                               accept="{{ file.input_accept }}">
+                        <input type="submit" value="Отправить" >
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
