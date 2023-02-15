@@ -7,5 +7,5 @@ quick_test.py
 notes.txt
 Makefile
 tests/
-app/files/agreement/.*
-app/files/pickup_points/.*
+app/files/agreement/**
+app/files/pickup_points/**
