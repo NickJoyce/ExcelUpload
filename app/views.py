@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import base64
 import json
-
+import mimetypes
+from django.http import FileResponse
 from datetime import datetime, time, date, timedelta
 
 from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
@@ -14,9 +15,7 @@ from .tasks import make_handling_task
 from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
 from app.excel_file_handling.utils import send_supply_order_request
 
-from django.contrib.auth.models import User
-
-import traceback
+from django.http.response import HttpResponse
 
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
@@ -256,12 +255,17 @@ def signup(request):
     else:
         form = SignUpForm()
 
-    dir = f"{BASE_DIR}/app/static/pdf/agreement"
-    file_name = os.listdir(dir)[0]
-    path_to_agreement = f"pdf/agreement/{file_name}"
-    return render(request, 'registration/signup.html', {'form': form,
-                                                        "path_to_agreement": path_to_agreement})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
-
-
+def download_file(request, dir):
+    try:
+        # директория где лежит загружаемый файл
+        filedir = os.path.join(BASE_DIR, 'app', 'files', dir)
+        # имя загружаемого файла
+        filename = os.listdir(filedir)[0]
+        return FileResponse(open(os.path.join(filedir, filename), 'rb'))
+    except IndexError:
+        # возвращаемся на предыдущую страницу
+        messages.add_message(request, messages.ERROR, "Файл не загружен")
+        return redirect(request.META.get('HTTP_REFERER'))

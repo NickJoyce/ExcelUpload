@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block signup %}
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="no_auth_menu">
   <button class="logout_btn" onclick="document.location='{% url 'login' %}'">Вход</button>
 </div>
@@ -11,7 +18,7 @@
       {% if field.name == "agreement" %}
         <p>
           {{ field }} Я ознакомлен с
-          <a href="{% static path_to_agreement %}" target="_blank">договором-офертой</a>
+          <a href="{% url 'download_file' dir='agreement' %}">договором-офертой</a>
           и принимаю указанные в нем условия
           {% if field.help_text %}
             <small style="color: grey">{{ field.help_text }}</small>

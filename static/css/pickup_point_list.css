@@ -26,4 +26,11 @@ table tr {
 border: 1px solid #dde2e6;
 }
 
+.download_pickup_points_file {
+text-align: right;
+padding: 20px;
+font-size: 15px;
+text-decoration: underline;
+}
+
 

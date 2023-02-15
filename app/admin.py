@@ -96,11 +96,11 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
     def files_upload(self, request):
         files = [
                 File(th="Загрузка договора-оферты (.pdf)",
-                      file_path=f"{BASE_DIR}/app/static/pdf/agreement",
+                      file_path=f"{BASE_DIR}/app/files/agreement",
                       form_name="agreement",
                       input_accept="application/pdf"),
                 File(th="Загрузка списка ПВЗ (.xls, .xlsx)",
-                      file_path=f"{BASE_DIR}/app/static/excel/pickup_points",
+                      file_path=f"{BASE_DIR}/app/files/pickup_points",
                       form_name="pickup_points",
                       input_accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel")
                  ]
@@ -128,8 +128,8 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
             return TemplateResponse(request, "admin/files_upload.html", data)
 
     def pickup_points_file_dandling(self, request, file):
-        messages.add_message(request, messages.ERROR, 'Файл успешно загружен но нужна обработка')
-
+        # messages.add_message(request, messages.ERROR, 'Обработка файла не выполнена')
+        ...
 
 
 
