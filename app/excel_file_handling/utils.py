@@ -206,9 +206,10 @@ def get_orders(df):
                 if str(order.size).lower() in bad_size_value:
                         order.size = ""
 
-
-
-            order.code = str(int(order.code))
+            try:
+                order.code = str(int(order.code))
+            except ValueError:
+                raise ValueError("Неверный формат кода выдачи")
 
             if len(order.code) == 1:
                 order.code = "00" + order.code
