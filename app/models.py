@@ -122,7 +122,7 @@ class PickupPoint(models.Model):
 
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.address}"
 
 class Page(models.Model):
     handler = models.CharField(max_length=200, verbose_name="Функция-обработчик")
