@@ -108,7 +108,7 @@ class PickupPoint(models.Model):
     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
                                     related_name='pickup_points')
     name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование пункта выдачи")
-    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес пункта выдачи")
+    address = models.CharField(max_length=100, verbose_name="Адрес пункта выдачи")
     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы пункта выдачи")
     how_to_get_there =models.TextField(null=True, blank=True, verbose_name="Как добраться до пункта выдачи")
 

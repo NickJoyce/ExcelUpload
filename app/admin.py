@@ -5,20 +5,13 @@ from django.db import models
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
 from .models import Marketplace, Warehouse, PickupPoint, Page, CustomAdminPage
 from django_json_widget.widgets import JSONEditorWidget
-from django.contrib import admin
 from django.template.response import TemplateResponse
 from django.urls import path
-from app import views
-from project.settings.base import BASE_DIR
-from django import apps
 import os
 from django.shortcuts import redirect
-from .utils import File
+from .utils import File, pickup_points_file_handling
 from django.core.files.storage import FileSystemStorage
-from django.contrib import messages
-from project.settings.base import BASE_DIR, FILE_LOCATIONS
-
-
+from project.settings.base import FILE_LOCATIONS
 
 
 class ProfileInline(admin.StackedInline):
@@ -71,28 +64,25 @@ class WarehouseAdmin(admin.ModelAdmin):
     }
 
 
-
 @admin.register(PickupPoint)
 class PickupPointAdmin(admin.ModelAdmin):
     list_display = ['address', 'marketplace', 'opening_hours', 'how_to_get_there']
     list_filter = ['marketplace']
+
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
     list_display = ['name', 'handler', 'html_file']
 
 
-
 @admin.register(CustomAdminPage)
 class CustomAdminPageAdmin(admin.ModelAdmin):
-
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
             path('files_upload/', self.admin_site.admin_view(self.files_upload), name="files_upload"),
         ]
         return my_urls + urls
-
 
     def files_upload(self, request):
         files = [
@@ -119,7 +109,7 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
                     fs.save(file.name, file)
                     break
             if form_ident == "pickup_points":
-                self.pickup_points_file_handling(request, file)
+                pickup_points_file_handling(request, file)
 
             return redirect("admin:files_upload")
         else:
@@ -128,103 +118,5 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
             data = {**data, **self.admin_site.each_context(request)}
             return TemplateResponse(request, "admin/files_upload.html", data)
 
-    def pickup_points_file_handling(self, request, file):
-        # messages.add_message(request, messages.ERROR, 'Обработка файла не выполнена')
-        ...
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class MyAdminSite(admin.AdminSite):
-#     def get_app_list(self, request):
-#         apps = [{"name": "appgg",
-#                 "models":[
-#                  {"name:": "link", "perms": {"change": True}, "admin_url": "https://web.telegram.org/z/#520704135"}
-#                 ]
-#                  }]
-#         return apps + super().get_app_list(request)
-#
-# my_site = MyAdminSite(name="my_site")
-
-#
-#     def get_app_list(self, request):
-#         apps = [{'name': 'Apps',
-#                 "models":[
-#                  {'name': 'Загрузка договора-оферты2', 'perms': {'add': True, 'change': True, 'delete': True, 'view': True}, 'admin_url': '/admin/app/custompagemodel/'}
-#                 ]
-#                  }]
-#         return apps + self.admin_site.get_app_list(request)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 admin.site.site_title = "Администрирование account.zvwb.ru"
 admin.site.site_header = "Администрирование account.zvwb.ru"
-
-
-# class MyAdminSite(admin.AdminSite):
-#     def get_app_list(self, request):
-#         apps = [{"name": "app",
-#                 "models":[
-#                  {"name:": "link", "perms": {"change": True}, "admin_url": "https://web.telegram.org/z/#520704135"}
-#                 ]
-#                  }]
-#         return apps + super(MyAdminSite, self).get_app_list(request)
-
-
-# from django.urls import path
-# from django.contrib import admin
-# from django.http import HttpResponse
-#
-# class CustomAdminSite(admin.AdminSite):
-#
-#     def my_view(self, request):
-#         return HttpResponse("Hello!")
-#
-#     def get_urls(self):
-#         urls = super(CustomAdminSite, self).get_urls()
-#         custom_urls = [
-#             path('testpath', self.admin_view(self.my_view), name="testview"),
-#         ]
-#         return custom_urls + urls
-#
-#
-# class TemplateAdmin(admin.ModelAdmin):
-#     ...
-#     change_form_template = 'admin/test.html'
-
-

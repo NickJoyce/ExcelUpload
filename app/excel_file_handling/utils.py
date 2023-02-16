@@ -298,9 +298,6 @@ def send_supply_order_request(extra, login, password, supply_date, marketplace, 
 
 
 
-
-
-
 if __name__ == "__main__":
     response = send_order_statuses_request(extra='26',
                                 login="GAPS",

@@ -1,32 +1,22 @@
-import psycopg2
 from django.shortcuts import render, redirect
 from django.contrib import messages
 import base64
 import json
-import mimetypes
 from django.http import FileResponse
 from datetime import datetime, time, date, timedelta
-
-from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
+from .models import DateTimeSettings, Page, Marketplace
 from .utils import File
 from .decorators import group_required
 from .tasks import make_handling_task
-
 from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
 from app.excel_file_handling.utils import send_supply_order_request
-
-from django.http.response import HttpResponse
-
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from django.contrib.auth.models import Group
-
 import os
-from project.settings.base import BASE_DIR, FILE_LOCATIONS
-
-
+from project.settings.base import FILE_LOCATIONS
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
-from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification\
+from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
 
 
 
@@ -50,7 +40,6 @@ def handling(request):
     start_time = time(**date_time_settings["start_time"])
     end_time = time(**date_time_settings["end_time"])
     error_text = date_time_settings["error_text"]
-
 
     # получаем текущие дату, время и день недели
     now = datetime.now().replace(microsecond=0)
@@ -180,52 +169,6 @@ def order_statuses_table(request):
                                                          "dateto": dateto.strftime("%Y-%m-%d"),
                                                          "max_date": max_date.strftime("%Y-%m-%d"),
                                                          "min_date": min_date.strftime("%Y-%m-%d")})
-
-# @group_required('Клиенты')
-# def supply_iframe_module(request):
-#     # получить дни недели когда возможны отгрузки [1-7] и сколько часов должно пройти от настоящего момента
-#     weekdays = [3, 6]
-#     # задержка (часы)
-#     time_delay = 36
-#
-#     # определить текущую дату и время
-#     now = datetime.now().replace(microsecond=0)
-#     # получить день начиная с которого доступны поставки
-#     now_plus_time_delay = now + timedelta(hours=time_delay)
-#     datefrom = now_plus_time_delay.date()
-#
-#     # сколько дней начиная с дня отгрузки доступны
-#     days_available_number = 60
-#
-#     daysOftheWeek = ("ISO Week days start from 1",
-#                      "Понедельник",
-#                      "Вторник",
-#                      "Среда",
-#                      "Четверг",
-#                      "Пятница",
-#                      "Суббота",
-#                      "Воскресенье"
-#                      )
-#
-#     # количнство дней в текущем месяце
-#     days = []
-#     for i in range(days_available_number):
-#         day = Day(date=datefrom.strftime("%d.%m.%Y"),
-#                   available_status=None,
-#                   day_of_the_week=daysOftheWeek[datefrom.isoweekday()])
-#         if datefrom.isoweekday() in weekdays:
-#             day.available_status = True
-#         else:
-#             day.available_status = False
-#         days.append(day)
-#         datefrom += timedelta(days=1)
-#
-#     return render(request, 'supply_iframe_module.html', {"now": now,
-#                                                         "datefrom": datefrom,
-#                                                         "days": days,
-#                                                          "w": w})
-
-
 
 
 def signup(request):
