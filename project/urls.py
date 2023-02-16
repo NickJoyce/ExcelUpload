@@ -42,6 +42,6 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('download-file/<str:dir>', views.download_file, name='download_file')
+    path('download-file/<str:file_type>', views.download_file, name='download_file')
 ]
 

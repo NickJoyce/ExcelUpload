@@ -255,4 +255,11 @@ CELERY_ACCEPT_CONTENT = ["application/json",]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
+# iframe
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# uploaded file locations
+FILE_LOCATIONS = {
+    "agreement": os.path.join(BASE_DIR, 'app', 'files', 'agreement'),
+    "pickup_points": os.path.join(BASE_DIR, 'app', 'files', 'pickup_points')
+}

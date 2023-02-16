@@ -18,7 +18,7 @@
       {% if field.name == "agreement" %}
         <p>
           {{ field }} Я ознакомлен с
-          <a href="{% url 'download_file' dir='agreement' %}">договором-офертой</a>
+          <a href="{% url 'download_file' file_type='agreement' %}">договором-офертой</a>
           и принимаю указанные в нем условия
           {% if field.help_text %}
             <small style="color: grey">{{ field.help_text }}</small>

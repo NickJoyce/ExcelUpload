@@ -8,7 +8,7 @@ from django.http import FileResponse
 from datetime import datetime, time, date, timedelta
 
 from .models import DateTimeSettings, Marketplace, Warehouse, PickupPoint, Page
-
+from .utils import File
 from .decorators import group_required
 from .tasks import make_handling_task
 
@@ -22,10 +22,13 @@ from .forms import SignUpForm
 from django.contrib.auth.models import Group
 
 import os
-from project.settings.base import BASE_DIR
+from project.settings.base import BASE_DIR, FILE_LOCATIONS
+
 
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
-from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
+from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification\
+
+
 
 @group_required('Клиенты')
 def index(request):
@@ -74,7 +77,8 @@ def handling(request):
 def pickup_point_list(request):
     page = Page.objects.get(handler='pickup_point_list')
     marketplaces = Marketplace.objects.all()
-    return render(request, 'pickup_point_list.html', {"page": page, "marketplaces": marketplaces})
+    return render(request, 'pickup_point_list.html', {"page": page,
+                                                      "marketplaces": marketplaces})
 
 
 @group_required('Клиенты')
@@ -257,15 +261,13 @@ def signup(request):
 
     return render(request, 'registration/signup.html', {'form': form})
 
-
-def download_file(request, dir):
-    try:
-        # директория где лежит загружаемый файл
-        filedir = os.path.join(BASE_DIR, 'app', 'files', dir)
-        # имя загружаемого файла
-        filename = os.listdir(filedir)[0]
-        return FileResponse(open(os.path.join(filedir, filename), 'rb'))
-    except IndexError:
-        # возвращаемся на предыдущую страницу
-        messages.add_message(request, messages.ERROR, "Файл не загружен")
+def download_file(request, file_type):
+    # директория где лежит загружаемый файл
+    file_path = FILE_LOCATIONS[file_type]
+    # имя загружаемого файла
+    filename = File.get_file_name(file_path)
+    if filename == "---файл не загружен---":
+        messages.add_message(request, messages.ERROR, filename)
         return redirect(request.META.get('HTTP_REFERER'))
+    else:
+        return FileResponse(open(os.path.join(file_path, filename), 'rb'))

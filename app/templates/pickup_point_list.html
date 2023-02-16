@@ -19,7 +19,7 @@
 {% block content %}
 {% include "menu_page_template.html" %}
 <div class="option_wrap">
-    <div class="download_pickup_points_file"><a href="{% url 'download_file' dir='pickup_points' %}">Скачать список ПВЗ (excel)</a></div>
+    <div class="download_pickup_points_file"><a href="{% url 'download_file' file_type='pickup_points' %}">Скачать список ПВЗ (excel)</a></div>
     <div class="mp_tables_wrap">
         {%  for marketplace in marketplaces %}
             {% if  marketplace.pickup_points.all %}

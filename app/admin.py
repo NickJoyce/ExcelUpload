@@ -16,6 +16,7 @@ from django.shortcuts import redirect
 from .utils import File
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
+from project.settings.base import BASE_DIR, FILE_LOCATIONS
 
 
 
@@ -96,29 +97,29 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
     def files_upload(self, request):
         files = [
                 File(th="Загрузка договора-оферты (.pdf)",
-                      file_path=f"{BASE_DIR}/app/files/agreement",
-                      form_name="agreement",
+                      file_path=FILE_LOCATIONS["agreement"],
+                      form_ident="agreement",
                       input_accept="application/pdf"),
                 File(th="Загрузка списка ПВЗ (.xls, .xlsx)",
-                      file_path=f"{BASE_DIR}/app/files/pickup_points",
-                      form_name="pickup_points",
+                      file_path=FILE_LOCATIONS["pickup_points"],
+                      form_ident="pickup_points",
                       input_accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel")
                  ]
         if request.method == "POST":
             file = request.FILES['file']
-            form_name = request.POST.get('form_name')
-            for file_ in files:
-                if file_.form_name == form_name:
+            form_ident = request.POST.get('form_ident')
+            print(form_ident)
+            for file_item in files:
+                if file_item.form_ident == form_ident:
                     # Очистить директорию agreement если она не пуста
-                    dir = file_.file_path
-                    for f in os.listdir(dir):
-                        os.remove(os.path.join(dir, f))
+                    for f in os.listdir(file_item.file_path):
+                        os.remove(os.path.join(file_item.file_path, f))
                     # Загрузить файл в директорию
-                    fs = FileSystemStorage(location=dir)
-                    filename = fs.save(file.name, file)
+                    fs = FileSystemStorage(location=file_item.file_path)
+                    fs.save(file.name, file)
                     break
-            if form_name == "pickup_points":
-                self.pickup_points_file_dandling(request, file)
+            if form_ident == "pickup_points":
+                self.pickup_points_file_handling(request, file)
 
             return redirect("admin:files_upload")
         else:
@@ -127,7 +128,7 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
             data = {**data, **self.admin_site.each_context(request)}
             return TemplateResponse(request, "admin/files_upload.html", data)
 
-    def pickup_points_file_dandling(self, request, file):
+    def pickup_points_file_handling(self, request, file):
         # messages.add_message(request, messages.ERROR, 'Обработка файла не выполнена')
         ...
 
