@@ -201,7 +201,6 @@ def signup(request):
             return redirect('index')
     else:
         form = SignUpForm()
-
     return render(request, 'registration/signup.html', {'form': form})
 
 def download_file(request, file_type):
