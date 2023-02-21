@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<neworder newfolder="NO">
+<neworder newfolder="YES">
 <auth extra="{{ extra }}" login="{{ login }}" pass="{{ password }}"></auth>
    <order>
      <receiver>

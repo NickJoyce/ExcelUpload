@@ -227,7 +227,6 @@ CSRF_TRUSTED_ORIGINS = ['http://*.zvwb.ru/']
 
 
 
-
 # telegram bots
 TG_BOT_URL = os.getenv('TG_BOT_URL')
 TG_EXCEL_UPLOAD_BOT_TOKEN = os.getenv('TG_EXCEL_UPLOAD_BOT_TOKEN')
