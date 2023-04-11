@@ -12,15 +12,36 @@ from django.shortcuts import redirect
 from .utils import File, pickup_points_file_handling
 from django.core.files.storage import FileSystemStorage
 from project.settings.base import FILE_LOCATIONS
+from django.utils.html import format_html
+
+
+
 
 
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
-    fk_name = 'user'
+
 
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
+    list_display = ["username", "email", "first_name", "last_name", "get_is_added_to_main_system"]
+    list_filter = ["profile__is_added_to_main_system"]
+
+
+    @admin.display(description='ЛК Активирован?')
+    def get_is_added_to_main_system(self, obj) -> str:
+        if obj.profile.is_added_to_main_system:
+            return format_html(
+                f"<img src='/static/admin/img/icon-yes.svg' alt='True'>"
+            )
+        elif obj.profile.is_added_to_main_system == False:
+            return format_html(
+                f"<img src='/static/admin/img/icon-no.svg' alt='False'>"
+            )
+        else:
+            return "-"
+
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
@@ -29,6 +50,7 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
 
 
 @admin.register(JsonObject)

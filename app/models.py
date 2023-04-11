@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from ckeditor_uploader.fields import RichTextUploadingField
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     company = models.CharField(max_length=30, null=True, blank=True, verbose_name="Компания")
@@ -14,11 +15,11 @@ class Profile(models.Model):
     xml_api_login = models.CharField(max_length=30, verbose_name="Логин клиента")
     xml_api_password = models.CharField(max_length=30, verbose_name="Пароль клиента")
     agreement = models.BooleanField(default=False, verbose_name="Согласие")
-    is_added_to_main_system = models.BooleanField(default=True, verbose_name="Добавлен ли пользователь в основную систему?")
+    is_added_to_main_system = models.BooleanField(default=True, verbose_name="ЛК активирован?")
 
     class Meta:
-        verbose_name = "Профиль"
-        verbose_name_plural = "Профили"
+        verbose_name = "Профиль пользователя"
+        verbose_name_plural = "Профили пользователей"
 
     def __str__(self):
         return f"{self.user}"
