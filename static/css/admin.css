@@ -16,3 +16,7 @@ justify-items: center;
 
 .files_upload_wrapper > div > div:nth-child(2) {
 }
+
+.custom {
+background: red;
+}

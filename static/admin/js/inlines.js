@@ -71,6 +71,7 @@
             addInlineDeleteButton(row);
             row.find("*").each(function() {
                 updateElementIndex(this, options.prefix, totalForms.val());
+                updateElementIndex(this, options.prefix, totalForms.val());
             });
             // Insert the new form when it has been fully edited.
             row.insertBefore($(template));

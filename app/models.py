@@ -6,8 +6,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from ckeditor_uploader.fields import RichTextUploadingField
 
 
+
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     company = models.CharField(max_length=30, null=True, blank=True, verbose_name="Компания")
     phone = models.CharField(max_length=30, null=True, blank=True,  verbose_name="Телефон")
     inn = models.CharField(max_length=30, null=True, blank=True,  verbose_name="ИНН")
@@ -17,9 +19,6 @@ class Profile(models.Model):
     agreement = models.BooleanField(default=False, verbose_name="Согласие")
     is_added_to_main_system = models.BooleanField(default=True, verbose_name="ЛК активирован?")
 
-    class Meta:
-        verbose_name = "Профиль пользователя"
-        verbose_name_plural = "Профили пользователей"
 
     def __str__(self):
         return f"{self.user}"

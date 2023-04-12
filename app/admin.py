@@ -13,20 +13,47 @@ from .utils import File, pickup_points_file_handling
 from django.core.files.storage import FileSystemStorage
 from project.settings.base import FILE_LOCATIONS
 from django.utils.html import format_html
-
-
-
+from django.utils.translation import gettext_lazy as _
 
 
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
+    fieldsets = (
+        (None, {
+            'fields': ('phone', 'company', 'inn'),
+        }),
+        ('Вход в сиcтему', {
+            'fields': ('xml_api_extra', 'xml_api_login', 'xml_api_password'),
+        }),
+        ('Прочее', {
+            'fields': ('agreement', 'is_added_to_main_system',),
+        }),
+    )
+
 
 
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
+    list_select_related = ('profile',)
     list_display = ["username", "email", "first_name", "last_name", "get_is_added_to_main_system"]
     list_filter = ["profile__is_added_to_main_system"]
+
+
+    fieldsets = (
+        (_('Permissions'), {'classes': ('collapse',),
+                            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),}),
+        (_('Important dates'), {'classes': ('collapse',),
+                                'fields': ('last_login', 'date_joined')}),
+        ('Регистрационные данные', {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
+)
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'password1', 'password2'),}),)
+
 
 
     @admin.display(description='ЛК Активирован?')

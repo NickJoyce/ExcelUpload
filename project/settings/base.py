@@ -262,3 +262,5 @@ FILE_LOCATIONS = {
     "agreement": os.path.join(BASE_DIR, 'app', 'files', 'agreement'),
     "pickup_points": os.path.join(BASE_DIR, 'app', 'files', 'pickup_points')
 }
+
+AUTH_PROFILE_MODULE = 'models.Profile'
