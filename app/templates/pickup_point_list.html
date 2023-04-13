@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Список адресов ПВЗ {% endblock title %}
+{% block title %} {{ page.title }} {% endblock title %}
 {% block head %}
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
 <link href="{% static 'css/pickup_point_list.css' %}" rel="stylesheet">
