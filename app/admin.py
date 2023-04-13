@@ -144,12 +144,15 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
                 File(th="Загрузка списка ПВЗ (.xls, .xlsx)",
                       file_path=FILE_LOCATIONS["pickup_points"],
                       form_ident="pickup_points",
-                      input_accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel")
+                      input_accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"),
+                File(th="Загрузка Соглашения об обработке персональных данных (.pdf)",
+                     file_path=FILE_LOCATIONS["personal_data_agreement"],
+                     form_ident="personal_data_agreement",
+                     input_accept="application/pdf")
                  ]
         if request.method == "POST":
             file = request.FILES['file']
             form_ident = request.POST.get('form_ident')
-            print(form_ident)
             for file_item in files:
                 if file_item.form_ident == form_ident:
                     # Очистить директорию agreement если она не пуста

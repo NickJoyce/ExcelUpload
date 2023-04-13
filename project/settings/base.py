@@ -260,7 +260,8 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 # uploaded file locations
 FILE_LOCATIONS = {
     "agreement": os.path.join(BASE_DIR, 'app', 'files', 'agreement'),
-    "pickup_points": os.path.join(BASE_DIR, 'app', 'files', 'pickup_points')
+    "pickup_points": os.path.join(BASE_DIR, 'app', 'files', 'pickup_points'),
+    "personal_data_agreement": os.path.join(BASE_DIR, 'app', 'files', 'personal_data_agreement'),
 }
 
 AUTH_PROFILE_MODULE = 'models.Profile'

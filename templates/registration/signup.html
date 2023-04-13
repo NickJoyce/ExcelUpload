@@ -18,7 +18,7 @@
       {% if field.name == "agreement" %}
         <p>
           {{ field }} Я ознакомлен с
-          <a href="{% url 'download_file' file_type='agreement' %}">договором-офертой</a>
+          <a href="{% url 'download_file' file_type='agreement' %}">Договором-офертой</a>
           и принимаю указанные в нем условия
           {% if field.help_text %}
             <small style="color: grey">{{ field.help_text }}</small>
@@ -27,6 +27,20 @@
             <p style="color: red">{{ error }}</p>
           {% endfor %}
         </p>
+
+      {% elif field.name == "personal_data_agreement"%}
+        <p>
+          {{ field }} Я согласен на обработку персональных данных в соответствии с
+          <a href="{% url 'download_file' file_type='personal_data_agreement' %}">Соглашением</a>
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </p>
+
+
       {% else %}
 
       <p>

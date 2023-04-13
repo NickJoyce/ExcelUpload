@@ -16,7 +16,8 @@ class Profile(models.Model):
     xml_api_extra = models.CharField(max_length=30, verbose_name="Экстра-код")
     xml_api_login = models.CharField(max_length=30, verbose_name="Логин клиента")
     xml_api_password = models.CharField(max_length=30, verbose_name="Пароль клиента")
-    agreement = models.BooleanField(default=False, verbose_name="Согласие")
+    agreement = models.BooleanField(default=False, verbose_name="Принятие договора-оферты")
+    personal_data_agreement = models.BooleanField(default=False, verbose_name="Согласие на обработку персональных данных")
     is_added_to_main_system = models.BooleanField(default=True, verbose_name="ЛК активирован?")
 
 

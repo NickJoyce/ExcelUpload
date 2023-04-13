@@ -11,7 +11,12 @@ class SignUpForm(UserCreationForm):
     last_name = forms.CharField(max_length=30, required=True, label="Фамилия")
     phone = forms.CharField(max_length=30, required=True, label="Телефон")
     email = forms.EmailField(max_length=254, required=True, label="Email")
+    # договор-оферта
     agreement = forms.BooleanField(required=False)
+    #   соглашение на обработку персональных данных
+    personal_data_agreement = forms.BooleanField(required=False)
+
+
 
     class Meta:
         model = User
@@ -24,7 +29,8 @@ class SignUpForm(UserCreationForm):
                   'username',
                   'password1',
                   'password2',
-                  'agreement')
+                  'agreement',
+                  'personal_data_agreement')
 
 
     def clean_agreement(self):
@@ -33,4 +39,8 @@ class SignUpForm(UserCreationForm):
             raise ValidationError("Необходимо принять условия договора-оферты")
         return agreement
 
-
+    def clean_personal_data_agreement(self):
+        personal_data_agreement = self.cleaned_data['personal_data_agreement']
+        if not personal_data_agreement:
+            raise ValidationError("Необходимо согласиться на обработку персональных данных")
+        return personal_data_agreement
