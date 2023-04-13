@@ -122,6 +122,7 @@ class PickupPointAdmin(admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
+    fields = ['name', 'is_active', 'sorting_order', 'title', 'header', 'description']
     list_display = ['name', 'is_active', 'sorting_order']
 
 

@@ -127,10 +127,10 @@ class PickupPoint(models.Model):
 class Page(models.Model):
     handler = models.CharField(max_length=200, verbose_name="Функция-обработчик = url")
     html_file = models.CharField(max_length=200, verbose_name="HTML файл")
-    name = models.CharField(max_length=200, verbose_name="Наименование страницы")
-    title = models.CharField(max_length=200, verbose_name="Тэг title")
+    name = models.CharField(max_length=200, verbose_name="Имя (в меню)")
+    title = models.CharField(max_length=200, verbose_name="Текст во вкладке браузера")
     header = models.CharField(max_length=200, null=True, blank=True, verbose_name="Заголовок страницы")
-    description = RichTextUploadingField(null=True, blank=True,verbose_name="Описание")
+    description = RichTextUploadingField(null=True, blank=True, verbose_name="Описание")
     is_active = models.BooleanField(verbose_name="Показ в меню", default=True)
     sorting_order = models.IntegerField(verbose_name="Порядок сортировки", default=1)
 
