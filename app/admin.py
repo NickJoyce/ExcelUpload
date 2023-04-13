@@ -45,7 +45,8 @@ class CustomUserAdmin(UserAdmin):
                             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),}),
         (_('Important dates'), {'classes': ('collapse',),
                                 'fields': ('last_login', 'date_joined')}),
-        ('Регистрационные данные', {'fields': ('username', 'password')}),
+        ('Регистрационные данные', {'classes': ('collapse',),
+                                    'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
 )
 
@@ -121,7 +122,7 @@ class PickupPointAdmin(admin.ModelAdmin):
 
 @admin.register(Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ['name', 'handler', 'html_file']
+    list_display = ['name', 'is_active', 'sorting_order']
 
 
 @admin.register(CustomAdminPage)

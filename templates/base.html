@@ -20,14 +20,26 @@
 		    </div>
 
 		    <div class="navbar">
-  				<div>
-					  <a href = "{% url 'index' %}">Главная </a>
-					{% if request.user.profile.is_added_to_main_system %}
-					  | <a href = "{% url 'pickup_point_list' %}">Список адресов ПВЗ</a> |
-					  <a href = "{% url 'supply' %}">Поставка на склад</a> |
-					  <a href = "{% url 'order_statuses' %}">Статусы заказов </a> |
-					  <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>
+<!--  				<div>-->
+<!--					  <a href = "{% url 'index' %}">Главная </a>-->
+<!--					{% if request.user.profile.is_added_to_main_system %}-->
+<!--					  | <a href = "{% url 'pickup_point_list' %}">Список адресов ПВЗ</a> |-->
+<!--					  <a href = "{% url 'supply' %}">Поставка на склад</a> |-->
+<!--					  <a href = "{% url 'order_statuses' %}">Статусы заказов </a> |-->
+<!--					  <a href = "{% url 'excel_upload' %}">Загрузка файла Excel </a>-->
+<!--					{% endif %}-->
+<!--				</div>-->
+				<div>
+				{% for page in pages %}
+					{% if page.is_active %}
+						{% if not request.user.profile.is_added_to_main_system and page.handler == "index" %}
+							<a href = "{% url page.handler %}"> {{ page.name }} </a>
+						{% elif request.user.profile.is_added_to_main_system %}
+							<a href = "{% url page.handler %}"> {{ page.name }} </a>
+							{% if not forloop.last %} | {% endif %}
+						{% endif %}
 					{% endif %}
+				{% endfor %}
 				</div>
 				{% block navbar %} {% endblock navbar %}
 		    </div>

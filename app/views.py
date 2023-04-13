@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render as base_render
+from django.shortcuts import redirect
 from django.contrib import messages
 import base64
 import json
@@ -18,6 +19,13 @@ from project.settings.base import FILE_LOCATIONS
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
 from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
 
+
+
+
+
+def render(request, template_name, context):
+    context["pages"] = Page.objects.all()
+    return base_render(request, template_name, context)
 
 
 @group_required('Клиенты')
@@ -213,3 +221,4 @@ def download_file(request, file_type):
         return redirect(request.META.get('HTTP_REFERER'))
     else:
         return FileResponse(open(os.path.join(file_path, filename), 'rb'))
+
