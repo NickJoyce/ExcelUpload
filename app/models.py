@@ -22,7 +22,7 @@ class Profile(models.Model):
     agreement = models.BooleanField(default=False, verbose_name="Принятие договора-оферты")
     personal_data_agreement = models.BooleanField(default=False, verbose_name="Согласие на обработку персональных данных")
     is_added_to_main_system = models.BooleanField(default=False, verbose_name="ЛК активирован?")
-    moysklad_counterparty_id = models.CharField(max_length=255, default="Контрагент не добавлен в Мой Склад!", null=True, blank=True,
+    moysklad_counterparty_id = models.CharField(max_length=255, default="Контрагент не добавлен в Мой Склад!",
                                                    verbose_name="id контрагента в МойСклад",
                                                     help_text="чтобы добавить контрагента: [ЛК активирован: да] + [данное поле должно быть пустым]")
 
