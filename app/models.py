@@ -4,7 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from ckeditor_uploader.fields import RichTextUploadingField
-
+from project.settings.base import MOYSKLAD_TOKEN
+import requests
+import base64
+import json
 
 
 
@@ -18,8 +21,25 @@ class Profile(models.Model):
     xml_api_password = models.CharField(max_length=30, verbose_name="Пароль клиента")
     agreement = models.BooleanField(default=False, verbose_name="Принятие договора-оферты")
     personal_data_agreement = models.BooleanField(default=False, verbose_name="Согласие на обработку персональных данных")
-    is_added_to_main_system = models.BooleanField(default=True, verbose_name="ЛК активирован?")
+    is_added_to_main_system = models.BooleanField(default=False, verbose_name="ЛК активирован?")
+    moysklad_counterparty_id = models.CharField(max_length=255, default="Контрагент не добавлен в Мой Склад!", null=True, blank=True,
+                                                   verbose_name="id контрагента в МойСклад",
+                                                    help_text="чтобы добавить контрагента: [ЛК активирован: да] + [данное поле должно быть пустым]")
 
+
+    def save(self, *args, **kwargs):
+        if self.is_added_to_main_system and not self.moysklad_counterparty_id:
+            url = "https://online.moysklad.ru/api/remap/1.2/entity/counterparty"
+            headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
+            data = {"legalFirstName": "Иван",
+                    "legalLastName": "Иванов",
+                    "email": "raduga@stroi.ru",
+                    "phone": "+74953312233",
+                    "name": "TEST",
+                    "inn": "125152124152"}
+            response = requests.post(url=url, headers=headers, data=json.dumps(data))
+            self.moysklad_counterparty_id = response.json()['id']
+        super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user}"

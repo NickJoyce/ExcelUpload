@@ -27,7 +27,7 @@ class ProfileInline(admin.StackedInline):
             'fields': ('xml_api_extra', 'xml_api_login', 'xml_api_password'),
         }),
         ('Прочее', {
-            'fields': ('agreement', 'is_added_to_main_system',),
+            'fields': ('agreement', 'is_added_to_main_system', 'moysklad_counterparty_id'),
         }),
     )
 
@@ -53,7 +53,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2'),}),)
+            'fields': ('username', 'password1', 'password2'),}),)
 
 
 

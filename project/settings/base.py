@@ -242,6 +242,10 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = f"ExcelUpload <{EMAIL_HOST_USER}>"
 
 
+# moysklad.ru
+MOYSKLAD_TOKEN=os.getenv('MOYSKLAD_TOKEN')
+
+
 # redis
 REDIS_HOST="127.0.0.1"
 REDIS_PORT=6379
