@@ -31,12 +31,12 @@ class Profile(models.Model):
         if self.is_added_to_main_system and not self.moysklad_counterparty_id:
             url = "https://online.moysklad.ru/api/remap/1.2/entity/counterparty"
             headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
-            data = {"legalFirstName": "Иван",
-                    "legalLastName": "Иванов",
-                    "email": "raduga@stroi.ru",
-                    "phone": "+74953312233",
-                    "name": "TEST",
-                    "inn": "125152124152"}
+            data = {"legalFirstName": self.user.first_name,
+                    "legalLastName": self.user.last_name,
+                    "email": self.user.email,
+                    "phone": self.phone,
+                    "name": self.company,
+                    "inn": self.inn}
             response = requests.post(url=url, headers=headers, data=json.dumps(data))
             self.moysklad_counterparty_id = response.json()['id']
         super(Profile, self).save(*args, **kwargs)
