@@ -9,6 +9,7 @@ import numpy as np
 from database.context_manager import db
 from dotenv import load_dotenv
 import xml.etree.ElementTree as ET
+from .notifications.telegram import send_xml_errors_telegram_notification
 
 
 class Order():
@@ -238,7 +239,7 @@ def get_orders(df):
     return orders
 
 
-def send_request(orders, extra, login, password):
+def send_request(orders, username, first_name, last_name, extra, login, password):
     load_dotenv(f"{BASE_DIR}/.env")
     with open(f"{BASE_DIR}/request.xml", encoding="utf-8") as f:
         xml_file = f.read()
@@ -248,7 +249,19 @@ def send_request(orders, extra, login, password):
                       password = password.strip(),
                       orders = orders)
         response = requests.post(os.getenv("API_PATH"), data = rendered_template.encode())
+
+        tree = ET.fromstring(response.text)
+        errors = []
+        for n, createorder in enumerate(tree.findall('createorder'), 1):
+            error_msg = createorder.get('errormsgru')
+            if not error_msg == "Успешно":
+                errors.append(f"[{n}] {error_msg}")
+        if errors:
+            send_xml_errors_telegram_notification(errors[:5], username, first_name, last_name,)
+
         print(response.text)
+
+
 
 def send_order_statuses_request(extra, login, password, datefrom, dateto):
     load_dotenv(f"{BASE_DIR}/.env")

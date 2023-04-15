@@ -90,22 +90,24 @@ def send_supply_telegram_notification(username, first_name, last_name, marketpla
             requests.get(f"{url}{token}/sendMessage?chat_id={telegram_id}&text={content}")
 
 
+def send_xml_errors_telegram_notification(errors, username, first_name, last_name):
+    with db() as cursor:
+        url = get_tg_bot_url()
+        token = get_tg_excel_upload_bot_token()
+        # получаем name,telegram_id активных получателей уведомлений, если у telegram_id есть значение
+        cursor.execute("""SELECT name, telegram_id FROM app_notificationrecipients 
+        						  WHERE is_active=%s AND telegram_id IS NOT NULL""", (True,))
+        notification_recipients = cursor.fetchall()
+        content = f"Ошибки выполнения запросов у {username} ({first_name} {last_name}):\n"
+        for name, telegram_id in notification_recipients:
+            # отправка сообщения
+            content += "\n".join(errors)
+            requests.get(f"{url}{token}/sendMessage?chat_id={telegram_id}&text={content}")
+
+
+
 if __name__ == "__main__":
     ...
 
 
 
-
-
-
-
-# def send_msg(username, first_name, last_name, chat_id):
-#     text = f"Пользователь {username} ({first_name} {last_name}) загрузил файл:"
-#     requests.get(f"{URL}{TOKEN}/sendMessage?chat_id={chat_id}&text={text}")
-#
-#
-# def send_file(file_name, chat_id):
-#     files = {'docement': open(f"{file_name}", "rb")}
-#     res = requests.get(f"{URL}{TOKEN}/sendDocument?chat_id={chat_id}", files=files)
-#     print(res.text)
-#     # return file_copy

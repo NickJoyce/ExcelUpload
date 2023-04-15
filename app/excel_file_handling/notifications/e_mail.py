@@ -7,6 +7,10 @@ import os
 from database.context_manager import db
 
 
+
+
+
+
 def send_email_notification(username, first_name, last_name, file_base64, file_name, errors):
     with db() as cursor:
         file = base64.b64decode(file_base64)
