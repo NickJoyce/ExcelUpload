@@ -5,6 +5,7 @@ from project.settings.base import BASE_DIR
 from datetime import datetime
 from datetime import timedelta
 import pandas as pd
+import numpy as np
 from database.context_manager import db
 from dotenv import load_dotenv
 import xml.etree.ElementTree as ET

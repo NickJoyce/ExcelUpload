@@ -19,7 +19,7 @@ def sheet_name_check(file, df = None) -> DataFrame or None:
                     df = pd.read_excel(file)
                 else:
                     continue
-        return df
+        return df.fillna("")
 
 
 def get_match_headers(current_headers, header_name_variations) -> dict:
