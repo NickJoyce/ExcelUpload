@@ -106,23 +106,6 @@ class Marketplace(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-class Warehouse(models.Model):
-    marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
-                                    related_name='warehouses')
-    name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
-    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
-    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
-    how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
-    supply_dates = models.JSONField(verbose_name="Даты поставок", default=list, null=True, blank=True)
-
-
-
-    class Meta:
-        verbose_name = "Склад"
-        verbose_name_plural = "Склады"
-
-    def __str__(self):
-        return f"{self.name}"
 
 
 class PickupPoint(models.Model):
@@ -144,6 +127,89 @@ class PickupPoint(models.Model):
 
     def __str__(self):
         return f"{self.address}"
+
+class Warehouse(models.Model):
+    marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
+                                    related_name='warehouses')
+    name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
+    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
+    how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
+    supply_dates = models.JSONField(verbose_name="Даты поставок", default=list, null=True, blank=True)
+
+
+
+    class Meta:
+        verbose_name = "Склад"
+        verbose_name_plural = "Склады"
+        db_table = 'app_warehouse'
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+# ПОСТАВКА
+class SupplyWarehouseCompany(models.Model):
+    name = models.CharField(max_length=500, verbose_name="Наименование компании")
+
+    class Meta:
+        verbose_name = "Поставка: Компания"
+        verbose_name_plural = "Поставка: Компании"
+        db_table = 'app_supply_warehouse_company'
+
+    def __str__(self):
+        return f"{self.name}"
+
+class SupplyWarehouse(models.Model):
+    name = models.CharField(max_length=500, verbose_name="Наименование склада")
+    company = models.ForeignKey(SupplyWarehouseCompany, verbose_name="Компания", on_delete=models.CASCADE,
+                                    related_name='supply_warehouses_company')
+    address =models.CharField(max_length=500, verbose_name="Адрес склада")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
+    how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
+
+    class Meta:
+        verbose_name = "Поставка: Склад"
+        verbose_name_plural = "Поставка: Склады"
+        db_table = 'app_supply_warehouse'
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class SypplyType(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Тип поставки")
+
+    class Meta:
+        verbose_name = "Поставка: Тип"
+        verbose_name_plural = "Поставка: Типы"
+        db_table = 'app_supply_type'
+
+    def __str__(self):
+        return f"{self.name}"
+
+class SupplyOrder(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    order_number = models.IntegerField(verbose_name="Номер заказа")
+    supply_type = models.ForeignKey(SypplyType, null=True, blank=True, verbose_name="Тип поставки", on_delete=models.SET_NULL,
+                                    related_name='supply_type')
+    supply_warehouse = models.ForeignKey(SupplyWarehouse, verbose_name="Склад", on_delete=models.CASCADE,
+                                    related_name='supply_warehouse')
+    customer_comment = models.TextField(null=True, blank=True, verbose_name="Комментарий клиента")
+    recipient_address = models.CharField(max_length=500, null=True, blank=True, verbose_name="Адрес получателя")
+    recipient_full_name = models.CharField(max_length=500, null=True, blank=True, verbose_name="ФИО получателя")
+    recipient_phone_number = models.CharField(max_length=500, null=True, blank=True, verbose_name="Номер телефона получателя")
+
+    class Meta:
+        verbose_name = "Поставка: Заказ"
+        verbose_name_plural = "Поставка: Заказы"
+        db_table = 'app_supply_order'
+
+    def __str__(self):
+        return f"{self.order_number}"
+
+
 
 class Page(models.Model):
     handler = models.CharField(max_length=200, verbose_name="Функция-обработчик = url")
@@ -168,5 +234,48 @@ class Page(models.Model):
 
 class CustomAdminPage(models.Model):
     class Meta:
-        verbose_name = 'Хрень'
-        verbose_name_plural = "Хрень"
+        verbose_name = 'Custom Admin Page'
+        verbose_name_plural = "Custom Admin Page"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# class Warehouse(models.Model):
+#     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
+#                                     related_name='warehouses')
+#     name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
+#     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
+#     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
+#     how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
+#     supply_dates = models.JSONField(verbose_name="Даты поставок", default=list, null=True, blank=True)
+#
+#
+#
+#     class Meta:
+#         verbose_name = "Склад"
+#         verbose_name_plural = "Склады"
+#         db_table = 'app_warehouse'
+#
+#     def __str__(self):
+#         return f"{self.name}"
+
+

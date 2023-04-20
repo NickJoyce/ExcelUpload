@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
 from .models import Marketplace, Warehouse, PickupPoint, Page, CustomAdminPage
+from .models import SupplyWarehouseCompany, SupplyWarehouse, SypplyType, SupplyOrder
 from django_json_widget.widgets import JSONEditorWidget
 from django.template.response import TemplateResponse
 from django.urls import path
@@ -105,13 +106,32 @@ class MarketplaceAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
-@admin.register(Warehouse)
-class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
-    list_filter = ['marketplace']
-    formfield_overrides = {
-        models.JSONField: {'widget': JSONEditorWidget}
-    }
+# @admin.register(Warehouse)
+# class WarehouseAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
+#     list_filter = ['marketplace']
+#     formfield_overrides = {
+#         models.JSONField: {'widget': JSONEditorWidget}
+#     }
+
+
+@admin.register(SupplyWarehouseCompany)
+class SupplyWarehouseCompanyAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(SupplyWarehouse)
+class SupplyWarehouseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'company', 'address',  'opening_hours', 'how_to_get_there']
+    list_filter = ['company']
+
+@admin.register(SypplyType)
+class SypplyTypeAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(SupplyOrder)
+class SupplyOrderAdmin(admin.ModelAdmin):
+    list_display = ['order_number', 'supply_type', 'supply_warehouse', 'created']
+    list_filter = ['supply_type', 'supply_warehouse']
 
 
 @admin.register(PickupPoint)
