@@ -25,9 +25,17 @@
 	<div>Оформление заявки на поставку</div>
 		<div class="lable"> Выберете склад:</div>
 	<div class="input">
-		<select name="marketplace_address" id="marketplace_address">
+		<select name="supply_warehouse" id="supply_warehouse">
+			{% for warehouse in supply_warehouses %}
+			<option>{{ warehouse.address }} ({{ warehouse.company }}) </option>
+			{% endfor %}
 		</select>
 	</div>
+
+<!--	<div class="input">-->
+<!--		<select name="marketplace_address" id="marketplace_address">-->
+<!--		</select>-->
+<!--	</div>-->
 <!--	<div class="lable"> Выберете дату поставки:</div>-->
 <!--	<div class="input">-->
 <!--		<select name="supply_date" id="supply_date">-->

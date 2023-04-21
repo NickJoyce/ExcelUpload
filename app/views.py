@@ -5,7 +5,7 @@ import base64
 import json
 from django.http import FileResponse
 from datetime import datetime, time, date, timedelta
-from .models import DateTimeSettings, Page, Marketplace
+from .models import DateTimeSettings, Page, Marketplace, SupplyWarehouse
 from .utils import File
 from .decorators import group_required
 from .tasks import make_handling_task
@@ -90,7 +90,9 @@ def supply(request):
         return redirect("supply")
     else:
         page = Page.objects.get(handler='supply')
-        return render(request, 'supply.html', {"page": page})
+        supply_warehouses = SupplyWarehouse.objects.all()
+        return render(request, 'supply.html', {"page": page,
+                                               "supply_warehouses": supply_warehouses})
 
 # @group_required('Клиенты')
 # def supply(request):

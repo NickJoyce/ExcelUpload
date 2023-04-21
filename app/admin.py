@@ -37,7 +37,7 @@ class ProfileInline(admin.StackedInline):
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
     list_select_related = ('profile',)
-    list_display = ["username", "email", "first_name", "last_name", "get_is_added_to_main_system"]
+    list_display = ["username", "email", "first_name", "last_name", "get_company", "get_id_moysklad", "get_is_added_to_main_system"]
     list_filter = ["profile__is_added_to_main_system"]
 
 
@@ -58,7 +58,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 
-    @admin.display(description='ЛК Активирован?')
+    @admin.display(description='ЛК акт.?')
     def get_is_added_to_main_system(self, obj) -> str:
         if obj.profile.is_added_to_main_system:
             return format_html(
@@ -70,6 +70,18 @@ class CustomUserAdmin(UserAdmin):
             )
         else:
             return "-"
+
+
+    @admin.display(description='Компания')
+    def get_company(self, obj) -> str:
+            return obj.profile.company
+
+    @admin.display(description='id в Мой склад')
+    def get_id_moysklad(self, obj) -> str:
+            return obj.profile.moysklad_counterparty_id
+
+
+
 
 
     def get_inline_instances(self, request, obj=None):
