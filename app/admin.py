@@ -20,6 +20,7 @@ from django.utils.translation import gettext_lazy as _
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
+    ordering = ['company']
     fieldsets = (
         (None, {
             'fields': ('phone', 'company', 'inn'),
@@ -28,7 +29,7 @@ class ProfileInline(admin.StackedInline):
             'fields': ('xml_api_extra', 'xml_api_login', 'xml_api_password'),
         }),
         ('Прочее', {
-            'fields': ('agreement', 'is_added_to_main_system', 'moysklad_counterparty_id'),
+            'fields': ('agreement', 'personal_data_agreement', 'is_added_to_main_system', 'moysklad_counterparty_id'),
         }),
     )
 
@@ -58,7 +59,7 @@ class CustomUserAdmin(UserAdmin):
 
 
 
-    @admin.display(description='ЛК акт.?')
+    @admin.display(description='ЛК акт.?', ordering="profile__is_added_to_main_system")
     def get_is_added_to_main_system(self, obj) -> str:
         if obj.profile.is_added_to_main_system:
             return format_html(
@@ -72,11 +73,11 @@ class CustomUserAdmin(UserAdmin):
             return "-"
 
 
-    @admin.display(description='Компания')
+    @admin.display(description='Компания', ordering="profile__company")
     def get_company(self, obj) -> str:
             return obj.profile.company
 
-    @admin.display(description='id в Мой склад')
+    @admin.display(description='id в Мой склад', ordering="profile__moysklad_counterparty_id")
     def get_id_moysklad(self, obj) -> str:
             return obj.profile.moysklad_counterparty_id
 
