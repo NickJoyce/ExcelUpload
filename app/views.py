@@ -19,6 +19,9 @@ from project.settings.base import FILE_LOCATIONS
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
 from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
 
+from project.settings.base import MOYSKLAD_TOKEN
+import requests
+
 
 
 
@@ -87,77 +90,22 @@ def order_statuses(request):
 @group_required('Клиенты')
 def supply(request):
     if request.method == "POST":
+        sales_channel = request.POST.get("sales_channel")
+        comment = request.POST.get("comment")
+        address = request.POST.get("address")
+        full_name = request.POST.get("full_name")
+        phone = request.POST.get("phone")
+        print(sales_channel, comment, address, full_name, phone)
         return redirect("supply")
     else:
         page = Page.objects.get(handler='supply')
-        supply_warehouses = SupplyWarehouse.objects.all()
+        url = f"https://online.moysklad.ru/api/remap/1.2/entity/saleschannel"
+        headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
+        response = requests.get(url=url, headers=headers)
+        sales_channels = [row['name'] for row in response.json()['rows'] if row['name'] != "Проверка наличия / Пересчёт"]
         return render(request, 'supply.html', {"page": page,
-                                               "supply_warehouses": supply_warehouses})
+                                               "sales_channels": sales_channels})
 
-# @group_required('Клиенты')
-# def supply(request):
-#         if request.method == "POST":
-#             extra = request.user.profile.xml_api_extra
-#             login = request.user.profile.xml_api_login
-#             password = request.user.profile.xml_api_password
-#             supply_date = request.POST.get("supply_date")
-#             d, m, y = supply_date.split(" ")[0].split(".")
-#             supply_date = f"{y}-{m}-{d}"
-#             marketplace_address = request.POST.get("marketplace_address")
-#             marketplace, address= marketplace_address.split(": ")
-#             send_supply_order_request(extra, login, password, supply_date, marketplace, address)
-#             messages.add_message(request, messages.SUCCESS, 'Заявка успешно отправлена')
-#             send_supply_telegram_notification(request.user.username,
-#                                              request.user.first_name,
-#                                              request.user.last_name,
-#                                              marketplace_address,
-#                                              request.POST.get("supply_date"))
-#             return redirect("supply")
-#
-#         else:
-#             page = Page.objects.get(handler='supply')
-#             # задержка (часы)
-#             time_delay = 36
-#             # определить текущую дату и время
-#             now = datetime.now().replace(microsecond=0)
-#             # получить день начиная с которого доступны поставки
-#             now_plus_time_delay = now + timedelta(hours=time_delay)
-#             datefrom = now_plus_time_delay.date()
-#
-#             marketplaces = Marketplace.objects.all()
-#             data = {}
-#             days_of_the_week = ["iso format starts with 1",
-#                                 "Понедельник",
-#                                 "Вторник",
-#                                 "Среда",
-#                                 "Четверг",
-#                                 "Пятница",
-#                                 "Суббота",
-#                                 "Воскресенье"]
-#             for marketplace in marketplaces:
-#                 # удаляем даты ранее datefrom
-#                 for warehouse in marketplace.warehouses.all():
-#                     key = f'{marketplace.name}: {warehouse.address}'
-#                     data[key] = []
-#                     for n, supply_date in enumerate(warehouse.supply_dates):
-#                         # приводим дату к формату объекту date
-#                         d = date(*reversed([int(i) for i in supply_date.split('.')]))
-#                         # дата подходит
-#                         if d >= datefrom:
-#                             data[key].append(f"{d.strftime('%d.%m.%Y')} {days_of_the_week[d.isoweekday()]}")
-#                         # дата не подходит
-#                         else:
-#                             ...
-#                             # удаляем элемент по индексу
-#                             warehouse.supply_dates.pop(n)
-#                             # сохраняем объект
-#                             warehouse.save()
-#             data = json.dumps(data)
-#             return render(request, 'supply.html', {"page": page,
-#                                                    "now": now,
-#                                                    "datefrom": datefrom,
-#                                                    "marketplaces": marketplaces,
-#                                                    "data": data})
 
 
 @group_required('Клиенты')

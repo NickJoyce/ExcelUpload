@@ -128,6 +128,43 @@ class PickupPoint(models.Model):
     def __str__(self):
         return f"{self.address}"
 
+
+
+
+
+class Page(models.Model):
+    handler = models.CharField(max_length=200, verbose_name="Функция-обработчик = url")
+    html_file = models.CharField(max_length=200, verbose_name="HTML файл")
+    name = models.CharField(max_length=200, verbose_name="Имя (в меню)")
+    title = models.CharField(max_length=200, verbose_name="Текст во вкладке браузера")
+    header = models.CharField(max_length=200, null=True, blank=True, verbose_name="Заголовок страницы")
+    description = RichTextUploadingField(null=True, blank=True, verbose_name="Описание")
+    is_active = models.BooleanField(verbose_name="Показ в меню", default=True)
+    sorting_order = models.IntegerField(verbose_name="Порядок сортировки", default=1)
+
+
+    class Meta:
+        verbose_name = "Страница"
+        verbose_name_plural = "Страницы"
+        ordering = ['sorting_order']
+
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+class CustomAdminPage(models.Model):
+    class Meta:
+        verbose_name = 'Custom Admin Page'
+        verbose_name_plural = "Custom Admin Page"
+
+
+
+
+
+
+
+# не используемые модели
 class Warehouse(models.Model):
     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
                                     related_name='warehouses')
@@ -210,72 +247,5 @@ class SupplyOrder(models.Model):
         return f"{self.order_number}"
 
 
-
-class Page(models.Model):
-    handler = models.CharField(max_length=200, verbose_name="Функция-обработчик = url")
-    html_file = models.CharField(max_length=200, verbose_name="HTML файл")
-    name = models.CharField(max_length=200, verbose_name="Имя (в меню)")
-    title = models.CharField(max_length=200, verbose_name="Текст во вкладке браузера")
-    header = models.CharField(max_length=200, null=True, blank=True, verbose_name="Заголовок страницы")
-    description = RichTextUploadingField(null=True, blank=True, verbose_name="Описание")
-    is_active = models.BooleanField(verbose_name="Показ в меню", default=True)
-    sorting_order = models.IntegerField(verbose_name="Порядок сортировки", default=1)
-
-
-    class Meta:
-        verbose_name = "Страница"
-        verbose_name_plural = "Страницы"
-        ordering = ['sorting_order']
-
-
-    def __str__(self):
-        return f"{self.name}"
-
-
-class CustomAdminPage(models.Model):
-    class Meta:
-        verbose_name = 'Custom Admin Page'
-        verbose_name_plural = "Custom Admin Page"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# class Warehouse(models.Model):
-#     marketplace = models.ForeignKey(Marketplace, verbose_name="Маркетплейс", on_delete=models.CASCADE,
-#                                     related_name='warehouses')
-#     name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
-#     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
-#     opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
-#     how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
-#     supply_dates = models.JSONField(verbose_name="Даты поставок", default=list, null=True, blank=True)
-#
-#
-#
-#     class Meta:
-#         verbose_name = "Склад"
-#         verbose_name_plural = "Склады"
-#         db_table = 'app_warehouse'
-#
-#     def __str__(self):
-#         return f"{self.name}"
 
 

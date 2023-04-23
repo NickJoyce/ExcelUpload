@@ -1,41 +1,62 @@
-const MarketplaceAddressDates = JSON.parse(document.querySelector("#data").value)
-
-const MarketplaceAddress = Object.keys(MarketplaceAddressDates)
-
-var MarketplaceAddressSelect = document.querySelector("#marketplace_address")
-var SupplyDateSelect = document.querySelector("#supply_date")
+var orderWrapper = document.querySelector(".order_wrapper")
+var SalesChannelsSelect = document.querySelector("#sales_channel")
+var commentToOrder = document.querySelector(".comment_to_order")
+var pickupPoint = document.querySelector(".pickup_point")
 
 
-for (var i in MarketplaceAddress) {
-    var option = document.createElement('option');
-    let mp_address = MarketplaceAddress[i]
-    option.text = mp_address;
-    option.value = mp_address;
-    MarketplaceAddressSelect.add(option);
-    if (i === "0") {
-            for (var j in MarketplaceAddressDates[mp_address]){
-                var option = document.createElement('option');
-                option.text = MarketplaceAddressDates[mp_address][j];
-                option.value = MarketplaceAddressDates[mp_address][j];
-                SupplyDateSelect.add(option);
-            }
-        }
+class DeliveryDataLine {
+  constructor(title, input_name) {
+    this.title = title;
+    this.input_name = input_name;
+  }
 }
 
+let AddDeliveryBlock = (main, block_before) => {
+    let address = new DeliveryDataLine("Адрес доставки", "address");
+    let full_name = new DeliveryDataLine("ФИО", "full_name");
+    let phone = new DeliveryDataLine("Телефон", "phone");
+    lines = [address, full_name, phone]
+    lines.forEach(function(item, i, arr) {
+        var title_div = document.createElement("div");
+        title_div.textContent = item.title
+        title_div.className = "delivery"
+        var input_div = document.createElement("input");
+        input_div.name = item.input_name
+        input_div.className = "delivery"
+        input_div.required = true;
+        divs_in_lines = [title_div, input_div]
+        divs_in_lines.forEach(function(div, i, arr) {
+            main.insertBefore(div, block_before)
+        })
+    })
+}
+
+let DeleteDeliveryBlock = () => {
+    let allDeliveryElems = document.querySelectorAll('.delivery')
+    if (allDeliveryElems.length == 0) {
+    } else {
+            allDeliveryElems.forEach(function(elem){
+                elem.parentNode.removeChild(elem);
+        })
+    }
+}
+
+
+
 // событие на клик по селекту
-MarketplaceAddressSelect.addEventListener('change', (event) => {
+SalesChannelsSelect.addEventListener('change', (event) => {
   // индекс элемента селекта на который кликнули
-  var ind = MarketplaceAddressSelect.selectedIndex;
-  // список элементов селекта с адресами
-  var options = MarketplaceAddressSelect.options;
-  // очищаем селект с датами
-  SupplyDateSelect.innerHTML = ""
-  MarketplaceAddressDates[options[ind].text].forEach(function(item, i, arr) {
-        var option = document.createElement('option');
-        option.text = item;
-        option.value = item;
-        SupplyDateSelect.add(option);
-    });
-
-
+  var ind = SalesChannelsSelect.selectedIndex;
+  // список элементов селекта
+  var options = SalesChannelsSelect.options;
+  if (options[ind].text == "Самовывоз") {
+       pickupPoint.style.display = "inline"
+       DeleteDeliveryBlock()
+    } else if (options[ind].text == "Доставка на склад Поставщика") {
+        pickupPoint.style.display = "none"
+        AddDeliveryBlock(orderWrapper, commentToOrder)
+    } else {
+        pickupPoint.style.display = "none"
+        DeleteDeliveryBlock()
+    }
 });

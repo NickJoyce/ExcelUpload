@@ -82,9 +82,6 @@ class CustomUserAdmin(UserAdmin):
             return obj.profile.moysklad_counterparty_id
 
 
-
-
-
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
@@ -118,33 +115,6 @@ class DateTimeSettingsAdmin(admin.ModelAdmin):
 class MarketplaceAdmin(admin.ModelAdmin):
     list_display = ['name']
 
-
-# @admin.register(Warehouse)
-# class WarehouseAdmin(admin.ModelAdmin):
-#     list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
-#     list_filter = ['marketplace']
-#     formfield_overrides = {
-#         models.JSONField: {'widget': JSONEditorWidget}
-#     }
-
-
-@admin.register(SupplyWarehouseCompany)
-class SupplyWarehouseCompanyAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-@admin.register(SupplyWarehouse)
-class SupplyWarehouseAdmin(admin.ModelAdmin):
-    list_display = ['name', 'company', 'address',  'opening_hours', 'how_to_get_there']
-    list_filter = ['company']
-
-@admin.register(SypplyType)
-class SypplyTypeAdmin(admin.ModelAdmin):
-    list_display = ['name']
-
-@admin.register(SupplyOrder)
-class SupplyOrderAdmin(admin.ModelAdmin):
-    list_display = ['order_number', 'supply_type', 'supply_warehouse', 'created']
-    list_filter = ['supply_type', 'supply_warehouse']
 
 
 @admin.register(PickupPoint)
@@ -207,3 +177,37 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
 
 admin.site.site_title = "Администрирование account.zvwb.ru"
 admin.site.site_header = "Администрирование account.zvwb.ru"
+
+
+
+
+
+
+
+
+# @admin.register(Warehouse)
+# class WarehouseAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'address', 'marketplace', 'opening_hours', 'how_to_get_there']
+#     list_filter = ['marketplace']
+#     formfield_overrides = {
+#         models.JSONField: {'widget': JSONEditorWidget}
+#     }
+
+
+# @admin.register(SupplyWarehouseCompany)
+# class SupplyWarehouseCompanyAdmin(admin.ModelAdmin):
+#     list_display = ['name']
+#
+# @admin.register(SupplyWarehouse)
+# class SupplyWarehouseAdmin(admin.ModelAdmin):
+#     list_display = ['name', 'company', 'address',  'opening_hours', 'how_to_get_there']
+#     list_filter = ['company']
+#
+# @admin.register(SypplyType)
+# class SypplyTypeAdmin(admin.ModelAdmin):
+#     list_display = ['name']
+#
+# @admin.register(SupplyOrder)
+# class SupplyOrderAdmin(admin.ModelAdmin):
+#     list_display = ['order_number', 'supply_type', 'supply_warehouse', 'created']
+#     list_filter = ['supply_type', 'supply_warehouse']
