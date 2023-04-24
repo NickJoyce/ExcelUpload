@@ -6,8 +6,55 @@ from django.core.exceptions import ObjectDoesNotExist
 from ckeditor_uploader.fields import RichTextUploadingField
 from project.settings.base import MOYSKLAD_TOKEN
 import requests
-import base64
 import json
+from django.core.cache import cache
+
+
+
+class SingletonModel(models.Model):
+
+    class Meta:
+        abstract = True
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    def set_cache(self):
+        cache.set(self.__class__.__name__, self)
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+        self.set_cache()
+
+    @classmethod
+    def load(cls):
+        if cache.get(cls.__name__) is None:
+            obj, created = cls.objects.get_or_create(pk=1)
+            if not created:
+                obj.set_cache()
+        return cache.get(cls.__name__)
+
+
+class CompanySettings(SingletonModel):
+    name =  models.CharField(max_length=255, default='ИП Иванов Иван Иванович', verbose_name="Наименование компании")
+    warehouse = models.CharField(max_length=255, default='Адрес основного склада',verbose_name="Основной склад")
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = "Информация о компании"
+        verbose_name_plural = "Информация о компании"
+        db_table = 'app_company_settings'
+
+
+
+
+
+
+
+
 
 
 

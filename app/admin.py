@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
+from .models import CompanySettings
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
 from .models import Marketplace, Warehouse, PickupPoint, Page, CustomAdminPage
 from .models import SupplyWarehouseCompany, SupplyWarehouse, SypplyType, SupplyOrder
@@ -15,6 +16,11 @@ from django.core.files.storage import FileSystemStorage
 from project.settings.base import FILE_LOCATIONS
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+
+
+
+
+admin.site.register(CompanySettings)
 
 
 class ProfileInline(admin.StackedInline):
