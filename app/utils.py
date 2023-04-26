@@ -3,6 +3,7 @@ import pandas as pd
 from .models import Marketplace, PickupPoint
 from django.contrib import messages
 
+
 class File:
     def __init__(self, th, file_path, form_ident, input_accept):
         self.th = th

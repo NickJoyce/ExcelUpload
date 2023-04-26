@@ -8,6 +8,7 @@ from project.settings.base import MOYSKLAD_TOKEN
 import requests
 import json
 from django.core.cache import cache
+from .moysklad.utils import create_counterparty
 
 
 
@@ -38,24 +39,35 @@ class SingletonModel(models.Model):
 
 class CompanySettings(SingletonModel):
     name =  models.CharField(max_length=255, default='ИП Иванов Иван Иванович', verbose_name="Наименование компании")
-    warehouse = models.CharField(max_length=255, default='Адрес основного склада',verbose_name="Основной склад")
 
     def __str__(self):
         return f"{self.name}"
 
     class Meta:
-        verbose_name = "Информация о компании"
-        verbose_name_plural = "Информация о компании"
+        verbose_name = "Компания: инфо"
+        verbose_name_plural = "Компания: инфо"
         db_table = 'app_company_settings'
 
 
 
 
+class CompanyWarehouse(models.Model):
+    company = models.ForeignKey(CompanySettings, verbose_name="Компания", on_delete=models.CASCADE,
+                                    related_name='company_warehouse')
+    name = models.CharField(max_length=100, null=True, blank=True, verbose_name="Наименование склада")
+    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес склада")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="График работы склада")
+    how_to_get_there = models.TextField(null=True, blank=True, verbose_name="Как добраться до склада")
 
 
+    class Meta:
+        verbose_name = "Компания: склад"
+        verbose_name_plural = "Компания: склады"
+        db_table = 'app_company_warehouse'
 
 
-
+    def __str__(self):
+        return f"{self.name}"
 
 
 class Profile(models.Model):
@@ -76,16 +88,12 @@ class Profile(models.Model):
 
     def save(self, *args, **kwargs):
         if self.is_added_to_main_system and not self.moysklad_counterparty_id:
-            url = "https://online.moysklad.ru/api/remap/1.2/entity/counterparty"
-            headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
-            data = {"legalFirstName": self.user.first_name,
-                    "legalLastName": self.user.last_name,
-                    "email": self.user.email,
-                    "phone": self.phone,
-                    "name": self.company,
-                    "inn": self.inn}
-            response = requests.post(url=url, headers=headers, data=json.dumps(data))
-            self.moysklad_counterparty_id = response.json()['id']
+            self.moysklad_counterparty_id = create_counterparty(first_name=self.user.first_name,
+                                                                last_name=self.user.last_name,
+                                                                email=self.user.email,
+                                                                phone=self.phone,
+                                                                company=self.company,
+                                                                inn=self.inn)
         super(Profile, self).save(*args, **kwargs)
 
     def __str__(self):

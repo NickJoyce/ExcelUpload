@@ -2,10 +2,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 from django.db import models
-from .models import CompanySettings
+from .models import CompanySettings, CompanyWarehouse
 from .models import Profile, JsonObject, NotificationRecipients, DateTimeSettings
 from .models import Marketplace, Warehouse, PickupPoint, Page, CustomAdminPage
-from .models import SupplyWarehouseCompany, SupplyWarehouse, SypplyType, SupplyOrder
 from django_json_widget.widgets import JSONEditorWidget
 from django.template.response import TemplateResponse
 from django.urls import path
@@ -21,6 +20,10 @@ from django.utils.translation import gettext_lazy as _
 
 
 admin.site.register(CompanySettings)
+
+@admin.register(CompanyWarehouse)
+class CompanyWarehouseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address', 'opening_hours', 'how_to_get_there']
 
 
 class ProfileInline(admin.StackedInline):
@@ -180,6 +183,7 @@ class CustomAdminPageAdmin(admin.ModelAdmin):
             data["files"] = files
             data = {**data, **self.admin_site.each_context(request)}
             return TemplateResponse(request, "admin/files_upload.html", data)
+
 
 admin.site.site_title = "Администрирование account.zvwb.ru"
 admin.site.site_header = "Администрирование account.zvwb.ru"

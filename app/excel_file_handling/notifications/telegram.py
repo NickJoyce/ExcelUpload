@@ -5,6 +5,62 @@ import os
 from database.context_manager import db
 from dotenv import load_dotenv
 
+from database.queries import get_telegram_notification_recipients
+
+
+
+class TelegramBotNotification():
+    def __init__(self):
+        self.tg_bot_url = os.getenv('TG_BOT_URL')
+        self.tg_bot_token = os.getenv('TG_EXCEL_UPLOAD_BOT_TOKEN')
+
+    def send(self, recipients: list[tuple], subject, content, file=None):
+        """recipients - tuple содержит 2 элемента: имя и telegram_id получателя"""
+        for name, telegram_id in recipients:
+            requests.get(f"{self.tg_bot_url}{self.tg_bot_token}/sendMessage?chat_id={telegram_id}&text={subject + content}")
+
+
+    def supply_order_sucessfully_created(self, username, first_name, last_name, sales_channel, comment,
+                                         recipient_address,recipient_full_name, recipient_phone):
+        recipients = get_telegram_notification_recipients()
+        subject = f"[NEW ORDER]\n\n"
+        content = f"Пользователь: {username} ({first_name} {last_name})\n\n" \
+                  f"ДАННЫЕ ЗАКАЗА:\n" \
+                  f"Канал продаж: {sales_channel}\n" \
+                  f"Адрес: {recipient_address}\n" \
+                  f"ФИО: {recipient_full_name}\n" \
+                  f"Телефон: {recipient_phone}\n" \
+                  f"Комментарий: {comment}"
+        self.send(recipients=recipients, subject=subject, content=content)
+
+
+    def counterparty_id_is_not_exist(self, username, first_name, last_name, sales_channel, comment, recipient_address,
+                                                       recipient_full_name, recipient_phone, counterparty_id):
+        recipients = get_telegram_notification_recipients()
+        subject = f"[COUNTERPARTY DOES NOT EXIST]\n\n"
+        content = f"Контрагента с id={counterparty_id} не существует.\n\n" \
+                  f"Пользователь: {username} ({first_name} {last_name})\n\n" \
+                  f"ДАННЫЕ ЗАКАЗА:\n" \
+                  f"Канал продаж: {sales_channel}\n" \
+                  f"Адрес: {recipient_address}\n" \
+                  f"ФИО: {recipient_full_name}\n" \
+                  f"Телефон: {recipient_phone}\n" \
+                  f"Комментарий: {comment}"
+        self.send(recipients=recipients, subject=subject, content=content)
+
+
+    def general_error(self, username, first_name, last_name, error):
+        recipients = get_telegram_notification_recipients()
+        subject = f"[APP ERROR]\n[ {username} ({first_name} {last_name}) ]\n"
+        content = f"{error}"
+        self.send(recipients=recipients, subject=subject, content=content)
+
+
+
+
+
+
+
 def get_tg_bot_url():
     load_dotenv(f"{BASE_DIR}/.env")
     return os.getenv('TG_BOT_URL')
@@ -105,9 +161,19 @@ def send_xml_errors_telegram_notification(errors, username, first_name, last_nam
             requests.get(f"{url}{token}/sendMessage?chat_id={telegram_id}&text={content}")
 
 
+def supply_order_successfully_created():
+    recipients = get_telegram_notification_recipients()
+    subject = "test"
+    content = "test"
+    TelegramBotNotification().send(recipients=recipients, subject=subject, content=content)
+
+
+
+
+
 
 if __name__ == "__main__":
-    ...
+    supply_order_successfully_created()
 
 
 

@@ -26,13 +26,23 @@
 			<div class="form_header">Оформление заявки на поставку</div>
 			<div class="lable"> Выберете склад:</div>
 			<div class="input">
-				<select name="sales_channel" id="sales_channel">
+				<select name="sales_channel" id="sales_channel" required>
+					<option value="" disabled selected>--- выберете вариант ---</option>
 					{% for channel in sales_channels %}
-						<option>{{ channel }} </option>
+						<option value="{{ channel.id }}">{{ channel.name }} </option>
 					{% endfor %}
 				</select>
 			</div>
-			<div class="pickup_point">Адрес склада: {{ company_settings.warehouse }}</div>
+			<div class="pickup_point">
+				<div>Адрес склада: {{ warehouse.address }}</div>
+				<div>Часы работы: {{ warehouse.opening_hours }}</div>
+				<div>Как добраться: {{ warehouse.how_to_get_there }}</div>
+			</div>
+
+
+			<div class="pickup_point">Часы работы: {{ warehouse.opening_hours }}</div>
+			<div class="pickup_point">Как добраться: {{ warehouse.how_to_get_there }}</div>
+
 			<div class="lable comment_to_order">Комментарий к заказу:</div><div class="input"></div>
 			<div class="ta"><textarea rows="5" name="comment"></textarea></div>
 			<div id="xxx"></div><div class="submit_btn"><input type="submit" value="Отправить"></div>

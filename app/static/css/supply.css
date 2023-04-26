@@ -17,11 +17,16 @@ padding: 20px;
 .order_wrapper .pickup_point {
 grid-column: 1 / 3;
 display: none;
-text-align: center;
+text-align: left;
 padding: 5px;
 background-color: #e2e3ec;
-
 }
+
+.order_wrapper .pickup_point div {
+padding: 10px;
+}
+
+
 
 .order_wrapper .ta {
 width: 99%;

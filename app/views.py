@@ -5,17 +5,18 @@ import base64
 import json
 from django.http import FileResponse
 from datetime import datetime, time, date, timedelta
-from .models import DateTimeSettings, Page, Marketplace, SupplyWarehouse
+from .models import DateTimeSettings, Page, Marketplace, CompanyWarehouse
 from .utils import File
+from .moysklad.utils import SaleChannel, is_counterparty, create_order
 from .decorators import group_required
-from .tasks import make_handling_task
+from .tasks import make_handling_task, send_order_to_moysklad_task
 from app.excel_file_handling.utils import send_order_statuses_request, handling_order_statuses_request
 from app.excel_file_handling.utils import send_supply_order_request
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from django.contrib.auth.models import Group
 import os
-from project.settings.base import FILE_LOCATIONS
+from project.settings.base import FILE_LOCATIONS, MOYSKLAD_TOKEN, MOYSKLAD_ORGANIZATION_ID
 from app.excel_file_handling.notifications.telegram import send_signup_telegram_notification
 from app.excel_file_handling.notifications.telegram import send_supply_telegram_notification
 
@@ -90,21 +91,45 @@ def order_statuses(request):
 @group_required('Клиенты')
 def supply(request):
     if request.method == "POST":
-        sales_channel = request.POST.get("sales_channel")
-        comment = request.POST.get("comment")
-        address = request.POST.get("address")
-        full_name = request.POST.get("full_name")
-        phone = request.POST.get("phone")
-        print(sales_channel, comment, address, full_name, phone)
+        sales_channel_id = request.POST.get("sales_channel", "")
+        comment = request.POST.get("comment", "")
+        recipient_address = request.POST.get("address", "")
+        recipient_full_name = request.POST.get("full_name", "")
+        recipient_phone = request.POST.get("phone", "")
+
+        counterparty_id = request.user.profile.moysklad_counterparty_id
+        user_id = request.user.id
+
+        send_order_to_moysklad_task.delay(user_id = user_id,
+                                          sales_channel_id=sales_channel_id,
+                                          comment=comment,
+                                          recipient_address=recipient_address,
+                                          recipient_full_name=recipient_full_name,
+                                          recipient_phone=recipient_phone,
+                                          counterparty_id=counterparty_id)
+
+        messages.add_message(request, messages.SUCCESS, 'Заказ успешно создан. Спасибо!')
+
         return redirect("supply")
     else:
         page = Page.objects.get(handler='supply')
         url = f"https://online.moysklad.ru/api/remap/1.2/entity/saleschannel"
         headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
-        response = requests.get(url=url, headers=headers)
-        sales_channels = [row['name'] for row in response.json()['rows'] if row['name'] != "Проверка наличия / Пересчёт"]
+        try:
+            response = requests.get(url=url, headers=headers)
+            sales_channels = [SaleChannel(row['id'], row['name'])  for row in response.json()['rows'] if row['name'] != "Проверка наличия / Пересчёт"]
+        except:
+            sales_channels = []
+
+        try:
+            warehouse = CompanyWarehouse.objects.all()[0]
+        except IndexError:
+            warehouse = None
+
+
         return render(request, 'supply.html', {"page": page,
-                                               "sales_channels": sales_channels})
+                                               "sales_channels": sales_channels,
+                                               "warehouse": warehouse})
 
 
 
@@ -147,6 +172,7 @@ def signup(request):
             user.profile.phone = form.cleaned_data.get('phone')
             user.profile.inn = form.cleaned_data.get('inn')
             user.profile.agreement = form.cleaned_data.get('agreement')
+            user.profile.personal_data_agreement = form.cleaned_data.get('personal_data_agreement')
             user.profile.xml_api_extra = "26"
             user.profile.xml_api_login = form.cleaned_data.get('username')
             user.profile.xml_api_password = form.cleaned_data.get('password1')

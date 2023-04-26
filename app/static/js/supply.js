@@ -31,6 +31,7 @@ let AddDeliveryBlock = (main, block_before) => {
     })
 }
 
+
 let DeleteDeliveryBlock = () => {
     let allDeliveryElems = document.querySelectorAll('.delivery')
     if (allDeliveryElems.length == 0) {
@@ -40,6 +41,8 @@ let DeleteDeliveryBlock = () => {
         })
     }
 }
+
+var sales_channel_with_additional_fields  = ["Доставка на склад Поставщика", "Деловые линии", "ПЭК", "СДЭК"]
 
 
 
@@ -52,7 +55,8 @@ SalesChannelsSelect.addEventListener('change', (event) => {
   if (options[ind].text == "Самовывоз") {
        pickupPoint.style.display = "inline"
        DeleteDeliveryBlock()
-    } else if (options[ind].text == "Доставка на склад Поставщика") {
+    } else if (sales_channel_with_additional_fields.includes(options[ind].text) ) {
+        DeleteDeliveryBlock()
         pickupPoint.style.display = "none"
         AddDeliveryBlock(orderWrapper, commentToOrder)
     } else {
