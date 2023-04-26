@@ -14,7 +14,7 @@ class TelegramBotNotification():
         self.tg_bot_url = os.getenv('TG_BOT_URL')
         self.tg_bot_token = os.getenv('TG_EXCEL_UPLOAD_BOT_TOKEN')
 
-    def send(self, recipients: list[tuple], subject, content, file=None):
+    def send(self, recipients, subject, content, file=None):
         """recipients - tuple содержит 2 элемента: имя и telegram_id получателя"""
         for name, telegram_id in recipients:
             requests.get(f"{self.tg_bot_url}{self.tg_bot_token}/sendMessage?chat_id={telegram_id}&text={subject + content}")
