@@ -16,7 +16,7 @@ class EmailNotification():
         self.from_name = "ExcelUpload"
         self.from_email = self.user
 
-    def send(self, recipients: list[tuple], subject, content, file=None, filename=None):
+    def send(self, recipients, subject, content, file=None, filename=None):
         """recipients - tuple содержит 2 элемента: имя и email получателя"""
         messages = []
         for name, email in recipients:
