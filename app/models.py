@@ -93,8 +93,11 @@ class Profile(models.Model):
 
             if old_value == False and new_value == True:
                 if self.user.email:
-                    EmailNotification().account_activation(self.user.first_name if self.user.first_name else "",
-                                                           self.user.email)
+                    try:
+                        EmailNotification().account_activation(self.user.first_name if self.user.first_name else "",
+                                                               self.user.email)
+                    except:
+                        pass
 
         if self.is_added_to_main_system and not self.moysklad_counterparty_id:
             self.moysklad_counterparty_id = create_counterparty(first_name=self.user.first_name,

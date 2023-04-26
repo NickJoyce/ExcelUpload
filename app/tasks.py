@@ -51,7 +51,12 @@ def send_order_to_moysklad_task(user_id,
             args = [username, first_name, last_name, sales_channel, comment, recipient_address, recipient_full_name,
                     recipient_phone,]
             EmailNotification().supply_order_sucessfully_created(*args)
-            EmailNotification().supply_order_is_processed(first_name, email)
+
+            try:
+                EmailNotification().supply_order_is_processed(first_name, email)
+            except:
+                pass
+
             TelegramBotNotification().supply_order_sucessfully_created(*args)
         except:
             TelegramBotNotification().general_error(username, first_name, last_name, traceback.format_exc())
