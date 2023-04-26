@@ -23,6 +23,7 @@ def make_handling(user_id, file_base64, file_name):
         # проверка имени листов с возвратом датайрейма
         df = sheet_name_check(file)
 
+
         # проверяем коректность заголовков таблицы
         current_headers = list(df)
         # print("Текущие заголовки: ", current_headers)

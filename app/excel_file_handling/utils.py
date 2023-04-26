@@ -161,6 +161,10 @@ def get_orders(df):
         cursor.execute("""SELECT obj FROM app_jsonobject WHERE name=%s""", ("Плохие значения размера",))
         bad_size_value = cursor.fetchall()[0][0]['bad_size_value']
 
+    if df.iat[0,0] == "Обратите внимание! Пакеты на ПВЗ платные, стоимость одного пакета от 8 до 15 рублей. " \
+                      "Рекомендуем при заборе товаров пользоваться собственными пакетами.":
+        df.drop(axis=0, index=0, inplace=True)
+
     orders = []
     for row in df.itertuples():
         if all([pd.notna(row.receiver_name), pd.notna(row.code), pd.notna(row.phone), pd.notna(row.address)]):
@@ -222,6 +226,9 @@ def get_orders(df):
 
             if isinstance(order.phone, float):
                 order.phone = str(int(order.phone))
+
+            if "-" in order.phone:
+                order.phone = order.phone.replace("-", "")
 
             order.phone = "т.:" + str(order.phone).strip()[-4:]
 

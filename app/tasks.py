@@ -2,7 +2,7 @@ from project.celery import app
 from .excel_file_handling.main import make_handling
 from .moysklad.utils import is_counterparty, create_order, get_saleschannel
 import traceback
-from database.queries import get_username_first_name_last_name
+from database.queries import get_username_first_name_last_name, get_username_first_name_last_name_email
 
 
 from .excel_file_handling.notifications.e_mail import send_email_notification
@@ -21,7 +21,6 @@ from .excel_file_handling.notifications.telegram import TelegramBotNotification
 
 @app.task
 def make_handling_task(user_id, file_base64, file_name):
-    print("make_handling_task")
     try:
         make_handling(user_id, file_base64, file_name)
     except:
@@ -39,7 +38,7 @@ def send_order_to_moysklad_task(user_id,
                                 recipient_full_name,
                                 recipient_phone,
                                 counterparty_id):
-    username, first_name, last_name = get_username_first_name_last_name(user_id)
+    username, first_name, last_name, email = get_username_first_name_last_name_email(user_id)
     sales_channel = get_saleschannel(sales_channel_id)
     if is_counterparty(counterparty_id):
         try:
@@ -52,6 +51,7 @@ def send_order_to_moysklad_task(user_id,
             args = [username, first_name, last_name, sales_channel, comment, recipient_address, recipient_full_name,
                     recipient_phone,]
             EmailNotification().supply_order_sucessfully_created(*args)
+            EmailNotification().supply_order_is_processed(first_name, email)
             TelegramBotNotification().supply_order_sucessfully_created(*args)
         except:
             TelegramBotNotification().general_error(username, first_name, last_name, traceback.format_exc())

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -9,7 +9,7 @@ import requests
 import json
 from django.core.cache import cache
 from .moysklad.utils import create_counterparty
-
+from .excel_file_handling.notifications.e_mail import EmailNotification
 
 
 class SingletonModel(models.Model):
@@ -87,6 +87,15 @@ class Profile(models.Model):
 
 
     def save(self, *args, **kwargs):
+        if self.pk:
+            old_value = Profile.objects.get(pk=self.pk).is_added_to_main_system
+            new_value = self.is_added_to_main_system
+
+            if old_value == False and new_value == True:
+                if self.user.email:
+                    EmailNotification().account_activation(self.user.first_name if self.user.first_name else "",
+                                                           self.user.email)
+
         if self.is_added_to_main_system and not self.moysklad_counterparty_id:
             self.moysklad_counterparty_id = create_counterparty(first_name=self.user.first_name,
                                                                 last_name=self.user.last_name,
@@ -109,8 +118,22 @@ def create_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     try:
         instance.profile.save()
+
+
+
+        # if instance.profile.is_added_to_main_system:
+        #     print("Проверяем наличие почты")
+        #     print("ничего не добавляем")
+        # else:
+        #     print("Проверяем наличие почты")
     except ObjectDoesNotExist:
         pass
+
+
+
+
+
+
 
 
 class JsonObject(models.Model):

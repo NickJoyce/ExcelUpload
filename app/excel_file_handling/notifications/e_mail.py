@@ -13,7 +13,7 @@ class EmailNotification():
         self.port = int(os.getenv('EMAIL_PORT'))
         self.user = os.getenv('EMAIL_HOST_USER')
         self.password = os.getenv('EMAIL_HOST_PASSWORD')
-        self.from_name = "ExcelUpload"
+        self.from_name = "zvwb.ru"
         self.from_email = self.user
 
     def send(self, recipients, subject, content, file=None, filename=None):
@@ -82,6 +82,24 @@ class EmailNotification():
         recipients = get_email_notification_recipients()
         subject = f"[APP ERROR] {username} ({first_name} {last_name})"
         content = f"{error}"
+        self.send(recipients=recipients, subject=subject, content=content)
+
+
+
+
+
+
+    # Уведомления для клиентов
+    def account_activation(self, name, email):
+        recipients = ([name, email],)
+        subject = f"Ваш аккаунт на сайте zvwb.ru активирован менеджером"
+        content = f""
+        self.send(recipients=recipients, subject=subject, content=content)
+
+    def supply_order_is_processed(self, name, email):
+        recipients = ([name, email],)
+        subject = f"Заказ успешно оформлен. Спасибо!"
+        content = f""
         self.send(recipients=recipients, subject=subject, content=content)
 
 

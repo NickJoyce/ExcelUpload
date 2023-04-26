@@ -22,6 +22,15 @@ def get_username_first_name_last_name(user_id):
         return cursor.fetchall()[0]
 
 
+def get_username_first_name_last_name_email(user_id):
+    with db() as cursor:
+        cursor.execute("""SELECT u.username, u.first_name, u.last_name, u.email
+                		  FROM auth_user AS u
+                		  JOIN app_profile AS p
+                		  ON u.id=p.user_id
+                		  WHERE u.id=%s""", (user_id,))
+        return cursor.fetchall()[0]
+
 
 if __name__ == "__main__":
     print(get_email_notification_recipients())
