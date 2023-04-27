@@ -12,9 +12,9 @@ class DeliveryDataLine {
 }
 
 let AddDeliveryBlock = (main, block_before) => {
-    let address = new DeliveryDataLine("Адрес доставки", "address");
-    let full_name = new DeliveryDataLine("ФИО", "full_name");
-    let phone = new DeliveryDataLine("Телефон", "phone");
+    let address = new DeliveryDataLine("Адрес доставки:", "address");
+    let full_name = new DeliveryDataLine("ФИО:", "full_name");
+    let phone = new DeliveryDataLine("Телефон:", "phone");
     lines = [address, full_name, phone]
     lines.forEach(function(item, i, arr) {
         var title_div = document.createElement("div");
