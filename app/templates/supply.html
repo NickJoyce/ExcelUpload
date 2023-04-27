@@ -27,7 +27,7 @@
 			<div class="lable"> Выберете склад:</div>
 			<div class="input">
 				<select name="sales_channel" id="sales_channel" required>
-					<option value="" disabled selected>--- выберете вариант ---</option>
+					<option value="" disabled selected>--- выберите вариант ---</option>
 					{% for channel in sales_channels %}
 						<option value="{{ channel.id }}">{{ channel.name }} </option>
 					{% endfor %}

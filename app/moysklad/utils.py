@@ -66,7 +66,7 @@ def create_order(sales_channel_id,
             recipient_phone=recipient_phone,
             counterparty_id=counterparty_id
         )
-        response = requests.post(url=url, headers=headers, data=rendered_template)
+        response = requests.post(url=url, headers=headers, data=rendered_template.encode())
 
 
 if __name__ == "__main__":
