@@ -224,11 +224,12 @@ def get_orders(df):
             else:
                 pass
 
-
             if isinstance(order.phone, float):
                 order.phone = str(int(order.phone))
             elif isinstance(order.phone, int):
-                order.phone = str(int(order.phone))
+                order.phone = str(order.phone)
+
+            print(type(order.phone))
 
             if "-" in order.phone:
                 order.phone = order.phone.replace("-", "")
