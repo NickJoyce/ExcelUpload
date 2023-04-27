@@ -226,6 +226,8 @@ def get_orders(df):
 
             if isinstance(order.phone, float):
                 order.phone = str(int(order.phone))
+            elif isinstance(order.phone, int):
+                order.phone = str(order.phone)
 
             if "-" in order.phone:
                 order.phone = order.phone.replace("-", "")
