@@ -22,6 +22,7 @@
   },
   "shipmentAddressFull": {
       "addInfo": "{{ recipient_address }}",
-      "comment": "{{ comment }}\n{{ recipient_full_name }}\n{{ recipient_phone }}"
-      }
+      "comment": "{{ recipient_full_name }}\n{{ recipient_phone }}"
+      },
+  "description": "{{ comment }}"
 }
