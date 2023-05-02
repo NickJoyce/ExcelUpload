@@ -45,6 +45,8 @@ def is_counterparty(counterparty_id, token=MOYSKLAD_TOKEN):
         return True
 
 
+import re
+
 def create_order(sales_channel_id,
                  comment,
                  recipient_address,
@@ -57,6 +59,8 @@ def create_order(sales_channel_id,
     headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
     with open(f"{BASE_DIR}/app/moysklad/templates/order.json", encoding="utf-8") as f:
         file = f.read()
+        comment = re.sub("^\s+|\n|\r|\s+$", ' ', comment)
+        print(comment)
         rendered_template = Template(file).render(
             organization_id=organization_id,
             sales_channel_id=sales_channel_id,
@@ -67,6 +71,7 @@ def create_order(sales_channel_id,
             counterparty_id=counterparty_id
         )
         response = requests.post(url=url, headers=headers, data=rendered_template.encode())
+        print(response.json())
 
 
 if __name__ == "__main__":
