@@ -3,6 +3,9 @@ import json
 from jinja2 import Template
 from project.settings.base import BASE_DIR
 from project.settings.base import MOYSKLAD_TOKEN, MOYSKLAD_ORGANIZATION_ID
+from app.excel_file_handling.notifications.telegram import TelegramBotNotification
+import re
+
 
 
 class SaleChannel():
@@ -45,9 +48,12 @@ def is_counterparty(counterparty_id, token=MOYSKLAD_TOKEN):
         return True
 
 
-import re
 
-def create_order(sales_channel_id,
+
+def create_order(username,
+                 first_name,
+                 last_name,
+                 sales_channel_id,
                  comment,
                  recipient_address,
                  recipient_full_name,
@@ -60,7 +66,6 @@ def create_order(sales_channel_id,
     with open(f"{BASE_DIR}/app/moysklad/templates/order.json", encoding="utf-8") as f:
         file = f.read()
         comment = re.sub("^\s+|\n|\r|\s+$", ' ', comment)
-        print(comment)
         rendered_template = Template(file).render(
             organization_id=organization_id,
             sales_channel_id=sales_channel_id,
@@ -71,8 +76,22 @@ def create_order(sales_channel_id,
             counterparty_id=counterparty_id
         )
         response = requests.post(url=url, headers=headers, data=rendered_template.encode())
+        if "errors" in response.json():
+            errors = str(response.json()['errors']).replace('#', '')
+            TelegramBotNotification().error_in_the_response_body_when_creating_an_order(username,
+                                                                                        first_name,
+                                                                                        last_name,
+                                                                                        errors)
+        else:
+            pass
         print(response.json())
 
+
+def get_last_notification(token=MOYSKLAD_TOKEN):
+    url = f"https://online.moysklad.ru/api/remap/1.2/notification?limit=1"
+    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+    response = requests.get(url=url, headers=headers)
+    return response.json()
 
 if __name__ == "__main__":
     # create_order(sales_channel_id = "037e61d7-d23a-11ed-0a80-0f0f0000022f",
@@ -82,5 +101,5 @@ if __name__ == "__main__":
     #              recipient_phone = "recipient phone",
     #              counterparty_id="d24bf4b6-e039-11ed-0a80-0f410016e6a0")
     # print(is_counterparty("d24bf4b6-e039-11ed-0a80-0f410016e6a0"))
-    print(get_saleschannel('037e61d7-d23a-11ed-0a80-0f0f0000022f'))
-    ...
+    # print(get_saleschannel('037e61d7-d23a-11ed-0a80-0f0f0000022f'))
+    print(get_last_notification())

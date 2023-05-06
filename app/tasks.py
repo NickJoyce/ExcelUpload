@@ -42,7 +42,10 @@ def send_order_to_moysklad_task(user_id,
     sales_channel = get_saleschannel(sales_channel_id)
     if is_counterparty(counterparty_id):
         try:
-            create_order(sales_channel_id=sales_channel_id,
+            create_order(username=username,
+                         first_name=first_name,
+                         last_name=last_name,
+                         sales_channel_id=sales_channel_id,
                          comment=comment,
                          recipient_address=recipient_address,
                          recipient_full_name=recipient_full_name,
@@ -51,7 +54,6 @@ def send_order_to_moysklad_task(user_id,
             args = [username, first_name, last_name, sales_channel, comment, recipient_address, recipient_full_name,
                     recipient_phone,]
             EmailNotification().supply_order_sucessfully_created(*args)
-
             try:
                 EmailNotification().supply_order_is_processed(first_name, email)
             except:

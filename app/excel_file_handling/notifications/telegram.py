@@ -55,8 +55,13 @@ class TelegramBotNotification():
         content = f"{error}"
         self.send(recipients=recipients, subject=subject, content=content)
 
-
-
+    def error_in_the_response_body_when_creating_an_order(self, username, first_name, last_name, errors):
+        recipients = get_telegram_notification_recipients()
+        subject = f"[ERRORS IN THE RESPONSE BODY]\n[ {username} ({first_name} {last_name}) ]\n"
+        content = f"{errors}\n" \
+                  f"ДАННЫЕ НЕ БЫЛИ ЗАГРУЖЕНЫ В МОЙСКЛАД ДЛЯ ЗАКАЗА\n" \
+                  f"↓↓↓↓↓↓↓"
+        self.send(recipients=recipients, subject=subject, content=content)
 
 
 

@@ -242,7 +242,7 @@ def get_orders(df):
                     order.sku = str(int(order.sku))
 
             if order.status:
-                if order.status.lower().startswith('готов'):
+                if order.status.lower().startswith('готов') or order.status.lower().startswith('в пвз'):
                     orders.append(order)
 
             else:
