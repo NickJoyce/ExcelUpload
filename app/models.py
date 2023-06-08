@@ -72,7 +72,7 @@ class CompanyWarehouse(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    company = models.CharField(max_length=30, null=True, blank=True, verbose_name="Компания")
+    company = models.CharField(max_length=500, null=True, blank=True, verbose_name="Компания")
     phone = models.CharField(max_length=30, null=True, blank=True,  verbose_name="Телефон")
     inn = models.CharField(max_length=30, null=True, blank=True,  verbose_name="ИНН")
     xml_api_extra = models.CharField(max_length=30, verbose_name="Экстра-код")
