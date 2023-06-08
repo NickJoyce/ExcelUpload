@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 
 class SignUpForm(UserCreationForm):
-    company = forms.CharField(max_length=50, required=True, label="Наименование компании")
+    company = forms.CharField(max_length=255, required=True, label="Наименование компании")
     inn = forms.CharField(max_length=30, required=True, label="ИНН")
     first_name = forms.CharField(max_length=30, required=True, label="Имя")
     last_name = forms.CharField(max_length=30, required=True, label="Фамилия")
