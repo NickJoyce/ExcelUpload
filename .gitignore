@@ -3,7 +3,5 @@
 __pycache__/
 venv/
 .env
-quick_test.py
 notes.txt
-Makefile
-tests/
+DESCRIPTION.md
