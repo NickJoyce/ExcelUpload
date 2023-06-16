@@ -1,58 +1,60 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 {% load static %}
 
 {% block title %} {{ page.title }} {% endblock title %}
-{% block head %}
-<link href="{% static 'css/index.css' %}" rel="stylesheet">
+
+{% block head_for_pages %}
 <link href="{% static 'css/supply.css' %}" rel="stylesheet">
+{% endblock head_for_pages %}
 
-{% endblock head %}
-
-{% block header %}
-
-{% endblock header %}
-
-{% block navbar %}
-{% endblock navbar %}
 
 {% block content %}
 <input type="hidden" id="data" value="{{data}}"/>
 {% include "menu_page_template.html" %}
-<div class="option_wrap">
-	<form action="{% url 'supply' %}" method="POST" id="form_choice">
-		{% csrf_token %}
 
-		<div class="order_wrapper">
-			<div class="form_header">Оформление заявки на поставку</div>
-			<div class="lable"> Выберете склад:</div>
-			<div class="input">
-				<select name="sales_channel" id="sales_channel" required>
-					<option value="" disabled selected>--- выберите вариант ---</option>
-					{% for channel in sales_channels %}
-						<option value="{{ channel.id }}">{{ channel.name }} </option>
-					{% endfor %}
-				</select>
-			</div>
-			<div class="pickup_point">
-				<div>Адрес склада: {{ warehouse.address }}</div>
-				<div>Часы работы: {{ warehouse.opening_hours }}</div>
-				<div>Как добраться: {{ warehouse.how_to_get_there }}</div>
-			</div>
+<div class="container-fluid app-option_wrap mb-3">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-4 col-md-12 border bg-grey text-center p-5">
+
+				<form action="{% url 'supply' %}" method="POST" id="form_choice">
+					{% csrf_token %}
+					<div class="order_wrapper">
 
 
-			<div class="pickup_point">Часы работы: {{ warehouse.opening_hours }}</div>
-			<div class="pickup_point">Как добраться: {{ warehouse.how_to_get_there }}</div>
+						<h6 class="text-start ps-1 mb-2"> Выберете склад:</h6>
 
-			<div class="lable comment_to_order">Комментарий к заказу:</div><div class="input"></div>
-			<div class="ta"><textarea rows="5" name="comment" maxlength="4000"></textarea></div>
-			<div id="xxx"></div><div class="submit_btn"><input type="submit" value="Отправить"></div>
+						<select  class="form-select mb-3" name="sales_channel" id="sales_channel" required>
+							<option value="" disabled selected>--- выберите вариант ---</option>
+							{% for channel in sales_channels %}
+								<option value="{{ channel.id }}">{{ channel.name }} </option>
+							{% endfor %}
+						</select>
+
+
+						<div class="pickup_point">
+							<div>Адрес склада: {{ warehouse.address }}</div>
+							<div>Часы работы: {{ warehouse.opening_hours }}</div>
+							<div class="mb-2">Как добраться: {{ warehouse.how_to_get_there }}</div>
+						</div>
+
+						<div class="pickup_point">Часы работы: {{ warehouse.opening_hours }}</div>
+						<div class="pickup_point">Как добраться: {{ warehouse.how_to_get_there }}</div>
+
+
+
+						<h6 class="text-start ps-1 mb-2 comment_to_order"> Комментарий к заказу:</h6>
+						<textarea class="form-control" name="comment" rows="5" maxlength="4000"></textarea>
+
+
+						<button type="submit" class="btn btn-md btn-secondary mt-4">Отправить</button>
+
+					</div>
+				</form>
+
 		</div>
-	</form>
+	</div>
 </div>
 <script src="{% static 'js/supply.js' %}"></script>
 {% endblock content %}
-
-{% block footer %}  
-{% endblock footer %}
 
 

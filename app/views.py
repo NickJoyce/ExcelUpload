@@ -25,17 +25,10 @@ import requests
 
 
 
-
-
 def render(request, template_name, context):
     context["pages"] = Page.objects.all()
     return base_render(request, template_name, context)
 
-
-@group_required('Клиенты')
-def index(request):
-    page = Page.objects.get(handler='index')
-    return render(request, 'index.html', {"page": page})
 
 
 @group_required('Клиенты')
@@ -190,7 +183,7 @@ def signup(request):
                                               last_name=user.last_name,
                                               phone=user.profile.phone,
                                               email=user.email)
-            return redirect('index')
+            return redirect('pickup_point_list')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})

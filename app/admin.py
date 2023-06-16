@@ -21,6 +21,7 @@ from django.utils.translation import gettext_lazy as _
 
 admin.site.register(CompanySettings)
 
+
 @admin.register(CompanyWarehouse)
 class CompanyWarehouseAdmin(admin.ModelAdmin):
     list_display = ['name', 'address', 'opening_hours', 'how_to_get_there']

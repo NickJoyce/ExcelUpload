@@ -1,34 +1,42 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 {% load static %}
 
 {% block title %} {{ page.title }} {% endblock title %}
-{% block head %}
+{% block head_for_pages %}
 <link href="{% static 'css/excel_upload.css' %}" rel="stylesheet">
-{% endblock head %}
+{% endblock head_for_pages %}
 
-{% block header %}
-
-{% endblock header %}
-
-{% block navbar %}
-{% endblock navbar %}
 
 {% block content %}
-{% include "menu_page_template.html" %}
-<div class="option_wrap">
-    <div class="form_wrapper">
-        <form method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                <input type="file" name="file" required
-                       accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
-                <input type="submit" value="Отправить" >
-            </div>
-        </form>
+{% if page.header %}
+    <h2 class="text-center py-3 app-page-header m-0">{{page.header}}</h2>
+{% endif %}
+
+
+<div class="container-fluid app-option_wrap mb-3">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 col-md-12 border bg-grey text-center">
+                <form class="py-4 px-5"  method="POST" action="{% url 'handling' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input  type="file" name="file" required
+                            accept=".xls,.xlsx, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                            class="form-control">
+                    <button type="submit" class="btn btn-md btn-secondary mt-3">Отправить</button>
+                </form>
+        </div>
     </div>
 </div>
+
+{% if page.description %}
+<div class="container-fluid app-option_wrap">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-8 col-md-12">
+            <div class="app-description py-0">{{page.description|safe}}</div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock content %}
 
 
-{% block footer %}  {% endblock footer %}

@@ -1,7 +1,14 @@
 {% if page.header %}
-<h2>{{page.header}}</h2>
+    <h2 class="text-center py-3 app-page-header m-0">{{page.header}}</h2>
 {% endif %}
 
 {% if page.description %}
-<div class="description">{{page.description|safe}}</div>
+    <div class="container-fluid app-option_wrap">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-lg-8 col-md-12">
+                <div class="app-description py-0">{{page.description|safe}}</div>
+            </div>
+        </div>
+    </div>
 {% endif %}
+

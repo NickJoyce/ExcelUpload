@@ -1,0 +1,50 @@
+:root {
+    --account-grey: #F8F9FA;
+    --account-dark-grey: #6c757d;
+}
+
+.bg-account-grey {background: var(--account-grey);}
+.bg-account-dark-grey {background: var(--account-dark-grey);}
+
+.text-account-grey  {color: var(--account-grey);}
+.text-account-dark-grey {color: var(--account-dark-grey);}
+
+.header {
+background: var(--account-grey);
+}
+
+.app-topbar{
+background: var(--account-dark-grey);
+}
+
+.app-navbar {
+color: white;
+background-color: rgba(0,0,0, 0);
+}
+
+.x {
+position: relative;
+top: -24px;
+font-size: 14px;
+}
+
+.footer {
+background: var(--account-grey);
+}
+
+
+.messages div.info { background-color: #e2e3ec; padding: 15px;}
+.messages div.error { background-color: #FCE4D6; padding: 15px;}
+.messages div.success { background-color: #92D050; padding: 15px;}
+
+
+/* more than  992px */
+@media (min-width: 992px) {
+}
+
+/* less than 991.99px */
+@media (max-width: 991.99px) {
+    /* topbar */
+
+
+}

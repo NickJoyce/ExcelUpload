@@ -1,43 +1,50 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 
+{% block content %}
 
-{% block login %}
-<div class="no_auth_menu">
-  <button class="logout_btn" onclick="document.location='{% url 'signup' %}'">Регистрация</button>
-</div>
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-12 col-lg-6 bg-account-grey text-center p-4 mt-5">
 
-    {% if form.errors %}
-        <p>Ваши имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз.</p>
-    {% endif %}
-
-    {% if next %}
-        {% if user.is_authenticated %}
-            <p> Вы не имеете доступа к этой странице. Войдите в систему с другими параметрами</p>
-        {% else %}
-            <div class="reg_btn">
-                <div> Войдите в систему, чтобы увидеть эту страницу</div>
+            <div class="no_auth_menu text-end">
+              <button class="btn btn-md btn-secondary logout_btn" onclick="document.location='{% url 'signup' %}'">Регистрация</button>
             </div>
-        {% endif %}
+                {% if form.errors %}
+                    <p class="my-3 text-danger">Ваши имя пользователя и пароль не совпали. Пожалуйста, попробуйте еще раз.</p>
+                {% endif %}
+
+                {% if next %}
+                    {% if user.is_authenticated %}
+                        <p class="my-3 text-danger"> Вы не имеете доступа к этой странице. Войдите в систему с другими параметрами</p>
+                    {% else %}
+                        <div class="reg_btn my-3">
+                            <div> Войдите в систему, чтобы увидеть эту страницу</div>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                <div class="mt-3">
+                    <form method = "POST" action = "{% url 'login' %}">
+                        {% csrf_token %}
+                        <table class="table table-borderless">
+                            <tr>
+                                <td class="pt-4 text-start ps-5">{{ form.username.label_tag }}</td>
+                                <td class="pt-4">{{ form.username }}</td>
+                            </tr>
+                            <tr>
+                                <td class="pb-4 text-start ps-5">{{ form.password.label_tag }}</td>
+                                <td class="pb-4">{{ form.password }}</td>
+                            </tr>
+                        </table>
+                       <div class="text-center">
+                           <button type="submit" class="btn btn-md btn-secondary">Вход</button>
+                       </div>
 
 
-    {% endif %}
+                        <input type = "hidden" name = "next" value = "{{ next }}" />
+                    </form>
+                </div>
 
-
-    <form method = "POST" action = "{% url 'login' %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>{{ form.username.label_tag }}</td>
-                <td>{{ form.username }}</td>
-            </tr>
-            <tr>
-                <td>{{ form.password.label_tag }}</td>
-                <td>{{ form.password }}</td>
-            </tr>
-        </table>
-	<br>
-        <div align="center"><input type = "submit" value = "Bxoд"/></div>
-        <input type = "hidden" name = "next" value = "{{ next }}" />
-    </form>
-
-{% endblock login %}
+        </div>
+    </div>
+</div>
+ {% endblock content %}

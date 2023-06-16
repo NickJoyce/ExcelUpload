@@ -1,8 +1,13 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 
-{% block logout %}
-    <div align="center">
-    	Выполнен выход из системы!
-    	<a href="{% url 'login'%}"> Нажмите здесь, чтобы снова войти</a>
-    </div>	
-{% endblock logout %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-12  col-lg-6 bg-account-grey text-center p-5 mt-5">
+            <div align="center">Выполнен выход из системы!<br>
+                <a href="{% url 'login'%}"> Нажмите здесь, чтобы снова войти</a></div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

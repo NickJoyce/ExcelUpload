@@ -1,0 +1,172 @@
+:root {
+    --wb-purple: #CA11AA;
+    --wb-dark-blue: #481173;
+    --wb-orange: #FC9777;
+    --wb-grey: #F8F9FA;
+}
+
+.bg-purple {background: var(--wb-purple);}
+.bg-dark-blue {background: var(--wb-dark-blue);}
+.bg-orange {background: var(--wb-orange);}
+.bg-grey {background: var(--wb-grey);}
+
+.text-purple {color: var(--wb-purple);}
+.text-dark-blue {color: var(--wb-dark-blue);}
+.text-orange {color: var(--wb-orange);}
+.text-grey  {color: var(--wb-grey );}
+
+
+
+.demarcation-line {
+width: 60%;
+height: 1px;
+background-color:var(--wb-orange);
+margin: 100px auto;
+background: #ffffff;
+background: -moz-linear-gradient(left,  #ffffff 0%, var(--wb-orange) 30%, var(--wb-orange) 70%, #ffffff 100%, #ffffff 100%);
+background: -webkit-linear-gradient(left,  #ffffff 0%, var(--wb-orange) 30%, var(--wb-orange) 70%,#ffffff 100%,#ffffff 100%);
+background: linear-gradient(to right,  #ffffff 0%, var(--wb-orange) 30%,var(--wb-orange) 70%,#ffffff 100%,#ffffff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 );
+}
+
+
+/* topbar */
+.lp-topbar {
+color: white;
+background-color: rgba(0,0,0, 0)
+}
+
+
+/* navbar */
+.lp-navbar {
+}
+
+
+.lp-navbar .lp-account-link {
+border: 1px solid var(--wb-grey);
+}
+
+.lp-navbar .navbar{
+padding: 24px 0;
+}
+
+
+.lp-navbar a {
+font-weight: 500;
+font-size: 20px;
+color: var(--wb-grey);
+}
+
+.lp-navbar a:hover {
+color: white;
+}
+
+
+
+.lp-toggler.navbar-toggler {
+  border-color: white;
+  background-color: white;
+}
+
+.lp-toggler.navbar-toggler:focus {
+box-shadow: 0 0 0 0.25rem var(--wb-purple);
+}
+
+/* section */
+section {
+background-color: white;
+}
+
+.section-header {
+color: var(--wb-dark-blue);
+}
+
+.section-subheader {
+color: var(--wb-dark-blue);
+font-size: 20px;
+}
+
+
+/* intro */
+.btn-lp {
+color: white;
+width: 250px;
+}
+
+.lp-intro button:nth-child(1):hover, .lp-count button:nth-child(1):hover  {
+background: var(--wb-purple);
+color: white;
+}
+
+.lp-intro button:nth-child(2):hover  {
+background: var(--wb-orange);
+color: white;
+}
+
+
+/* about */
+.lp-about {
+
+}
+
+
+/* services */
+.lp-services {
+
+}
+
+
+/* trust */
+.lp_circle {
+width: 60px;
+height: 60px;
+background: var(--wb-orange);
+border-radius: 50%;
+display: flex;
+justify-content: center;
+align-items: center;
+color: white;
+}
+
+
+/* contacts */
+.lp-contact{
+
+}
+
+.lp-contact .policy {
+font-size: 12px;
+}
+
+
+
+/* more than  992px */
+@media (min-width: 992px) {
+    /* topbar */
+
+    /* navbar */
+
+    /* intro */
+}
+
+/* less than 991.99px */
+@media (max-width: 991.99px) {
+    .demarcation-line {
+    width: 80%;
+    }
+
+    /* topbar */
+    .topbar {
+    display: none;
+    }
+
+    /* navbar */
+    .lp-navbar .navbar {
+        padding: 10px;
+    }
+
+    .lp-navbar .navbar-nav{
+    text-align: center;
+    }
+
+}

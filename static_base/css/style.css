@@ -1,0 +1,52 @@
+html, body {
+height: 100%;
+}
+
+/* header */
+.header {
+position: relative;
+padding-bottom: 24px;
+background: #fffff;
+background: -moz-linear-gradient(left,  var(--wb-purple) 0%, var(--wb-dark-blue) 100%);
+background: -webkit-linear-gradient(left, var(--wb-purple) 0%, var(--wb-dark-blue) 100%);
+background: linear-gradient(to right,  var(--wb-purple) 0%, var(--wb-dark-blue) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=var(--wb-purple), endColorstr=var(--wb-dark-blue),GradientType=1 );
+}
+
+.header::after {
+content: '';
+display: block;
+width: 100%;
+height: 24px;
+border-radius: 24px 24px 0 0;
+background: #fff;
+position: absolute;
+bottom: -1px;
+left: 0;
+}
+
+/* content */
+.content {
+min-height: 100%;
+}
+
+/* footer */
+.footer {
+position: relative;
+background: var(--wb-dark-blue);
+padding: 40px 0 20px 0;
+color: grey;
+}
+
+.footer::before {
+content: "";
+display: block;
+background: #fff;
+border-radius: 0 0 24px 24px;
+width: 100%;
+height: 24px;
+position: absolute;
+top: -1px;
+left: 0;
+}
+

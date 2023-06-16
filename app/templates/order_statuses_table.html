@@ -14,11 +14,26 @@
         <div class="period_choice_wrapper">
             <form method="POST" action="{% url 'order_statuses_table' %}">
                 {% csrf_token %}
-                <input type="date" name="datefrom" value="{{ datefrom }}" min="{{ min_date }}" max="{{ max_date }}"> -
-                <input type="date" name="dateto" value="{{ dateto }}" min="{{ min_date }}" max="{{ max_date }}">
-                <input type="submit" value="Получить данные">
+                <div class="container-fluid">
+                    <div class="row g-3 align-items-center justify-content-center">
+                         <div class="col-lg-2 col-sm-4">
+                            <input class="form-control"
+                            type="date" name="datefrom" value="{{ datefrom }}" min="{{ min_date }}" max="{{ max_date }}">
+                        </div>
+                        <div class="col-lg-2 col-sm-4">
+                            <input class="form-control"
+                            type="date" name="dateto" value="{{ dateto }}" min="{{ min_date }}" max="{{ max_date }}">
+                        </div>
+                    </div>
+                    <div class="row g-3 align-items-center justify-content-center">
+                        <div class="col-4">
+                         <button type="submit" class="btn btn-md btn-secondary mt-3">Отправить</button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
+
         <table id="example" class="table table-striped">
             <thead>
             <tr>

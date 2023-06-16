@@ -17,12 +17,12 @@ let AddDeliveryBlock = (main, block_before) => {
     let phone = new DeliveryDataLine("Телефон:", "phone");
     lines = [address, full_name, phone]
     lines.forEach(function(item, i, arr) {
-        var title_div = document.createElement("div");
+        var title_div = document.createElement("h6");
         title_div.textContent = item.title
-        title_div.className = "delivery"
+        title_div.className = "delivery text-start ps-1 mb-2"
         var input_div = document.createElement("input");
         input_div.name = item.input_name
-        input_div.className = "delivery"
+        input_div.className = "delivery form-control mb-3"
         input_div.required = true;
         divs_in_lines = [title_div, input_div]
         divs_in_lines.forEach(function(div, i, arr) {

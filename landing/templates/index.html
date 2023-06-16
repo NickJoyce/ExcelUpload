@@ -1,0 +1,239 @@
+{% extends "landing_base.html" %}
+{% load static %}
+
+{% block topbar %}
+<div class="container-fluid p-0 lp-topbar">
+    <div class="row gx-0 d-none d-lg-flex pt-2 pb-2">
+        <div class="col-lg-7 px-4 text-start">
+            <div class="h-100 d-inline-flex align-items-center me-4">
+                <small class="fa fa-map-marker-alt me-2"></small>
+                <small>company.address</small>
+            </div>
+            <div class="h-100 d-inline-flex align-items-center">
+                <small class="far fa-clock me-2"></small>
+                <small>company.working_hours</small>
+            </div>
+        </div>
+        <div class="col-lg-5 px-4 text-end">
+            <div class="h-100 d-inline-flex align-items-center me-4">
+                <small class="fa fa-envelope me-2"></small>
+                 <div class="higher"><small class="me-4">company.email</small></div>
+
+                <small class="fa fa-phone-alt me-2"></small>
+                <div class="higher"><small>company.phone</small></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock topbar %}
+
+{% block navbar %}
+<div class="container-fluid align-items-center justify-content-center px-0 lp-navbar">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <button type="button" class="navbar-toggler ms-auto lp-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon "></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse" >
+            <div class="navbar-nav mx-auto p-4 p-lg-0">
+                    <a href="#lp-dl-about" class="nav-item nav-link lp-nav-item">О компании</a>
+                    <a href="#lp-dl-services" class="nav-item nav-link">Услуги</a>
+                    <a href="#lp-dl-trust" class="nav-item nav-link">Преимущества</a>
+                    <a href="#lp-dl-count" class="nav-item nav-link">Расчет стоимости</a>
+                    <a href="#lp-dl-contact" class="nav-item nav-link">Контакты</a>
+                    <a href="account/pickup_point_list/" class="nav-item nav-link mx-auto ms-lg-5 px-3 lp-account-link">Личный кабинет</a>
+
+            </div>
+        </div>
+    </nav>
+</div>
+{% endblock navbar %}
+
+{% block intro %}
+<section class="container-fluid overflow-hidden px-lg-0 m-0 lp-intro">
+    <div class="container px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 p-lg-5 pe-lg-0">
+                <div style="font-size: 40px;">Сервис по забору выкупов с ПВЗ Wildberries</div><br>
+                <div>Осуществляем комплексное логистическое обслуживание от ПВЗ Wildberries до склада Wildberries</div>
+
+                <div class="text-center py-3">
+                    <button type="button" class="btn btn-lg btn-lp bg-purple m-3"
+                    onclick="window.location.href = '#lp-dl-count';">Расчитать стоимость</button>
+                    <button type="button" class="btn btn-lg btn-lp bg-orange"
+                    onclick="window.location.href = '#lp-dl-services';">Услуги</button>
+                </div>
+            </div>
+            <div class="col-lg-6 p-lg-5 pe-lg-0 pt-sm-3 pt-4 text-center">
+                <img src="https://thumb.tildacdn.com/tild3861-6536-4564-b533-623063653663/-/format/webp/photo.png" class="img-fluid" alt="Responsive image">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock intro %}
+
+{% block about %}
+<section class="container-fluid overflow-hidden px-lg-0 lp-about">
+    <div class="container px-lg-0">
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-sm-12 col-lg-8">
+                <h2 class="text-center text-uppercase section-header">Забор выкупов c ПВЗ Wildberries</h2>
+            </div>
+            <div class="col-sm-12 col-lg-8">
+                <div class="text-center py-4">Сервис по забору выкупов с ПВЗ Wildberries - это комплексное логистическое сопровождение.
+                    Мы обеспечиваем полный цикл работ по забору выкупов с ПВЗ Wildberries, хранению и отгрузке товара
+                    на склады Wildberries. Ежедневно забираем несколько тысяч товаров с ПВЗ Wildberries.
+                    Мы готовы работать с любыми объёмами заказов.</div>
+            </div>
+
+        </div>
+     </div>
+</section>
+{% endblock about %}
+
+{% block services %}
+<section class="container-fluid overflow-hidden px-lg-0 lp-services">
+    <div class="container px-lg-0">
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-sm-12 col-lg-8">
+                <h2 class="text-center text-uppercase section-header">Наши услуги</h2>
+            </div>
+        </div>
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-sm-12 col-lg-8">
+                <div class="container m-0 py-4">
+                    <div class="row">
+                        {% for i in "1234" %}
+                            <div class="col-sm-12 col-md-6 pb-4">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-2 px-1">
+                                            <img class="" src="https://thumb.tildacdn.com/tild6437-3330-4335-b664-663539613366/-/resize/84x/-/format/webp/icons8--50.png"  alt="">
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="section-subheader">Забор товара:</div>
+                                            <div>Ежедневно забираем несколько тысяч выкупов с ПВЗ WB.
+                                                Несколько раз в неделю отгружаем товар на СЦ WB. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock services %}
+
+{% block trust %}
+<section class="container-fluid overflow-hidden px-lg-0 lp-trust">
+    <div class="container px-lg-0">
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-sm-12 col-lg-8">
+                <h2 class="text-center text-uppercase section-header">Почему нам доверяют?</h2>
+            </div>
+        </div>
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-sm-12">
+                <div class="container m-0 py-4">
+                    <div class="row">
+                        {% for i in "12345678" %}
+                            <div class="col-md-12 col-lg-3 pb-4">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-3 px-0 pe-sm-3 pe-lg-0">
+                                            <div class="lp_circle ms-auto">{{ i }}</div>
+                                        </div>
+                                        <div class="col-9 ps-md-0 ps-lg-3">
+                                            <div class="section-subheader">Работаем по договору</div>
+                                            <div>Сотрудничаем с физическими и юридическими лицами. </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock trust %}
+
+{% block count %}
+<section class="container-fluid overflow-hidden px-lg-0 lp-count">
+    <div class="container contact px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 p-lg-5 pe-lg-0 pt-sm-3 pt-4 text-center">
+                <img src="https://static.tildacdn.com/tild6364-3161-4933-b333-363339653031/wepik-creative-art-h.png" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="col-lg-6 fadeIn" data-wow-delay="0.5s">
+                <div class="p-lg-5">
+                    <div style="font-size: 40px;">Расчёт стоимости бесплатно</div><br>
+                    <div>Рассчитаем стоимость забора выкупов товаров c ПВЗ Wildberries</div><br>
+
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="name" placeholder="Имя" required>
+                                    <label for="name">Имя</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="phone" placeholder="Телефон" required>
+                                    <label for="phone">Телефон</label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button type="submit"  id="msg-send-btn"  class="btn btn-lg btn-lp bg-purple py-3 px-5 mt-2 mb-4">Отправить</button>
+                            </div>
+                        </div>
+                    </form>
+                    <p class="policy text-center">Нажимая на кнопку, вы даете согласие на обработку персональных данных и соглашаетесь c политикой конфиденциальности</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock count %}
+
+{% block contact %}
+<section class="container-fluid overflow-hidden px-lg-0 lp-contact">
+    <div class="container contact px-lg-0">
+        <div class="row g-0 mx-lg-0 justify-content-center align-items-center">
+            <div class="col-lg-8 p-lg-5 pe-lg-0">
+                <div class="text-start contact-info">
+                    <h6 class="text-dark-blue mb-3">Контактная информация:</h6>
+                    <small class="fa fa-phone-alt text-dark-blue me-2"></small> company.phone <br>
+                    <small class="fa fa-envelope text-dark-blue me-2"></small> company.email <br>
+                    <small class="far fa-clock text-dark-blue me-2"></small> company.working_hours <br>
+                    <small class="fa fa-map-marker-alt text-dark-blue me-2"></small> company.address <br>
+                </div>
+                <div class="container-fluid bg-light overflow-hidden px-lg-0" style="margin: 1.5rem 0 3rem 0;">
+                    <div class="container contact px-lg-0">
+                        <div class="row g-0 mx-lg-0">
+                            <div class="col-lg-12" style="min-height: 290px; ">
+                                <div class="position-relative h-100">
+                                    <iframe class="position-absolute w-100 h-100" style="object-fit: cover;"
+                                    src="https://yandex.ru/map-widget/v1/?ll=37.834973%2C55.768441&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjcyNjg2MhJB0KDQvtGB0YHQuNGPLCDQnNC-0YHQutCy0LAsINCh0LDRj9C90YHQutCw0Y8g0YPQu9C40YbQsCwgMTPQujHRgTIiCg0DVxdCFeISX0I%2C&z=16.76" width="560" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"
+                                    frameborder="0" allowfullscreen="" aria-hidden="false"
+                                    tabindex="0"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock contact %}
+
+
+

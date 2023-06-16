@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from app import views
+from app import views as app_views
+from landing import views as landing_views
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import user_passes_test
 from project.settings.base import BASE_DIR
@@ -25,16 +26,15 @@ from project.settings.base import BASE_DIR
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',  views.index, name='index'),
-    path('pickup_point_list/',  views.pickup_point_list, name='pickup_point_list'),
-    path('order_statuses/',  views.order_statuses, name='order_statuses'),
-    path('supply/',  views.supply, name='supply'),
-    path('excel_upload/',  views.excel_upload, name='excel_upload'),
+    path('account/pickup_point_list/',  app_views.pickup_point_list, name='pickup_point_list'),
+    path('account/order_statuses/',  app_views.order_statuses, name='order_statuses'),
+    path('account/supply/',  app_views.supply, name='supply'),
+    path('account/excel_upload/',  app_views.excel_upload, name='excel_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('order_statuses_table/',  views.order_statuses_table, name='order_statuses_table'),
+    path('account/order_statuses_table/',  app_views.order_statuses_table, name='order_statuses_table'),
     # path('supply_iframe_module/', views.supply_iframe_module, name='supply_iframe_module'),
-    path('signup/', views.signup, name='signup'),
-    path('handling/',  views.handling, name='handling'),
+    path('signup/', app_views.signup, name='signup'),
+    path('handling/',  app_views.handling, name='handling'),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
@@ -42,6 +42,10 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    path('download-file/<str:file_type>', views.download_file, name='download_file')
+    path('download-file/<str:file_type>', app_views.download_file, name='download_file')
+]
+
+urlpatterns += [
+    path('',  landing_views.index, name='index'),
 ]
 

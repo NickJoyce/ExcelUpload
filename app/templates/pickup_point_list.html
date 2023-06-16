@@ -1,39 +1,41 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 {% load static %}
 
 {% block title %} {{ page.title }} {% endblock title %}
-{% block head %}
+{% block head_for_pages %}
 <link href="{% static 'css/index.css' %}" rel="stylesheet">
 <link href="{% static 'css/pickup_point_list.css' %}" rel="stylesheet">
-{% endblock head %}
+{% endblock head_for_pages %}
 
-{% block header %}
-
-{% endblock header %}
-
-{% block navbar %}
-{% endblock navbar %}
 
 
 
 {% block content %}
 {% include "menu_page_template.html" %}
-<div class="option_wrap">
-    <div class="download_pickup_points_file"><a href="{% url 'download_file' file_type='pickup_points' %}">Скачать список ПВЗ (excel)</a></div>
-    <div class="mp_tables_wrap">
-        {%  for marketplace in marketplaces %}
-            {% if  marketplace.pickup_points.all %}
-            <table>
-                <tr><th>{{ marketplace }}</th></tr>
-            {% for pickup_point in marketplace.pickup_points.all %}
-                <tr><td>{{ pickup_point.address }}</td></tr>
+<div class="container-fluid app-option_wrap">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 col-md-12">
+            <div class="text-end py-3 pe-3">
+                <a href="{% url 'download_file' file_type='pickup_points' %}">Скачать список ПВЗ (excel)</a>
+            </div>
+            {%  for marketplace in marketplaces %}
+                {% if  marketplace.pickup_points.all %}
+                <table class="table table-bordered mb-5">
+                    <thead class="thead-dark">
+                        <tr class="table-light">
+                            <th class="ps-3" scope="col">{{ marketplace }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pickup_point in marketplace.pickup_points.all %}
+                            <tr><td class="ps-5">{{ pickup_point.address }}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
             {% endfor %}
-            </table>
-            {% endif %}
-        {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock content %}
 
-{% block footer %}  
-{% endblock footer %}

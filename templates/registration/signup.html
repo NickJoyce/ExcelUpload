@@ -1,6 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'app_base.html' %}
 {% load static %}
-{% block signup %}
+
+
+{% block content %}
 {% if messages %}
     <div class="messages">
         {% for message in messages %}
@@ -8,53 +10,64 @@
         {% endfor %}
     </div>
 {% endif %}
-<div class="no_auth_menu">
-  <button class="logout_btn" onclick="document.location='{% url 'login' %}'">Вход</button>
+
+<div class="container-fluid">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-sm-12 col-lg-6 bg-account-grey text-center p-4 mt-5">
+
+          <div class="no_auth_menu text-end">
+            <button class="btn btn-md btn-secondary logout_btn logout_btn" onclick="document.location='{% url 'login' %}'">Вход</button>
+          </div>
+            <h2 class="mb-3">Регистрация</h2>
+            <form method="post" action="">
+              {% csrf_token %}
+              <table class="table table-borderless">
+              {% for field in form %}
+                {% if field.name == "agreement" %}
+                  <tr><td class="text-start ps-5" colspan="2">
+                    {{ field }} Я ознакомлен с
+                    <a href="{% url 'download_file' file_type='agreement' %}">Договором-офертой</a>
+                    и принимаю указанные в нем условия
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                  </td></tr>
+
+                {% elif field.name == "personal_data_agreement"%}
+                  <tr><td class="text-start ps-5" colspan="2">
+                    {{ field }} Я согласен на обработку персональных данных в соответствии с
+                    <a href="{% url 'download_file' file_type='personal_data_agreement' %}">Соглашением</a>
+                    {% if field.help_text %}
+                      <small style="color: grey">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                      <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+                  </td></tr>
+
+
+                {% else %}
+
+                <tr>
+                  <td class="text-start ps-5">{{ field.label_tag }}</td>
+
+                  <td>{{ field }}</td></tr>
+                {% if field.help_text %}<rt><td class="text-start ps-5" colspan="2">
+                    <small style="color: grey">{{ field.help_text }}</small>
+                  {% endif %}
+                  {% for error in field.errors %}
+                    <p style="color: red">{{ error }}
+                      </td></rt>{% endfor %}
+                </tr>
+              {% endif %}
+              {% endfor %}
+                </table>
+              <button type="submit">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
 </div>
-  <h2>Регистрация</h2>
-  <form method="post" action="">
-    {% csrf_token %}
-    {% for field in form %}
-      {% if field.name == "agreement" %}
-        <p>
-          {{ field }} Я ознакомлен с
-          <a href="{% url 'download_file' file_type='agreement' %}">Договором-офертой</a>
-          и принимаю указанные в нем условия
-          {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
-          {% endif %}
-          {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
-          {% endfor %}
-        </p>
-
-      {% elif field.name == "personal_data_agreement"%}
-        <p>
-          {{ field }} Я согласен на обработку персональных данных в соответствии с
-          <a href="{% url 'download_file' file_type='personal_data_agreement' %}">Соглашением</a>
-          {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
-          {% endif %}
-          {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
-          {% endfor %}
-        </p>
-
-
-      {% else %}
-
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endif %}
-    {% endfor %}
-    <button type="submit">Зарегистрироваться</button>
-  </form>
-{% endblock signup %}
+{% endblock content %}

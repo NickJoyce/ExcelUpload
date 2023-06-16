@@ -1,24 +1,20 @@
-{% extends "base.html" %}
+{% extends "app_base.html" %}
 {% load static %}
 
 {% block title %} {{ page.title }} {% endblock title %}
-{% block head %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head_for_pages %}
 
-{% endblock head %}
-
-{% block header %}
-
-{% endblock header %}
-
-{% block navbar %}
-{% endblock navbar %}
+{% endblock head_for_pages %}
 
 
 {% block content %}
-{% include "menu_page_template.html" %}
-<iframe src="{% url 'order_statuses_table' %}"></iframe>
+    {% include "menu_page_template.html" %}
+<div class="container-fluid app-option_wrap px-1">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-lg-6 col-md-12 ratio ratio-16x9">
+            <iframe src="{% url 'order_statuses_table' %}"></iframe>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
-{% block footer %}  
-{% endblock footer %}
