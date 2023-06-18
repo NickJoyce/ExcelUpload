@@ -64,6 +64,12 @@ class EmailNotification():
         self.send(recipients=recipients, subject=subject, content=content)
 
 
+    def culculation_request(self, name, phone):
+        recipients = get_email_notification_recipients()
+        subject = f"[NEW CULCULATION REQUEST] {name} {phone}"
+        self.send(recipients=recipients, subject=subject, content="")
+
+
     def counterparty_id_is_not_exist(self, username, first_name, last_name, sales_channel, comment, recipient_address,
                                                        recipient_full_name, recipient_phone, counterparty_id):
         recipients = get_email_notification_recipients()

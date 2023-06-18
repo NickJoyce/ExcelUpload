@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'django_json_widget',
     'ckeditor',
     'ckeditor_uploader',
+    'landing',
     'app',
-    'landing'
+
 ]
 
 MIDDLEWARE = [

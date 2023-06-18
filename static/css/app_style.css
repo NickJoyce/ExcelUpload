@@ -33,11 +33,6 @@ background: var(--account-grey);
 }
 
 
-.messages div.info { background-color: #e2e3ec; padding: 15px;}
-.messages div.error { background-color: #FCE4D6; padding: 15px;}
-.messages div.success { background-color: #92D050; padding: 15px;}
-
-
 /* more than  992px */
 @media (min-width: 992px) {
 }

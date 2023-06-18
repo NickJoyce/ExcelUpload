@@ -159,6 +159,13 @@
 {% endblock trust %}
 
 {% block count %}
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div {% if message.tags %} class="{{ message.tags }} text-center x" {% endif %}>{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
 <section class="container-fluid overflow-hidden px-lg-0 lp-count">
     <div class="container contact px-lg-0">
         <div class="row g-0 mx-lg-0">
@@ -170,18 +177,19 @@
                     <div style="font-size: 40px;">{{ page.cost_calculation_header|safe }}</div><br>
                     <div>{{ page.cost_calculation_text|safe }}</div><br>
 
-                    <form>
+                    <form action="{% url 'index' %}" method="POST">
+                        {% csrf_token %}
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="name" placeholder="Имя" required>
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Имя" required>
                                     <label for="name">Имя</label>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="phone" placeholder="Телефон" required>
+                                    <input type="text" name="phone" class="form-control" id="phone" placeholder="Телефон" required>
                                     <label for="phone">Телефон</label>
                                 </div>
                             </div>
