@@ -1,5 +1,5 @@
 from django.contrib import admin
-from landing.models import NavbarItem, Page, Service, Advantage
+from landing.models import NavbarItem, Page, Service, Advantage, General
 
 # Register your models here.
 @admin.register(NavbarItem)
@@ -30,11 +30,7 @@ class PageAdmin(admin.ModelAdmin):
 
         ('Контакты', {
             'fields': ('contact_header', 'contact_yandex_iframe_src',),
-        }),
-
-        ('Футер', {
-            'fields': ('copyright',),
-        }),
+        })
     )
 
 
@@ -47,3 +43,6 @@ class ServiceAdmin(admin.ModelAdmin):
 class AdvantageAdmin(admin.ModelAdmin):
     list_display = ['header', 'sorting_order']
 
+@admin.register(General)
+class GeneralAdmin(admin.ModelAdmin):
+    ...

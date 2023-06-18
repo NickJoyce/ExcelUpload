@@ -39,8 +39,6 @@ class Page(SingletonModel):
     # contact
     contact_header = models.CharField(max_length=255, verbose_name="Заголовок")
     contact_yandex_iframe_src = models.CharField(max_length=1000, verbose_name="Яндекс карта (iframe src)")
-    # footer
-    copyright = models.CharField(max_length=255, verbose_name="Копирайт в футере")
 
     def __str__(self):
         return f"Страница"
@@ -80,6 +78,17 @@ class Advantage(models.Model):
         db_table = 'landing_advantage'
         ordering = ['sorting_order']
 
+class General(SingletonModel):
+    favicon = models.ImageField(upload_to="favicon/", verbose_name="Favicon")
+    copyright = models.CharField(max_length=255, verbose_name="Копирайт в футере")
+
+    def __str__(self):
+        return "Прочее"
+
+    class Meta:
+        verbose_name = "Прочее"
+        verbose_name_plural = "Прочее"
+        db_table = 'landing_general'
 
 
 

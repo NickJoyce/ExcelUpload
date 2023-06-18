@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 {% load static %}
+{% load general_tags %}
+{% general as general %}
+
+
 <html lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Favicon -->
+
+    	<link rel="shortcut icon" href="{{ general.favicon.url }}" rel="image/x-icon">
+
 		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.css' %}" rel="stylesheet">
 	    <title>{% block title %} {% endblock title %}</title>
@@ -20,7 +29,7 @@
 				{% block content %} {% endblock content %}
 			</div>
 
-			<div class="container-fluid text-center px-0 my-0 footer">{{ page.copyright }}</div>
+			<div class="container-fluid text-center px-0 my-0 footer">{{ general.copyright }}</div>
 
 
 			{% block logout %}{% endblock logout %}
