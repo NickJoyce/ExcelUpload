@@ -36,7 +36,7 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['header']
+    list_display = ['header', 'sorting_order']
 
 
 @admin.register(Advantage)
