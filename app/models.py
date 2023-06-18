@@ -39,6 +39,10 @@ class SingletonModel(models.Model):
 
 class CompanySettings(SingletonModel):
     name =  models.CharField(max_length=255, default='ИП Иванов Иван Иванович', verbose_name="Наименование компании")
+    address = models.CharField(max_length=255, null=True, blank=True, verbose_name="Адрес")
+    opening_hours = models.CharField(max_length=500, null=True, blank=True, verbose_name="Часы работы")
+    email = models.EmailField(null=True, blank=True, verbose_name="Email")
+    phone = models.CharField(max_length=500, null=True, blank=True, verbose_name="Телефон")
 
     def __str__(self):
         return f"{self.name}"

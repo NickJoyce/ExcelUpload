@@ -19,12 +19,23 @@ from django.utils.translation import gettext_lazy as _
 
 
 
-admin.site.register(CompanySettings)
+
+
+
+@admin.register(CompanySettings)
+class CompanySettingsAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address', 'opening_hours', 'email', 'phone']
+
+
+
+
 
 
 @admin.register(CompanyWarehouse)
 class CompanyWarehouseAdmin(admin.ModelAdmin):
     list_display = ['name', 'address', 'opening_hours', 'how_to_get_there']
+
+
 
 
 class ProfileInline(admin.StackedInline):
@@ -99,6 +110,9 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+
+
 
 
 
