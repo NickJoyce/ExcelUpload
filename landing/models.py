@@ -53,6 +53,7 @@ class Service(models.Model):
     image = models.ImageField()
     header = models.CharField(max_length=255, verbose_name="Заголовок")
     text = RichTextUploadingField(null=True, blank=True, verbose_name="Текст")
+    sorting_order = models.IntegerField(verbose_name="Порядок сортировки", default=1)
 
     def __str__(self):
         return f"{self.header}"
@@ -61,6 +62,7 @@ class Service(models.Model):
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
         db_table = 'landing_service'
+        ordering = ['sorting_order']
 
 
 
