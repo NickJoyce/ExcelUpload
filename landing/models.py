@@ -23,7 +23,7 @@ class Page(SingletonModel):
     # intro
     intro_header = RichTextUploadingField(null=True, blank=True, verbose_name="Заголовок")
     intro_text = RichTextUploadingField(null=True, blank=True, verbose_name="Текст")
-    intro_image = models.ImageField(verbose_name="Изображение")
+    intro_image = models.ImageField(upload_to="intro_img/", verbose_name="Изображение")
     # about
     about_header = models.CharField(max_length=255, verbose_name="Заголовок")
     about_text = RichTextUploadingField(null=True, blank=True, verbose_name="Текст")
@@ -35,7 +35,7 @@ class Page(SingletonModel):
     cost_calculation_header = RichTextUploadingField(max_length=255, verbose_name="Заголовок")
     cost_calculation_text = RichTextUploadingField(null=True, blank=True, verbose_name="Текст")
     cost_calculation_privacy_policy = RichTextUploadingField(null=True, blank=True, verbose_name="Политика конфиденциальности")
-    cost_calculation_image = models.ImageField(verbose_name="Изображение")
+    cost_calculation_image = models.ImageField(upload_to="costcalc_img/", verbose_name="Изображение")
     # contact
     contact_header = models.CharField(max_length=255, verbose_name="Заголовок")
     contact_yandex_iframe_src = models.CharField(max_length=1000, verbose_name="Яндекс карта (iframe src)")
