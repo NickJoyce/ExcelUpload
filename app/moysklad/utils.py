@@ -8,6 +8,12 @@ import re
 
 
 
+
+# domain = 'online.moysklad.ru'
+domain = 'api.moysklad.ru'
+
+
+
 class SaleChannel():
     def __init__(self, id, name):
         self.id = id
@@ -15,8 +21,10 @@ class SaleChannel():
 
 
 def get_saleschannel(saleschannel_id):
-    url = f"https://online.moysklad.ru/api/remap/1.2/entity/saleschannel/{saleschannel_id}"
-    headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
+    url = f"https://{domain}/api/remap/1.2/entity/saleschannel/{saleschannel_id}"
+    headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}',
+               'Content-Type': 'application/json',
+               'Accept-Encoding': 'gzip'}
     response = requests.get(url=url, headers=headers)
     return response.json()['name']
 
@@ -24,8 +32,10 @@ def get_saleschannel(saleschannel_id):
 
 
 def create_counterparty(first_name, last_name, email, phone, company, inn) -> str:
-    url = "https://online.moysklad.ru/api/remap/1.2/entity/counterparty"
-    headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
+    url = f"https://{domain}/api/remap/1.2/entity/counterparty"
+    headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}',
+               'Content-Type': 'application/json',
+               'Accept-Encoding': 'gzip'}
     data = {"legalFirstName": first_name,
             "legalLastName": last_name,
             "email": email,
@@ -39,8 +49,10 @@ def create_counterparty(first_name, last_name, email, phone, company, inn) -> st
 
 
 def is_counterparty(counterparty_id, token=MOYSKLAD_TOKEN):
-    url = f"https://online.moysklad.ru/api/remap/1.2/entity/counterparty/{counterparty_id}"
-    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+    url = f"https://{domain}/api/remap/1.2/entity/counterparty/{counterparty_id}"
+    headers = {'Authorization': f'Bearer {token}',
+               'Content-Type': 'application/json',
+               'Accept-Encoding': 'gzip'}
     response = requests.get(url=url, headers=headers)
     if "errors" in response.json():
         return False
@@ -61,8 +73,10 @@ def create_order(username,
                  counterparty_id,
                  organization_id=MOYSKLAD_ORGANIZATION_ID,
                  token=MOYSKLAD_TOKEN):
-    url = "https://online.moysklad.ru/api/remap/1.2/entity/customerorder"
-    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+    url = f"https://{domain}/api/remap/1.2/entity/customerorder"
+    headers = {'Authorization': f'Bearer {token}',
+               'Content-Type': 'application/json',
+               'Accept-Encoding': 'gzip'}
     with open(f"{BASE_DIR}/app/moysklad/templates/order.json", encoding="utf-8") as f:
         file = f.read()
         comment = re.sub("^\s+|\n|\r|\s+$", ' ', comment)
@@ -88,12 +102,15 @@ def create_order(username,
 
 
 def get_last_notification(token=MOYSKLAD_TOKEN):
-    url = f"https://online.moysklad.ru/api/remap/1.2/notification?limit=1"
-    headers = {'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'}
+    url = f"https://{domain}/api/remap/1.2/notification?limit=1"
+    headers = {'Authorization': f'Bearer {token}',
+               'Content-Type': 'application/json',
+               'Accept-Encoding': 'gzip'}
     response = requests.get(url=url, headers=headers)
     return response.json()
 
 if __name__ == "__main__":
+    ...
     # create_order(sales_channel_id = "037e61d7-d23a-11ed-0a80-0f0f0000022f",
     #              comment = "here is comment",
     #              recipient_address = "recipient address",
@@ -102,4 +119,4 @@ if __name__ == "__main__":
     #              counterparty_id="d24bf4b6-e039-11ed-0a80-0f410016e6a0")
     # print(is_counterparty("d24bf4b6-e039-11ed-0a80-0f410016e6a0"))
     # print(get_saleschannel('037e61d7-d23a-11ed-0a80-0f0f0000022f'))
-    print(get_last_notification())
+    # print(get_last_notification())
