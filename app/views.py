@@ -106,7 +106,7 @@ def supply(request):
         return redirect("supply")
     else:
         page = Page.objects.get(handler='supply')
-        url = f"https://online.moysklad.ru/api/remap/1.2/entity/saleschannel"
+        url = f"https://api.moysklad.ru/api/remap/1.2/entity/saleschannel"
         headers = {'Authorization': f'Bearer {MOYSKLAD_TOKEN}', 'Content-Type': 'application/json'}
         try:
             response = requests.get(url=url, headers=headers)
