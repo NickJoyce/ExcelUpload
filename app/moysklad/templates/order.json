@@ -1,21 +1,21 @@
 {
   "organization": {
     "meta": {
-      "href": "https://online.moysklad.ru/api/remap/1.2/entity/organization/{{ organization_id }}",
+      "href": "https://api.moysklad.ru/api/remap/1.2/entity/organization/{{ organization_id }}",
       "type": "organization",
       "mediaType": "application/json"
     }
   },
   "agent": {
     "meta": {
-      "href": "https://online.moysklad.ru/api/remap/1.2/entity/counterparty/{{ counterparty_id }}",
+      "href": "https://api.moysklad.ru/api/remap/1.2/entity/counterparty/{{ counterparty_id }}",
       "type": "counterparty",
       "mediaType": "application/json"
     }
   },
   "salesChannel": {
       "meta": {
-          "href": "https://online.moysklad.ru/api/remap/1.2/entity/saleschannel/{{ sales_channel_id }}",
+          "href": "https://api.moysklad.ru/api/remap/1.2/entity/saleschannel/{{ sales_channel_id }}",
           "type": "saleschannel",
           "mediaType": "application/json"
       }
