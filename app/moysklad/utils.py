@@ -6,6 +6,10 @@ from project.settings.base import MOYSKLAD_TOKEN, MOYSKLAD_ORGANIZATION_ID
 from app.excel_file_handling.notifications.telegram import TelegramBotNotification
 import re
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 
 
@@ -26,7 +30,9 @@ def get_saleschannel(saleschannel_id):
                'Content-Type': 'application/json',
                'Accept-Encoding': 'gzip'}
     response = requests.get(url=url, headers=headers)
-    return response.json()['name']
+    data = response.json()
+    logger.info(data)
+    return data['name']
 
 
 
@@ -118,5 +124,5 @@ if __name__ == "__main__":
     #              recipient_phone = "recipient phone",
     #              counterparty_id="d24bf4b6-e039-11ed-0a80-0f410016e6a0")
     # print(is_counterparty("d24bf4b6-e039-11ed-0a80-0f410016e6a0"))
-    # print(get_saleschannel('037e61d7-d23a-11ed-0a80-0f0f0000022f'))
+    print(get_saleschannel('037e61d7-d23a-11ed-0a80-0f0f0000022f'))
     # print(get_last_notification())
