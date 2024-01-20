@@ -32,6 +32,7 @@ def get_saleschannel(saleschannel_id):
     response = requests.get(url=url, headers=headers)
     data = response.json()
     logger.info(data)
+    print(data)
     return data['name']
 
 
